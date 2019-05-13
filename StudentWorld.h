@@ -15,15 +15,13 @@ public:
 
 	}
 
-	virtual int init() {
-		return GWSTATUS_CONTINUE_GAME;
-	}
+	virtual int init();
 
 	virtual int move() {
 		// This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
 		// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
 		decLives();
-		return GWSTATUS_PLAYER_DIED;
+		return GWSTATUS_CONTINUE_GAME;
 	}
 
 	virtual void cleanUp() {
