@@ -12,7 +12,7 @@ public:
 	virtual void doesSomething() = 0;
 };
 
-class MapItems {
+class MapItems : GraphObject {
 public:
 	virtual void setVisible(bool shouldDisplay);
 	virtual double getX() const;
@@ -22,9 +22,13 @@ public:
 
 // I got advice, should start w/ ice
 // Should have different parent class
-class Ice : public MapItems {
+class Ice : public GraphObject {
 public:
-	//Ice(double x, int y) : m_x(x) { };
+	// Proper Constructor made for Ice to construct GraphObject
+	Ice(int x, int y): GraphObject(IID_ICE, x, y, right, 0.25, 3){
+		this->setVisible(true);
+	}
+	
 };
 
 #endif // ACTOR_H_
