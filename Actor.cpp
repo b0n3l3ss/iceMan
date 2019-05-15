@@ -5,6 +5,8 @@
 
 //
 
+
+
 StudentWorld* IceMan::getWorld(){
 	return world;
 }
@@ -48,5 +50,5 @@ void IceMan::doSomething() {
 				break;
 		}
 	}
-	// Needs a lot more code lolololol
 }
+

@@ -26,9 +26,11 @@ public:
 	
 	void removeBlocks(int x, int y);
 	void removeBlocksVert(int x, int y);
+	
+	~StudentWorld();
 private:
-	IceMan* player;
-	Ice* ice[64][64];
+	IceMan* player = nullptr;
+	Ice* ice[64][64] = {nullptr};
 	
 };
 

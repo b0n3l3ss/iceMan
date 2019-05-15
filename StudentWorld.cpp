@@ -20,7 +20,7 @@ int StudentWorld::init() {
 				ice[i][j]->setVisible(false);
 		}
 	}
-	player = new IceMan(this/*, ice*/);
+	player = new IceMan(this);
 
 
 	return GWSTATUS_CONTINUE_GAME;
@@ -38,7 +38,20 @@ int StudentWorld::move() {
 }
 
 void StudentWorld::cleanUp() {
-	
+	for(int i = 0; i < 64; ++i)
+	{
+		for(int j = 0; j < 64; ++j)
+		{
+			if(ice[i][j] != nullptr){
+				delete ice[i][j];
+				ice[i][j] = nullptr;
+			}
+		}
+	}
+	if(player != nullptr){
+		delete player;
+		player = nullptr;
+	}
 }
 
 void StudentWorld::removeBlocks(int x, int y)
@@ -63,4 +76,17 @@ void StudentWorld::removeBlocks(int x, int y)
 	ice[x+3][y-62]->setVisible(false);
 	ice[x+3][y-61]->setVisible(false);
 	
+}
+
+StudentWorld::~StudentWorld(){
+	for(int i = 0; i < 64; ++i)
+	{
+		for(int j = 0; j < 64; ++j)
+		{
+			if(ice[i][j] != nullptr)
+				delete ice[i][j];
+		}
+	}
+	if(player != nullptr)
+		delete player;
 }

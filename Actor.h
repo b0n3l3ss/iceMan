@@ -32,10 +32,7 @@ public:
 	Ice(int x, int y): GraphObject(IID_ICE, x, y, right, 0.25, 3){
 		this->setVisible(true);
 	}
-//	~Ice()
-//	{
-//
-//	}
+	~Ice() { }
 };
 
 class MovingObject : public GraphObject {
@@ -55,6 +52,7 @@ public:
 	// Pure Virtual fct
 	virtual void doSomething() = 0;
 	//virtual StudentWorld* getWorld();
+	virtual ~MovingObject() { }
 };
 
 class IceMan : public MovingObject {
@@ -62,10 +60,13 @@ public:
 	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
 		this->setVisible(true);
 	};
-	// Wasn't sure if I needed to re-declare this, eventhough it is already
+	// Wasn't sure if I needed to re-declare this, even though it is already
 	// in the MovingObject class
 	void doSomething();
 	StudentWorld* getWorld();
+	
+	~IceMan() { }
+	
 private:
 	// These are things that are only in IceMan
 	int numSquirts;
