@@ -18,7 +18,7 @@ int StudentWorld::init() {
 				ice[i][j]->setVisible(false);
 		}
 	}
-	player = new IceMan(this);
+	player = new IceMan(this/*, ice*/);
 
 
 	return GWSTATUS_CONTINUE_GAME;

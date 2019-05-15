@@ -19,19 +19,25 @@ void IceMan::doSomething() {
 		switch(ch)
 		{
 			case KEY_PRESS_LEFT:
-				moveTo(getX()-1, getY());
+				if(getX()-1 >= 0){
+					//iceFuck->removeBlocks(getX()-1, getY());
+					moveTo(getX()-1, getY());
+				}
 				setDirection(left);
 				break;
 			case KEY_PRESS_RIGHT:
-				moveTo(getX()+1, getY());
+				if(getX()+1 <= 60)
+					moveTo(getX()+1, getY());
 				setDirection(right);
 				break;
 			case KEY_PRESS_DOWN:
-				moveTo(getX(), getY()-1);
+				if(getY()-1 >= 0)
+					moveTo(getX(), getY()-1);
 				setDirection(down);
 				break;
 			case KEY_PRESS_UP:
-				moveTo(getX(), getY()+1);
+				if(getY()+1 <= 60)
+					moveTo(getX(), getY()+1);
 				setDirection(up);
 				break;
 		}
