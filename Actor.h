@@ -41,13 +41,21 @@ public:
 	MovingObject(int hp, int ID, int x, int y, Direction d, float size, int depth)
 		: GraphObject(ID, x, y, d, size, depth) { 
 		hitPoints = hp;
+		
 	};
+	// All objects other than ice do nothing
+	// Pure Virtual fct
+	virtual void doSomething() = 0;
 };
 
 class IceMan : public MovingObject {
 public:
-	IceMan() : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0) { } ;
-
+	IceMan() : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0) {
+		this->setVisible(true);
+	};
+	// Wasn't sure if I needed to re-declare this, eventhough it is already
+	// in the MovingObject class
+	void doSomething();
 private:
 	// These are things that are only in IceMan
 	int numSquirts;

@@ -9,14 +9,18 @@ GameWorld* createStudentWorld(string assetDir)
 // Students:  Add code to this file (if you wish), StudentWorld.h, Actor.h and Actor.cpp
 
 int StudentWorld::init() {
-	//Printed out ice with 2d array
+	// Create & print out ice with 2d array
 	Ice* temp[64][60];
 	for (int i = 0; i < 64; ++i) {
 		for (int j = 0; j < 60; ++j){
 			temp[i][j] = new Ice(i, j);
+			// This makes the initial cavern
+			if (i < 34 && i > 30 && j > 4)
+				temp[i][j]->setVisible(false);
 		}
 	}
-	
+	IceMan* player = new IceMan();
+
 	// Unique pointer not pringing out ice
 //	unique_ptr<Ice> temp {make_unique<Ice>(0,0)};
 //	auto temp2 = make_unique<Ice>(30,30);
