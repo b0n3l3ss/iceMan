@@ -10,26 +10,31 @@ GameWorld* createStudentWorld(string assetDir)
 
 int StudentWorld::init() {
 	// Create & print out ice with 2d array
-	Ice* temp[64][60];
 	for (int i = 0; i < 64; ++i) {
 		for (int j = 0; j < 60; ++j){
-			temp[i][j] = new Ice(i, j);
+			ice[i][j] = new Ice(i, j);
 			// This makes the initial cavern
-			if (i < 34 && i > 30 && j > 4)
-				temp[i][j]->setVisible(false);
+			if (i < 34 && i >= 30 && j > 4)
+				ice[i][j]->setVisible(false);
 		}
 	}
-	IceMan* player = new IceMan();
+	player = new IceMan(this);
 
-	// Unique pointer not pringing out ice
-//	unique_ptr<Ice> temp {make_unique<Ice>(0,0)};
-//	auto temp2 = make_unique<Ice>(30,30);
-//	vector<unique_ptr<Ice>> iceVec;
-//	for (int i = 0; i < 64; ++i) {
-//		for (int j = 0; j < 60; ++j){
-//			iceVec.push_back({make_unique<Ice>(i, j)});
-//			iceVec[(60 * i) + j]->setVisible(true);
-//		}
-//	}
+
 	return GWSTATUS_CONTINUE_GAME;
+}
+
+int StudentWorld::move() {
+// This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
+// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
+	
+	player->doSomething();
+
+
+	decLives();
+	return GWSTATUS_CONTINUE_GAME;
+}
+
+void StudentWorld::cleanUp() {
+
 }

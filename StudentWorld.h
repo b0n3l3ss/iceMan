@@ -20,17 +20,13 @@ public:
 
 	virtual int init();
 
-	virtual int move() {
-		// This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
-		// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
-		decLives();
-		return GWSTATUS_CONTINUE_GAME;
-	}
+	virtual int move();
 
-	virtual void cleanUp() {
-
-	}
-
+	virtual void cleanUp();
+private:
+	IceMan* player;
+	Ice* ice[64][60];
+	
 };
 
-#endif // STUDENTWORLD_H_
+#endif //STUDENTWORLD_H_
