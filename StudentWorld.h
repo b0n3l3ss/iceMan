@@ -23,9 +23,12 @@ public:
 	virtual int move();
 
 	virtual void cleanUp();
+	
+	void removeBlocks(int x, int y);
+	void removeBlocksVert(int x, int y);
 private:
 	IceMan* player;
-	Ice* ice[64][60];
+	Ice* ice[64][64];
 	
 };
 

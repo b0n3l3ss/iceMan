@@ -32,10 +32,6 @@ public:
 	Ice(int x, int y): GraphObject(IID_ICE, x, y, right, 0.25, 3){
 		this->setVisible(true);
 	}
-	void removeBlocks(int x, int y)
-	{
-		
-	}
 //	~Ice()
 //	{
 //
@@ -63,9 +59,8 @@ public:
 
 class IceMan : public MovingObject {
 public:
-	IceMan(StudentWorld* w/*, Ice* iFuck*/) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
+	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
 		this->setVisible(true);
-		//iceFuck = iFuck;
 	};
 	// Wasn't sure if I needed to re-declare this, eventhough it is already
 	// in the MovingObject class
@@ -76,7 +71,6 @@ private:
 	int numSquirts;
 	int numSonar;
 	int numGold;
-	//Ice* iceFuck[64][60];
 };
 
 #endif //ACTOR_H_
