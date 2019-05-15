@@ -26,16 +26,26 @@ class StudentWorld;
 
 // I got advice, should start w/ ice
 // Should have different parent class
-class Ice : public GraphObject {
+
+class Actor : public GraphObject {
+public:
+	Actor(int ID, int x, int y, Direction d, double size, int depth)
+	: GraphObject(ID, x, y, d, size, depth) { }
+	virtual void doSomething() = 0;
+	virtual ~Actor() { }
+};
+
+class Ice : public Actor {
 public:
 	// Proper Constructor made for Ice to construct GraphObject
-	Ice(int x, int y): GraphObject(IID_ICE, x, y, right, 0.25, 3){
+	Ice(int x, int y): Actor(IID_ICE, x, y, right, 0.25, 3){
 		this->setVisible(true);
 	}
+	void doSomething() { }
 	~Ice() { }
 };
 
-class MovingObject : public GraphObject {
+class MovingObject : public Actor {
 protected:
 	// Protected so both iceman and protestors can access their hitpoints
 	int hitPoints;
@@ -44,7 +54,7 @@ protected:
 public:
 	// Constructor normal constructor for general Moving obj with HP parameter
 	MovingObject(int hp, int ID, int x, int y, Direction d, float size, int depth, StudentWorld* w)
-		: GraphObject(ID, x, y, d, size, depth) { 
+		: Actor(ID, x, y, d, size, depth) { 
 		hitPoints = hp;
 			world = w;
 	};
