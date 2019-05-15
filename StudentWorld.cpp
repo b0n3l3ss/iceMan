@@ -33,7 +33,7 @@ int StudentWorld::move() {
 	player->doSomething();
 
 
-	decLives();
+	
 	return GWSTATUS_CONTINUE_GAME;
 }
 
@@ -56,7 +56,21 @@ void StudentWorld::cleanUp() {
 
 void StudentWorld::removeBlocks(int x, int y)
 {
-	ice[x][y-64]->setVisible(false);
+	if(ice[x][y-64]->isVisible())
+	{
+		playSound(SOUND_DIG);
+		ice[x][y-64]->setVisible(false);
+	}
+	
+	
+	
+	if(ice[x+3][y-61]->isVisible())
+	{
+		playSound(SOUND_DIG);
+		ice[x+3][y-61]->setVisible(false);
+	}
+	
+	//finish putting the rest into if statements
 	ice[x][y-63]->setVisible(false);
 	ice[x][y-62]->setVisible(false);
 	ice[x][y-61]->setVisible(false);
@@ -74,7 +88,7 @@ void StudentWorld::removeBlocks(int x, int y)
 	ice[x+3][y-64]->setVisible(false);
 	ice[x+3][y-63]->setVisible(false);
 	ice[x+3][y-62]->setVisible(false);
-	ice[x+3][y-61]->setVisible(false);
+	
 	
 }
 
