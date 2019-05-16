@@ -56,6 +56,7 @@ void StudentWorld::cleanUp() {
 
 void StudentWorld::removeBlocks(int x, int y)
 {
+	//if the iceman destroys atleast one block then the dig sound gets played
 	if(ice[x][y-64]->isVisible())
 	{
 		playSound(SOUND_DIG);
@@ -122,8 +123,7 @@ void StudentWorld::removeBlocks(int x, int y)
 	{
 		playSound(SOUND_DIG);
 	}
-	
-	//finish putting the rest into if statements
+	//sets all blocks the iceman touches to not visable
 	ice[x][y-64]->setVisible(false);
 	ice[x][y-63]->setVisible(false);
 	ice[x][y-62]->setVisible(false);
