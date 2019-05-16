@@ -25,7 +25,7 @@ public:
 	virtual void cleanUp();
 	
 	void removeBlocks(int x, int y);
-	void removeBlocksVert(int x, int y);
+	// void removeBlocksVert(int x, int y);
 	
 	~StudentWorld();
 private:
