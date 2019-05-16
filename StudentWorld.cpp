@@ -59,91 +59,75 @@ void StudentWorld::removeBlocks(int x, int y)
 	if(ice[x][y-64]->isVisible())
 	{
 		playSound(SOUND_DIG);
-		ice[x][y-64]->setVisible(false);
 	}
 	
-	if (ice[x][y - 63]->isVisible()) {
+	else if (ice[x][y - 63]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x][y - 63]->setVisible(false);
 	}
 	
-	if (ice[x][y - 62]->isVisible()) {
+	else if (ice[x][y - 62]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x][y - 62]->setVisible(false);
 	}
 
-	if (ice[x][y - 61]->isVisible()) {
+	else if (ice[x][y - 61]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x][y - 61]->setVisible(false);
 	}
 
-	if (ice[x + 1][y - 64]->isVisible()) {
+	else if (ice[x + 1][y - 64]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 1][y - 64]->setVisible(false);
 	}
 
-	if (ice[x + 1][y - 63]->isVisible()) {
+	else if (ice[x + 1][y - 63]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 1][y - 63]->setVisible(false);
 	}
 	
-	if (ice[x + 1][y - 62]->isVisible()) {
+	else if (ice[x + 1][y - 62]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 1][y - 62]->setVisible(false);
 	}
 
-	if (ice[x + 1][y - 61]->isVisible()) {
+	else if (ice[x + 1][y - 61]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 1][y - 61
-]->setVisible(false);
 	}
 
-	if (ice[x + 2][y - 64]->isVisible()) {
+	else if (ice[x + 2][y - 64]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 2][y - 64]->setVisible(false);
 	}
 
-	if (ice[x + 2][y - 63]->isVisible()) {
+	else if (ice[x + 2][y - 63]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 2][y - 63]->setVisible(false);
 	}
 
-	if (ice[x + 2][y - 62]->isVisible()) {
+	else if (ice[x + 2][y - 62]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 2][y - 62]->setVisible(false);
 	}
 
-	if (ice[x + 2][y - 61]->isVisible()) {
+	else if (ice[x + 2][y - 61]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 2][y - 61]->setVisible(false);
 	}
 
-	if (ice[x + 3][y - 64]->isVisible()) {
+	else if (ice[x + 3][y - 64]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 3][y - 64]->setVisible(false);
 	}
 
 
-	if (ice[x + 3][y - 63]->isVisible()) {
+	else if (ice[x + 3][y - 63]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 3][y - 63]->setVisible(false);
 	}
 
-	if (ice[x + 3][y - 62]->isVisible()) {
+	else if (ice[x + 3][y - 62]->isVisible()) {
 		playSound(SOUND_DIG);
-		ice[x + 3][y - 62]->setVisible(false);
 	}
 
-	if(ice[x+3][y-61]->isVisible())
+	else if(ice[x+3][y-61]->isVisible())
 	{
 		playSound(SOUND_DIG);
-		ice[x+3][y-61]->setVisible(false);
 	}
 	
 	//finish putting the rest into if statements
-	// ice[x][y-63]->setVisible(false);
-	//ice[x][y-62]->setVisible(false);
-	//ice[x][y-61]->setVisible(false);
+	ice[x][y-64]->setVisible(false);
+	ice[x][y-63]->setVisible(false);
+	ice[x][y-62]->setVisible(false);
+	ice[x][y-61]->setVisible(false);
 	
 	ice[x+1][y-64]->setVisible(false);
 	ice[x+1][y-63]->setVisible(false);
@@ -158,7 +142,7 @@ void StudentWorld::removeBlocks(int x, int y)
 	ice[x+3][y-64]->setVisible(false);
 	ice[x+3][y-63]->setVisible(false);
 	ice[x+3][y-62]->setVisible(false);
-	
+	ice[x+3][y-61]->setVisible(false);
 	
 }
 
