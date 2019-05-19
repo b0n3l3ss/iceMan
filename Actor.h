@@ -7,38 +7,28 @@
 
 class StudentWorld;
 
-//class Actor : public GraphObject{
-//public:
-//	Actor();
-//	// Makes Actors a pure virtual class
-//	virtual void doesSomething() = 0;
-//};
-
-/// I dont think that we are going to need this class, I think 
-/// that both the ice and the boulder can be derived straight 
-/// from "GraphObject"
-
-
-//class MapItems : GraphObject {
-//public:
-//	MapItems();
-//};
-
-// I got advice, should start w/ ice
-// Should have different parent class
+// Changed this class so that all of the classes have acess to the 
+// Student world
 
 class Actor : public GraphObject {
+protected:
+	// That way all of the objects have acess to world for their
+	// doSomething methods
+	StudentWorld* world = nullptr;
 public:
-	Actor(int ID, int x, int y, Direction d, double size, int depth)
-	: GraphObject(ID, x, y, d, size, depth) { }
+	Actor(int ID, int x, int y, Direction d, double size, int depth, StudentWorld* w)
+	: GraphObject(ID, x, y, d, size, depth) {
+		world = w;
+	}
 	virtual void doSomething() = 0;
+	virtual StudentWorld* getWorld();
 	virtual ~Actor() { }
 };
 
 class Ice : public Actor {
 public:
 	// Proper Constructor made for Ice to construct GraphObject
-	Ice(int x, int y): Actor(IID_ICE, x, y, right, 0.25, 3){
+	Ice(int x, int y): Actor(IID_ICE, x, y, right, 0.25, 3, nullptr){
 		this->setVisible(true);
 	}
 	void doSomething() { }
@@ -49,12 +39,11 @@ class MovingObject : public Actor {
 protected:
 	// Protected so both iceman and protestors can access their hitpoints
 	int hitPoints;
-	StudentWorld* world;
 	
 public:
 	// Constructor normal constructor for general Moving obj with HP parameter
 	MovingObject(int hp, int ID, int x, int y, Direction d, float size, int depth, StudentWorld* w)
-		: Actor(ID, x, y, d, size, depth) { 
+		: Actor(ID, x, y, d, size, depth, w) { 
 		hitPoints = hp;
 			world = w;
 	};
@@ -73,7 +62,6 @@ public:
 	// Wasn't sure if I needed to re-declare this, even though it is already
 	// in the MovingObject class
 	void doSomething();
-	StudentWorld* getWorld();
 	
 	~IceMan() { }
 	
@@ -82,6 +70,36 @@ private:
 	int numSquirts;
 	int numSonar;
 	int numGold;
+};
+
+class MapObject : public Actor {
+protected:
+	StudentWorld* world;
+public:
+	// All of the Map objects start out with a size of one, 
+	// but everything else is specific to each MapObject
+	MapObject(int ID, int x, int y, Direction d, int depth, StudentWorld* w)
+		: Actor(ID, x, y, d, 1, depth, w) { };
+	virtual ~MapObject() { };
+	
+	// Pure virtual class
+	virtual void doSomething() = 0;
+	
+};
+
+class Boulder : public MapObject {
+private:
+	// A bool to tell whether the boulder has fallen yet
+	bool hasFallen;
+public:
+	Boulder(int x, int y, StudentWorld* w) : MapObject(IID_BOULDER, x, y, down, 1, w) {
+		hasFallen = false;
+		setVisible(true);
+	};
+	virtual ~Boulder() { };
+	virtual void doSomething();
+	// Returns hasFallen
+	virtual bool isFalling();
 };
 
 #endif //ACTOR_H_

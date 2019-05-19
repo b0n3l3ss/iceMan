@@ -6,11 +6,12 @@
 //
 
 
-
-StudentWorld* IceMan::getWorld(){
+// Actor Functions
+StudentWorld* Actor::getWorld(){
 	return world;
 }
 
+// IceMan Functions
 void IceMan::doSomething() {
 	// If ice man is dead
 	if (hitPoints == 0)
@@ -52,3 +53,16 @@ void IceMan::doSomething() {
 	}
 }
 
+//MapObject Functions
+
+
+// Boulder Functions
+
+// Needs to be finished
+void Boulder::doSomething() {
+	if (!hasFallen);
+
+}
+bool Boulder::isFalling() {
+	return hasFallen;
+}
