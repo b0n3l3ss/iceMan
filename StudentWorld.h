@@ -26,11 +26,15 @@ public:
 	
 	void removeBlocks(int x, int y);
 	
+	
+	
 	~StudentWorld();
 private:
 	IceMan* player = nullptr;
 	Ice* ice[64][64] = {nullptr};
-	
+
+	void updateScore();	//updates the scoreboard on the top of the screen
+	std::string formatScoreBoard(int, int, int, int, int, int, int, int);
 };
 
 #endif //STUDENTWORLD_H_

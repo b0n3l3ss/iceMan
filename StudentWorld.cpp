@@ -31,7 +31,7 @@ int StudentWorld::move() {
 // Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
 	
 	player->doSomething();
-
+	updateScore();
 
 	
 	return GWSTATUS_CONTINUE_GAME;
@@ -157,4 +157,42 @@ StudentWorld::~StudentWorld(){
 	}
 	if(player != nullptr)
 		delete player;
+}
+
+//puts all values nicely into a string for the scoreboard
+string StudentWorld::formatScoreBoard(int level, int lives, int health, int squirts, int gold, int barrels, int sonar, int score){
+	string str = "Level: " + to_string(level) + " Lives: " + to_string(lives) +  " Health: " + to_string(health) + "% Water: " + to_string(squirts) + " Gold: " + to_string(gold) + " Oil Left: " + to_string(barrels) + " Sonar: " + to_string(sonar) + " Score: ";
+	
+	//checks to see what the score is an determines how many zeroes to put in front
+	//Honestly Jonas there is probably a better way of doing this using setprecision but this seemed easier to do. If you want to change it feel free to
+	if((score / 10) <= 0)
+		str += "00000" + to_string(score);
+	else if((score / 100) <= 0)
+		str += "0000" + to_string(score);
+	else if((score / 1000) <= 0)
+		str += "000" + to_string(score);
+	else if((score / 10000) <= 0)
+		str +=  "00" + to_string(score);
+	else if((score / 100000) <= 0)
+		str +=  "0" + to_string(score);
+	else
+		str += to_string(score);
+	return str;
+}
+
+void StudentWorld::updateScore(){
+	int level = getLevel();
+	int lives = getLives();
+	
+	//Needs to be implented properly
+	//Is currently only holding dummy variables
+	int health = /* getHealth() */ 0;
+	int squirts = /*getSquirts() */ 0;
+	int gold = /* getGold() */ 0;
+	int barrels = /* getBarrels() */ 0;
+	int sonar = /* getSonar() */ 0;
+	
+	int score = getScore();
+	string s = formatScoreBoard(level, lives, health, squirts, gold, barrels, sonar, score);
+	setGameStatText(s);
 }
