@@ -13,8 +13,10 @@ int StudentWorld::init() {
 	for (int i = 0; i < 64; ++i) {
 		for (int j = 0; j < 64; ++j){
 			ice[i][j] = new Ice(i, j);
+
 			if(j >= 60)	//sets top row to clear
 				ice[i][j]->setVisible(false);
+
 			// This makes the initial cavern
 			if (i < 34 && i >= 30 && j > 4)
 				ice[i][j]->setVisible(false);
