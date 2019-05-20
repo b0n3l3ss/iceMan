@@ -26,12 +26,12 @@ public:
 	
 	void removeBlocks(int x, int y);
 	
-	
-	
+	void removeBoulderIce(int x, int y);
 	~StudentWorld();
 private:
 	IceMan* player = nullptr;
 	Ice* ice[64][64] = {nullptr};
+	Boulder* bould = nullptr;
 
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);

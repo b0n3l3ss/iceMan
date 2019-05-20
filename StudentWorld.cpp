@@ -1,4 +1,7 @@
 #include "StudentWorld.h"
+#include <cstdlib>
+#include <ctime>
+
 using namespace std;
 
 GameWorld* createStudentWorld(string assetDir)
@@ -22,8 +25,22 @@ int StudentWorld::init() {
 				ice[i][j]->setVisible(false);
 		}
 	}
+	//create iceman
 	player = new IceMan(this);
-
+	
+	//create boulder
+	srand((unsigned)time(0));
+	
+	int randomX = (rand()%60);
+	while(randomX > 26 && randomX < 34)
+	{
+		randomX = (rand()%60);
+	}
+	
+	int randomY = (rand()%50) + 6;
+	bould = new Boulder(randomX, randomY, this);
+	removeBoulderIce(randomX, randomY);
+	
 
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -34,7 +51,7 @@ int StudentWorld::move() {
 	
 	player->doSomething();
 	updateScore();
-
+	bould->doSomething();
 	
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -202,4 +219,27 @@ void StudentWorld::updateScore(){
 	int score = getScore();
 	string s = formatScoreBoard(level, lives, health, squirts, gold, barrels, sonar, score);
 	setGameStatText(s);
+}
+
+void StudentWorld::removeBoulderIce(int x, int y)
+{
+	ice[x][y]->setVisible(false);
+	ice[x+1][y]->setVisible(false);
+	ice[x+2][y]->setVisible(false);
+	ice[x+3][y]->setVisible(false);
+	
+	ice[x][y+1]->setVisible(false);
+	ice[x+1][y+1]->setVisible(false);
+	ice[x+2][y+1]->setVisible(false);
+	ice[x+3][y+1]->setVisible(false);
+	
+	ice[x][y+2]->setVisible(false);
+	ice[x+1][y+2]->setVisible(false);
+	ice[x+2][y+2]->setVisible(false);
+	ice[x+3][y+2]->setVisible(false);
+	
+	ice[x][y+3]->setVisible(false);
+	ice[x+1][y+3]->setVisible(false);
+	ice[x+2][y+3]->setVisible(false);
+	ice[x+3][y+3]->setVisible(false);
 }

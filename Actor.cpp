@@ -60,7 +60,8 @@ void IceMan::doSomething() {
 
 // Needs to be finished
 void Boulder::doSomething() {
-	if (!hasFallen);
+	
+	
 
 }
 bool Boulder::isFalling() {
