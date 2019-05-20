@@ -160,11 +160,16 @@ StudentWorld::~StudentWorld(){
 }
 
 //puts all values nicely into a string for the scoreboard
-string StudentWorld::formatScoreBoard(int level, int lives, int health, int squirts, int gold, int barrels, int sonar, int score){
-	string str = "Level: " + to_string(level) + " Lives: " + to_string(lives) +  " Health: " + to_string(health) + "% Water: " + to_string(squirts) + " Gold: " + to_string(gold) + " Oil Left: " + to_string(barrels) + " Sonar: " + to_string(sonar) + " Score: ";
+string StudentWorld::formatScoreBoard(int level, int lives, int health,
+	int squirts, int gold, int barrels, int sonar, int score){
+	string str = "Level: " + to_string(level) + " Lives: " + to_string(lives) 
+		+  " Health: " + to_string(health) + "% Water: " + to_string(squirts) 
+		+ " Gold: " + to_string(gold) + " Oil Left: " + to_string(barrels) 
+		+ " Sonar: " + to_string(sonar) + " Score: ";
 	
 	//checks to see what the score is an determines how many zeroes to put in front
-	//Honestly Jonas there is probably a better way of doing this using setprecision but this seemed easier to do. If you want to change it feel free to
+	//Honestly Jonas there is probably a better way of doing this using setprecision 
+	//but this seemed easier to do. If you want to change it feel free to
 	if((score / 10) <= 0)
 		str += "00000" + to_string(score);
 	else if((score / 100) <= 0)
