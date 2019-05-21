@@ -28,31 +28,9 @@ int StudentWorld::init() {
 	//create iceman
 	player = new IceMan(this);
 	
-	//create boulder
-	srand((unsigned)time(0));
+	//creates both boulder
+	createBoulder();
 	
-	int randomX = (rand()%60);
-	while(randomX > 26 && randomX < 34)
-	{
-		randomX = (rand()%60);
-	}
-	
-	int randomY = (rand()%50) + 6;
-	bould = new Boulder(randomX, randomY, this);
-	removeBoulderIce(randomX, randomY);
-	
-	int randomX2 = (rand()%60);
-	while((randomX2 > 26 && randomX2 < 34) || ((randomX2 >= randomX) && (randomX2 < randomX+3)))
-	{
-		randomX2 = (rand()%60);
-	}
-	int randomY2 = (rand()%50) + 6;
-	while((randomY2 >= randomY) && (randomY2 < randomY+3))
-	{
-		randomY2 = (rand()%50) + 6;
-	}
-	bould2 = new Boulder(randomX2, randomY2, this);
-	removeBoulderIce(randomX2, randomY2);
 
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -254,4 +232,32 @@ void StudentWorld::removeBoulderIce(int x, int y)
 	ice[x+1][y+3]->setVisible(false);
 	ice[x+2][y+3]->setVisible(false);
 	ice[x+3][y+3]->setVisible(false);
+}
+
+//creates both boulders
+void StudentWorld::createBoulder() {
+	srand((unsigned)time(0));
+	
+	int randomX = (rand()%60);
+	while(randomX > 26 && randomX < 34)
+	{
+		randomX = (rand()%60);
+	}
+	
+	int randomY = (rand()%50) + 6;
+	bould = new Boulder(randomX, randomY, this);
+	removeBoulderIce(randomX, randomY);
+	
+	int randomX2 = (rand()%60);
+	while((randomX2 > 26 && randomX2 < 34) || ((randomX2 >= randomX) && (randomX2 < randomX+3)))
+	{
+		randomX2 = (rand()%60);
+	}
+	int randomY2 = (rand()%50) + 6;
+	while((randomY2 >= randomY) && (randomY2 < randomY+3))
+	{
+		randomY2 = (rand()%50) + 6;
+	}
+	bould2 = new Boulder(randomX2, randomY2, this);
+	removeBoulderIce(randomX2, randomY2);
 }
