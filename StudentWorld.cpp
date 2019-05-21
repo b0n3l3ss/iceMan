@@ -41,6 +41,18 @@ int StudentWorld::init() {
 	bould = new Boulder(randomX, randomY, this);
 	removeBoulderIce(randomX, randomY);
 	
+	int randomX2 = (rand()%60);
+	while((randomX2 > 26 && randomX2 < 34) || ((randomX2 >= randomX) && (randomX2 < randomX+3)))
+	{
+		randomX2 = (rand()%60);
+	}
+	int randomY2 = (rand()%50) + 6;
+	while((randomY2 >= randomY) && (randomY2 < randomY+3))
+	{
+		randomY2 = (rand()%50) + 6;
+	}
+	bould2 = new Boulder(randomX2, randomY2, this);
+	removeBoulderIce(randomX2, randomY2);
 
 	return GWSTATUS_CONTINUE_GAME;
 }

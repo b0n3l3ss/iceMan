@@ -32,6 +32,7 @@ private:
 	IceMan* player = nullptr;
 	Ice* ice[64][64] = {nullptr};
 	Boulder* bould = nullptr;
+	Boulder* bould2 = nullptr;
 
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);
