@@ -261,3 +261,29 @@ void StudentWorld::createBoulder() {
 	bould2 = new Boulder(randomX2, randomY2, this);
 	removeBoulderIce(randomX2, randomY2);
 }
+
+bool StudentWorld::isBoulderThere(int x, int y)
+{
+	//checks for boulders from the right side
+	if((x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()) ||
+	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()+1) ||
+	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()+2) ||
+	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()+3) ||
+	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()-1) ||
+	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()-2) ||
+	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()-3))
+	{
+		return true;
+	}
+	if((x == bould->boulderXPos()+4 && y == bould->boulderYPos()) ||
+	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()+1) ||
+	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()+2) ||
+	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()+3) ||
+	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()-1) ||
+	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()-2) ||
+	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()-3))
+	{
+		return true;
+	}
+	return false;
+}

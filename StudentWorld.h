@@ -28,6 +28,8 @@ public:
 	
 	void removeBoulderIce(int x, int y);
 	
+	bool isBoulderThere(int, int);
+	
 	~StudentWorld();
 private:
 	IceMan* player = nullptr;

@@ -91,15 +91,21 @@ class Boulder : public MapObject {
 private:
 	// A bool to tell whether the boulder has fallen yet
 	bool hasFallen;
+	int m_x;
+	int m_y;
 public:
-	Boulder(int x, int y, StudentWorld* w) : MapObject(IID_BOULDER, x, y, down, 1, w) {
+	Boulder(int x, int y, StudentWorld* w) : MapObject(IID_BOULDER, x, y, down, 1, w){
 		hasFallen = false;
 		setVisible(true);
+		m_x = x;
+		m_y = y;
 	};
 	virtual ~Boulder() { };
 	virtual void doSomething();
 	// Returns hasFallen
 	virtual bool isFalling();
+	int boulderXPos();
+	int boulderYPos();
 };
 
 #endif //ACTOR_H_

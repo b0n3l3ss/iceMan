@@ -22,7 +22,8 @@ void IceMan::doSomething() {
 		switch(ch)
 		{
 			case KEY_PRESS_LEFT:
-				if(getX()-1 >= 0){
+				if(getX()-1 >= 0 && (getWorld()->isBoulderThere(getX(), getY()) == false)){
+					
 					getWorld()->removeBlocks(getX(), getY());
 					moveTo(getX()-1, getY());
 				}
@@ -66,4 +67,14 @@ void Boulder::doSomething() {
 }
 bool Boulder::isFalling() {
 	return hasFallen;
+}
+
+int Boulder::boulderXPos()
+{
+	return m_x;
+}
+
+int Boulder::boulderYPos()
+{
+	return m_y;
 }
