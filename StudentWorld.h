@@ -42,6 +42,7 @@ private:
 	Boulder* bould = nullptr;
 	Boulder* bould2 = nullptr;
 	void createBoulder();
+	void createIce();
 
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);

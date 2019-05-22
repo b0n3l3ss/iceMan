@@ -62,6 +62,7 @@ public:
 	// Wasn't sure if I needed to re-declare this, even though it is already
 	// in the MovingObject class
 	void doSomething();
+	int getHitPoints();
 	
 	~IceMan() { }
 	

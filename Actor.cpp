@@ -3,7 +3,7 @@
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
 
-//
+// 
 
 
 // Actor Functions
@@ -53,12 +53,17 @@ void IceMan::doSomething() {
 	}
 }
 
+int IceMan::getHitPoints()
+{
+	return hitPoints;
+}
+
 //MapObject Functions
 
 
 // Boulder Functions
 
-// Needs to be finished
+
 void Boulder::doSomething() {
 	//immediately returns if boulder is "dead"
 	if(!(this->isVisible()))
@@ -89,8 +94,10 @@ bool Boulder::isFalling() {
 
 
 bool Boulder::isStable(){
-	//if boulder is at bottom or all the way right return true
-	if(getX() > 63 || getX() < 0 || getY() > 63 || getY() <= 0)
+	//if boulder is at bottom
+	if(getY() <= 0)
+		return true;
+	if(getWorld()->isBoulderThereD(getX(), getY()))
 		return true;
 	if(!(getWorld()->isIceVisable(getX(), getY()-1)))
 		return false;
