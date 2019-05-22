@@ -64,44 +64,42 @@ void Boulder::doSomething() {
 	if(!(this->isVisible()))
 		return;
 	//immediately return if boulder is stable
-	if(isStable())
+	else if(isStable())
 		return;
-	if(!isStable())
-	{
-		this->setVisible(false);
-	}
-	else if(isWaiting())
-	{
-		//doSomething or return? idk yet. Needs to be implemented
-	}
+	//if rock is waiting return
+	else if(!(doneWaiting()))
+		return;
 	else if(isFalling())
 	{
 		//doSomething and play sound
+		moveTo(getX(), getY()-1);
+		getWorld()->playSound(SOUND_FALLING_ROCK);
+		isFalling();
 	}
 }
 bool Boulder::isFalling() {
-	return hasFallen;
+	if(isStable())
+	{
+		this->setVisible(false);
+		return false;
+	}
+	return true;
 }
 
-int Boulder::boulderXPos()
-{
-	return m_x;
-}
 
-int Boulder::boulderYPos()
-{
-	return m_y;
-}
 
 bool Boulder::isStable(){
 	//if boulder is at bottom or all the way right return true
-	if(m_x > 63 || m_x < 0 || m_y > 63 || m_y <= 0)
+	if(getX() > 63 || getX() < 0 || getY() > 63 || getY() <= 0)
 		return true;
-	if(!(getWorld()->isIceVisable(m_x, m_y-1)))
+	if(!(getWorld()->isIceVisable(getX(), getY()-1)))
 		return false;
 	return true;
 }
 
-bool Boulder::isWaiting(){
+bool Boulder::doneWaiting(){
+	if(m_waitingTime >= 30)
+		return true;
+	m_waitingTime++;
 	return false;
 }
