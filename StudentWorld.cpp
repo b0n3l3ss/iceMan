@@ -42,6 +42,7 @@ int StudentWorld::move() {
 	player->doSomething();
 	updateScore();
 	bould->doSomething();
+	bould2->doSomething();
 	
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -362,6 +363,19 @@ bool StudentWorld::isBoulderThereD(int x, int y)
 	   (x == bould->boulderXPos()-3 && y == bould->boulderYPos()+4)))
 	{
 		return true;
+	}
+	return false;
+}
+
+bool StudentWorld::isIceVisable(int x, int y)
+{
+	for(int i = 0; i <= 3; i++)
+	{
+		//if ice does not exist just return true to avoid bad access error
+		if(ice[x+i][y] == nullptr)
+			return true;
+		if(ice[x+i][y]->isVisible())
+			return true;
 	}
 	return false;
 }

@@ -66,11 +66,15 @@ void Boulder::doSomething() {
 	//immediately return if boulder is stable
 	if(isStable())
 		return;
-	if(isWaiting())
+	if(!isStable())
+	{
+		this->setVisible(false);
+	}
+	else if(isWaiting())
 	{
 		//doSomething or return? idk yet. Needs to be implemented
 	}
-	if(isFalling())
+	else if(isFalling())
 	{
 		//doSomething and play sound
 	}
@@ -90,7 +94,11 @@ int Boulder::boulderYPos()
 }
 
 bool Boulder::isStable(){
-	
+	//if boulder is at bottom or all the way right return true
+	if(m_x > 63 || m_x < 0 || m_y > 63 || m_y <= 0)
+		return true;
+	if(!(getWorld()->isIceVisable(m_x, m_y-1)))
+		return false;
 	return true;
 }
 

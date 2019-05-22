@@ -33,6 +33,8 @@ public:
 	bool isBoulderThereU(int, int);
 	bool isBoulderThereD(int, int);
 	
+	bool isIceVisable(int, int);
+	
 	~StudentWorld();
 private:
 	IceMan* player = nullptr;
