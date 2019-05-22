@@ -60,9 +60,20 @@ void IceMan::doSomething() {
 
 // Needs to be finished
 void Boulder::doSomething() {
-	
-	
-
+	//immediately returns if boulder is "dead"
+	if(!(this->isVisible()))
+		return;
+	//immediately return if boulder is stable
+	if(isStable())
+		return;
+	if(isWaiting())
+	{
+		//doSomething or return? idk yet. Needs to be implemented
+	}
+	if(isFalling())
+	{
+		//doSomething and play sound
+	}
 }
 bool Boulder::isFalling() {
 	return hasFallen;
@@ -76,4 +87,13 @@ int Boulder::boulderXPos()
 int Boulder::boulderYPos()
 {
 	return m_y;
+}
+
+bool Boulder::isStable(){
+	
+	return true;
+}
+
+bool Boulder::isWaiting(){
+	return false;
 }

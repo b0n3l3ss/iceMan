@@ -106,6 +106,8 @@ public:
 	virtual bool isFalling();
 	int boulderXPos();
 	int boulderYPos();
+	bool isStable();
+	bool isWaiting();
 };
 
 #endif //ACTOR_H_
