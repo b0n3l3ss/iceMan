@@ -28,7 +28,10 @@ public:
 	
 	void removeBoulderIce(int x, int y);
 	
-	bool isBoulderThere(int, int);
+	bool isBoulderThereR(int, int);
+	bool isBoulderThereL(int, int);
+	bool isBoulderThereU(int, int);
+	bool isBoulderThereD(int, int);
 	
 	~StudentWorld();
 private:

@@ -262,9 +262,9 @@ void StudentWorld::createBoulder() {
 	removeBoulderIce(randomX2, randomY2);
 }
 
-bool StudentWorld::isBoulderThere(int x, int y)
+bool StudentWorld::isBoulderThereL(int x, int y)
 {
-	//checks for boulders from the right side
+	//checks for boulders when pressing left
 	if((x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()) ||
 	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()+1) ||
 	   (x == bould2->boulderXPos()+4 && y == bould2->boulderYPos()+2) ||
@@ -282,6 +282,84 @@ bool StudentWorld::isBoulderThere(int x, int y)
 	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()-1) ||
 	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()-2) ||
 	   (x == bould->boulderXPos()+4 && y == bould->boulderYPos()-3))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool StudentWorld::isBoulderThereU(int x, int y)
+{
+	//checks for boulders when pressing up
+	if((x == bould2->boulderXPos()+3 && y == bould2->boulderYPos()-4) ||
+			(x == bould2->boulderXPos()+2 && y == bould2->boulderYPos()-4) ||
+			(x == bould2->boulderXPos()+1 && y == bould2->boulderYPos()-4) ||
+			(x == bould2->boulderXPos() && y == bould2->boulderYPos()-4) ||
+			(x == bould2->boulderXPos()-1 && y == bould2->boulderYPos()-4) ||
+			(x == bould2->boulderXPos()-2 && y == bould2->boulderYPos()-4) ||
+			(x == bould2->boulderXPos()-3 && y == bould2->boulderYPos()-4))
+	{
+		return true;
+	}
+	if((x == bould->boulderXPos()+3 && y == bould->boulderYPos()-4) ||
+			(x == bould->boulderXPos()+2 && y == bould->boulderYPos()-4) ||
+			(x == bould->boulderXPos()+1 && y == bould->boulderYPos()-4) ||
+			(x == bould->boulderXPos() && y == bould->boulderYPos()-4) ||
+			(x == bould->boulderXPos()-1 && y == bould->boulderYPos()-4) ||
+			(x == bould->boulderXPos()-2 && y == bould->boulderYPos()-4) ||
+			(x == bould->boulderXPos()-3 && y == bould->boulderYPos()-4))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool StudentWorld::isBoulderThereR(int x, int y)
+{
+	//checks for boulders when pressing right
+	if((x == bould2->boulderXPos()-4 && y == bould2->boulderYPos()) ||
+	   (x == bould2->boulderXPos()-4 && y == bould2->boulderYPos()+1) ||
+	   (x == bould2->boulderXPos()-4 && y == bould2->boulderYPos()+2) ||
+	   (x == bould2->boulderXPos()-4 && y == bould2->boulderYPos()+3) ||
+	   (x == bould2->boulderXPos()-4 && y == bould2->boulderYPos()-1) ||
+	   (x == bould2->boulderXPos()-4 && y == bould2->boulderYPos()-2) ||
+	   (x == bould2->boulderXPos()-4 && y == bould2->boulderYPos()-3))
+	{
+		return true;
+	}
+	if((x == bould->boulderXPos()-4 && y == bould->boulderYPos()) ||
+	   (x == bould->boulderXPos()-4 && y == bould->boulderYPos()+1) ||
+	   (x == bould->boulderXPos()-4 && y == bould->boulderYPos()+2) ||
+	   (x == bould->boulderXPos()-4 && y == bould->boulderYPos()+3) ||
+	   (x == bould->boulderXPos()-4 && y == bould->boulderYPos()-1) ||
+	   (x == bould->boulderXPos()-4 && y == bould->boulderYPos()-2) ||
+	   (x == bould->boulderXPos()-4 && y == bould->boulderYPos()-3))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool StudentWorld::isBoulderThereD(int x, int y)
+{
+	//checks for boulders when pressing down
+	if((x == bould2->boulderXPos()+3 && y == bould2->boulderYPos()+4) ||
+	   (x == bould2->boulderXPos()+2 && y == bould2->boulderYPos()+4) ||
+	   (x == bould2->boulderXPos()+1 && y == bould2->boulderYPos()+4) ||
+	   (x == bould2->boulderXPos() && y == bould2->boulderYPos()+4) ||
+	   (x == bould2->boulderXPos()-1 && y == bould2->boulderYPos()+4) ||
+	   (x == bould2->boulderXPos()-2 && y == bould2->boulderYPos()+4) ||
+	   (x == bould2->boulderXPos()-3 && y == bould2->boulderYPos()+4))
+	{
+		return true;
+	}
+	if((x == bould->boulderXPos()+3 && y == bould->boulderYPos()+4) ||
+	   (x == bould->boulderXPos()+2 && y == bould->boulderYPos()+4) ||
+	   (x == bould->boulderXPos()+1 && y == bould->boulderYPos()+4) ||
+	   (x == bould->boulderXPos() && y == bould->boulderYPos()+4) ||
+	   (x == bould->boulderXPos()-1 && y == bould->boulderYPos()+4) ||
+	   (x == bould->boulderXPos()-2 && y == bould->boulderYPos()+4) ||
+	   (x == bould->boulderXPos()-3 && y == bould->boulderYPos()+4))
 	{
 		return true;
 	}
