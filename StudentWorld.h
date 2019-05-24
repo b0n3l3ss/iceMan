@@ -39,8 +39,14 @@ public:
 private:
 	IceMan* player = nullptr;
 	Ice* ice[64][64] = {nullptr};
-	Boulder* bould = nullptr;
-	Boulder* bould2 = nullptr;
+	//Boulder* bould = nullptr;
+	//Boulder* bould2 = nullptr;
+	// Im fine keeping the boulders as their own individual pointers
+	// for testing purpouses, but Im going to start putting them in a 
+	// vector
+	std::vector<Actor*> gameActors;
+	int bouldNum = 2;
+	//int bouldNum = floor((getLevel() / 2) + 2);
 	void createBoulder();
 	void createIce();
 

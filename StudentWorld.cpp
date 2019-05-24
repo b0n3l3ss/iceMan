@@ -33,8 +33,12 @@ int StudentWorld::move() {
 		return GWSTATUS_PLAYER_DIED;
 	player->doSomething();
 	updateScore();
-	bould->doSomething();
-	bould2->doSomething();
+	//bould->doSomething();
+	//gameActors[1]->doSomething();
+	//bould2->doSomething();
+	for (int i = 0; i < bouldNum; ++i) {
+		gameActors[i]->doSomething();
+	}
 	
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -244,6 +248,31 @@ void StudentWorld::removeBoulderIce(int x, int y)
 
 //creates both boulders
 void StudentWorld::createBoulder() {
+	
+
+	// For Some reason, this loop is not working. I tried to insert
+	// the boulders through a temp, but it did not work too well.  
+	// Iceman could walk through one of the boulders and would not fall
+	// down if there was no ice under it.  Also, take a look at the header file.
+	// I added a variable that contains the number of boulders per level, but 
+	// I dont think that this is going to work the way I wrote it. It needs to
+	// be updated each time the level starts, instead of when the sttudent world
+	// is made. So we might need to create a method that updates the number of 
+	// boulders to be called in the init() function in StudentWorld
+
+
+	/*for (int i = 0; i < bouldNum; ++i) {
+		srand((unsigned)time(0));
+		int randomX = (rand() % 60);
+		while (randomX > 26 && randomX < 34) {
+			randomX = rand() % 60;
+		}
+
+		int randomY = (rand() % 50) + 6;
+		Boulder* temp = new Boulder(randomX, randomY, this);
+		gameActors.push_back(temp);
+		removeBoulderIce(randomX, randomY);
+	}*/
 	srand((unsigned)time(0));
 	
 	int randomX = (rand()%60);
@@ -253,7 +282,10 @@ void StudentWorld::createBoulder() {
 	}
 	
 	int randomY = (rand()%50) + 6;
+	Boulder* bould = nullptr;
 	bould = new Boulder(randomX, randomY, this);
+	// Pushing the pointer into a vector
+	gameActors.push_back(bould);
 	removeBoulderIce(randomX, randomY);
 	
 	int randomX2 = (rand()%60);
@@ -266,30 +298,33 @@ void StudentWorld::createBoulder() {
 	{
 		randomY2 = (rand()%50) + 6;
 	}
+	Boulder* bould2 = nullptr;
 	bould2 = new Boulder(randomX2, randomY2, this);
+	// Pushing second boulder into the vector 
+	gameActors.push_back(bould2);
 	removeBoulderIce(randomX2, randomY2);
 }
 
 bool StudentWorld::isBoulderThereL(int x, int y)
 {
 	//checks for boulders when pressing left
-	if(bould2->isVisible() && ((x == bould2->getX()+4 && y == bould2->getY()) ||
-	   (x == bould2->getX()+4 && y == bould2->getY()+1) ||
-	   (x == bould2->getX()+4 && y == bould2->getY()+2) ||
-	   (x == bould2->getX()+4 && y == bould2->getY()+3) ||
-	   (x == bould2->getX()+4 && y == bould2->getY()-1) ||
-	   (x == bould2->getX()+4 && y == bould2->getY()-2) ||
-	   (x == bould2->getX()+4 && y == bould2->getY()-3)))
+	if(gameActors[1]->isVisible() && ((x == gameActors[1]->getX()+4 && y == gameActors[1]->getY()) ||
+	   (x == gameActors[1]->getX()+4 && y == gameActors[1]->getY()+1) ||
+	   (x == gameActors[1]->getX()+4 && y == gameActors[1]->getY()+2) ||
+	   (x == gameActors[1]->getX()+4 && y == gameActors[1]->getY()+3) ||
+	   (x == gameActors[1]->getX()+4 && y == gameActors[1]->getY()-1) ||
+	   (x == gameActors[1]->getX()+4 && y == gameActors[1]->getY()-2) ||
+	   (x == gameActors[1]->getX()+4 && y == gameActors[1]->getY()-3)))
 	{
 		return true;
 	}
-	if(bould->isVisible() && ((x == bould->getX()+4 && y == bould->getY()) ||
-	   (x == bould->getX()+4 && y == bould->getY()+1) ||
-	   (x == bould->getX()+4 && y == bould->getY()+2) ||
-	   (x == bould->getX()+4 && y == bould->getY()+3) ||
-	   (x == bould->getX()+4 && y == bould->getY()-1) ||
-	   (x == bould->getX()+4 && y == bould->getY()-2) ||
-	   (x == bould->getX()+4 && y == bould->getY()-3)))
+	if(gameActors[0]->isVisible() && ((x == gameActors[0]->getX()+4 && y == gameActors[0]->getY()) ||
+	   (x == gameActors[0]->getX()+4 && y == gameActors[0]->getY()+1) ||
+	   (x == gameActors[0]->getX()+4 && y == gameActors[0]->getY()+2) ||
+	   (x == gameActors[0]->getX()+4 && y == gameActors[0]->getY()+3) ||
+	   (x == gameActors[0]->getX()+4 && y == gameActors[0]->getY()-1) ||
+	   (x == gameActors[0]->getX()+4 && y == gameActors[0]->getY()-2) ||
+	   (x == gameActors[0]->getX()+4 && y == gameActors[0]->getY()-3)))
 	{
 		return true;
 	}
@@ -299,23 +334,23 @@ bool StudentWorld::isBoulderThereL(int x, int y)
 bool StudentWorld::isBoulderThereU(int x, int y)
 {
 	//checks for boulders when pressing up
-	if(bould2->isVisible() && ((x == bould2->getX()+3 && y == bould2->getY()-4) ||
-			(x == bould2->getX()+2 && y == bould2->getY()-4) ||
-			(x == bould2->getX()+1 && y == bould2->getY()-4) ||
-			(x == bould2->getX() && y == bould2->getY()-4) ||
-			(x == bould2->getX()-1 && y == bould2->getY()-4) ||
-			(x == bould2->getX()-2 && y == bould2->getY()-4) ||
-			(x == bould2->getX()-3 && y == bould2->getY()-4)))
+	if(gameActors[1]->isVisible() && ((x == gameActors[1]->getX()+3 && y == gameActors[1]->getY()-4) ||
+			(x == gameActors[1]->getX()+2 && y == gameActors[1]->getY()-4) ||
+			(x == gameActors[1]->getX()+1 && y == gameActors[1]->getY()-4) ||
+			(x == gameActors[1]->getX() && y == gameActors[1]->getY()-4) ||
+			(x == gameActors[1]->getX()-1 && y == gameActors[1]->getY()-4) ||
+			(x == gameActors[1]->getX()-2 && y == gameActors[1]->getY()-4) ||
+			(x == gameActors[1]->getX()-3 && y == gameActors[1]->getY()-4)))
 	{
 		return true;
 	}
-	if(bould->isVisible() && ((x == bould->getX()+3 && y == bould->getY()-4) ||
-			(x == bould->getX()+2 && y == bould->getY()-4) ||
-			(x == bould->getX()+1 && y == bould->getY()-4) ||
-			(x == bould->getX() && y == bould->getY()-4) ||
-			(x == bould->getX()-1 && y == bould->getY()-4) ||
-			(x == bould->getX()-2 && y == bould->getY()-4) ||
-			(x == bould->getX()-3 && y == bould->getY()-4)))
+	if(gameActors[0]->isVisible() && ((x == gameActors[0]->getX()+3 && y == gameActors[0]->getY()-4) ||
+			(x == gameActors[0]->getX()+2 && y == gameActors[0]->getY()-4) ||
+			(x == gameActors[0]->getX()+1 && y == gameActors[0]->getY()-4) ||
+			(x == gameActors[0]->getX() && y == gameActors[0]->getY()-4) ||
+			(x == gameActors[0]->getX()-1 && y == gameActors[0]->getY()-4) ||
+			(x == gameActors[0]->getX()-2 && y == gameActors[0]->getY()-4) ||
+			(x == gameActors[0]->getX()-3 && y == gameActors[0]->getY()-4)))
 	{
 		return true;
 	}
@@ -325,23 +360,23 @@ bool StudentWorld::isBoulderThereU(int x, int y)
 bool StudentWorld::isBoulderThereR(int x, int y)
 {
 	//checks for boulders when pressing right
-	if(bould2->isVisible() && ((x == bould2->getX()-4 && y == bould2->getY()) ||
-	   (x == bould2->getX()-4 && y == bould2->getY()+1) ||
-	   (x == bould2->getX()-4 && y == bould2->getY()+2) ||
-	   (x == bould2->getX()-4 && y == bould2->getY()+3) ||
-	   (x == bould2->getX()-4 && y == bould2->getY()-1) ||
-	   (x == bould2->getX()-4 && y == bould2->getY()-2) ||
-	   (x == bould2->getX()-4 && y == bould2->getY()-3)))
+	if(gameActors[1]->isVisible() && ((x == gameActors[1]->getX()-4 && y == gameActors[1]->getY()) ||
+	   (x == gameActors[1]->getX()-4 && y == gameActors[1]->getY()+1) ||
+	   (x == gameActors[1]->getX()-4 && y == gameActors[1]->getY()+2) ||
+	   (x == gameActors[1]->getX()-4 && y == gameActors[1]->getY()+3) ||
+	   (x == gameActors[1]->getX()-4 && y == gameActors[1]->getY()-1) ||
+	   (x == gameActors[1]->getX()-4 && y == gameActors[1]->getY()-2) ||
+	   (x == gameActors[1]->getX()-4 && y == gameActors[1]->getY()-3)))
 	{
 		return true;
 	}
-	if(bould->isVisible() && ((x == bould->getX()-4 && y == bould->getY()) ||
-	   (x == bould->getX()-4 && y == bould->getY()+1) ||
-	   (x == bould->getX()-4 && y == bould->getY()+2) ||
-	   (x == bould->getX()-4 && y == bould->getY()+3) ||
-	   (x == bould->getX()-4 && y == bould->getY()-1) ||
-	   (x == bould->getX()-4 && y == bould->getY()-2) ||
-	   (x == bould->getX()-4 && y == bould->getY()-3)))
+	if(gameActors[0]->isVisible() && ((x == gameActors[0]->getX()-4 && y == gameActors[0]->getY()) ||
+	   (x == gameActors[0]->getX()-4 && y == gameActors[0]->getY()+1) ||
+	   (x == gameActors[0]->getX()-4 && y == gameActors[0]->getY()+2) ||
+	   (x == gameActors[0]->getX()-4 && y == gameActors[0]->getY()+3) ||
+	   (x == gameActors[0]->getX()-4 && y == gameActors[0]->getY()-1) ||
+	   (x == gameActors[0]->getX()-4 && y == gameActors[0]->getY()-2) ||
+	   (x == gameActors[0]->getX()-4 && y == gameActors[0]->getY()-3)))
 	{
 		return true;
 	}
@@ -351,23 +386,23 @@ bool StudentWorld::isBoulderThereR(int x, int y)
 bool StudentWorld::isBoulderThereD(int x, int y)
 {
 	//checks for boulders when pressing down
-	if(bould2->isVisible() && ((x == bould2->getX()+3 && y == bould2->getY()+4) ||
-	   (x == bould2->getX()+2 && y == bould2->getY()+4) ||
-	   (x == bould2->getX()+1 && y == bould2->getY()+4) ||
-	   (x == bould2->getX() && y == bould2->getY()+4) ||
-	   (x == bould2->getX()-1 && y == bould2->getY()+4) ||
-	   (x == bould2->getX()-2 && y == bould2->getY()+4) ||
-	   (x == bould2->getX()-3 && y == bould2->getY()+4)))
+	if(gameActors[1]->isVisible() && ((x == gameActors[1]->getX()+3 && y == gameActors[1]->getY()+4) ||
+	   (x == gameActors[1]->getX()+2 && y == gameActors[1]->getY()+4) ||
+	   (x == gameActors[1]->getX()+1 && y == gameActors[1]->getY()+4) ||
+	   (x == gameActors[1]->getX() && y == gameActors[1]->getY()+4) ||
+	   (x == gameActors[1]->getX()-1 && y == gameActors[1]->getY()+4) ||
+	   (x == gameActors[1]->getX()-2 && y == gameActors[1]->getY()+4) ||
+	   (x == gameActors[1]->getX()-3 && y == gameActors[1]->getY()+4)))
 	{
 		return true;
 	}
-	if(bould->isVisible() && ((x == bould->getX()+3 && y == bould->getY()+4) ||
-	   (x == bould->getX()+2 && y == bould->getY()+4) ||
-	   (x == bould->getX()+1 && y == bould->getY()+4) ||
-	   (x == bould->getX() && y == bould->getY()+4) ||
-	   (x == bould->getX()-1 && y == bould->getY()+4) ||
-	   (x == bould->getX()-2 && y == bould->getY()+4) ||
-	   (x == bould->getX()-3 && y == bould->getY()+4)))
+	if(gameActors[0]->isVisible() && ((x == gameActors[0]->getX()+3 && y == gameActors[0]->getY()+4) ||
+	   (x == gameActors[0]->getX()+2 && y == gameActors[0]->getY()+4) ||
+	   (x == gameActors[0]->getX()+1 && y == gameActors[0]->getY()+4) ||
+	   (x == gameActors[0]->getX() && y == gameActors[0]->getY()+4) ||
+	   (x == gameActors[0]->getX()-1 && y == gameActors[0]->getY()+4) ||
+	   (x == gameActors[0]->getX()-2 && y == gameActors[0]->getY()+4) ||
+	   (x == gameActors[0]->getX()-3 && y == gameActors[0]->getY()+4)))
 	{
 		return true;
 	}
