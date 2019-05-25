@@ -45,9 +45,10 @@ private:
 	// for testing purpouses, but Im going to start putting them in a 
 	// vector
 	std::vector<Actor*> gameActors;
-	int bouldNum = 2;
-	//int bouldNum = floor((getLevel() / 2) + 2);
+	int bouldNum = 20; //floor((getLevel() / 2) + 2);
 	void createBoulder();
+	void checkForObject(int&, int&);
+	
 	void createIce();
 
 	void updateScore();	//updates the scoreboard on the top of the screen

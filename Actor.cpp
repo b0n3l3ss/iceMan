@@ -78,7 +78,10 @@ void Boulder::doSomething() {
 	{
 		//doSomething and play sound
 		moveTo(getX(), getY()-1);
-		getWorld()->playSound(SOUND_FALLING_ROCK);
+		if(hasFallen == false){
+			getWorld()->playSound(SOUND_FALLING_ROCK);
+			hasFallen = true;
+		}
 		isFalling();
 	}
 }
