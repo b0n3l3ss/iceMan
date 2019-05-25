@@ -1,2 +1,7 @@
 ﻿  StudentWorld.cpp
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(315): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(335): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(353): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(371): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(388): warning C4018: '<': signed/unsigned mismatch
   IceMan.vcxproj -> C:\Users\Jonas\source\repos\CS30_Project3_iceMan\IceMan\Debug\IceMan.exe

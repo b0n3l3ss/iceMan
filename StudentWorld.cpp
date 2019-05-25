@@ -391,14 +391,11 @@ void StudentWorld::checkForObject(int &x, int &y){
 		{
 			//do Nothing! Yay!
 		}
-		else if((x > 26 && x < 34) || (((x >= gameActors[i]->getX()) && (x < gameActors[i]->getX()+4)) && ((y >= gameActors[i]->getY()) && (y < gameActors[i]->getY()+4))))
+		else if( (x > 26 && x < 34) || ( ( 
+			( (x >= gameActors[i]->getX() ) && (x <= gameActors[i]->getX()+4 ) )
+			&& ((y >= gameActors[i]->getY()) && (y <= gameActors[i]->getY()+4) ) ) ) )
 		{
 			x = rand() % 60;
-			y = (rand()%50) + 6;
-			i = -1;
-		}
-		else if(false)
-		{
 			y = (rand()%50) + 6;
 			i = -1;
 		}
