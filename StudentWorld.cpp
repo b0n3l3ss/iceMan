@@ -19,7 +19,7 @@ int StudentWorld::init() {
 	player = new IceMan(this);
 	
 	//creates both boulder
-	//updateItemCount();
+	updateItemCount();
 	createBoulder();
 	
 
@@ -262,7 +262,8 @@ void StudentWorld::createBoulder() {
 	// boulders to be called in the init() function in StudentWorld
 
 	srand((unsigned)time(0));
-	for (int i = 0; i < bouldNum; ++i) {
+	int total = bouldNum + goldNum;
+	for (int i = 0; i < total; ++i) {
 		
 		int randomX = (rand() % 60);
 		while((gameActors.size() == 0) && (randomX > 26 && randomX < 34))
@@ -273,10 +274,15 @@ void StudentWorld::createBoulder() {
 		int randomY = (rand() % 50) + 6;
 		
 		checkForObject(randomX, randomY);
-		
-		Boulder* temp = new Boulder(randomX, randomY, this);
-		gameActors.push_back(temp);
-		removeBoulderIce(randomX, randomY);
+		if (i < bouldNum) {
+			Boulder* temp = new Boulder(randomX, randomY, this);
+			gameActors.push_back(temp);
+			removeBoulderIce(randomX, randomY);
+		}
+		else {
+			Gold * temp = new Gold(randomX, randomY, this);
+			gameActors.push_back(temp);
+		}
 	}
 	/*srand((unsigned)time(0));
 	
@@ -402,9 +408,7 @@ void StudentWorld::checkForObject(int &x, int &y) {
 			bool invalidRadius = false;
 			if (radius < 6)
 				invalidRadius = true;
-			/*bool invalidX = inCavern || ((x <= gameActors[i]->getX() + 4)
-				&& (x >= gameActors[i]->getX()));
-			bool invalidY = (y >= gameActors[i]->getY()) && (y <= gameActors[i]->getY() + 4);*/
+			
 			if (inCavern || invalidRadius) {
 				int tempX = rand() % 60;
 				x = tempX;
@@ -441,6 +445,6 @@ void StudentWorld::updateItemCount() {
 	// A function that is called during initializaion of the level 
 	// to update the number of boulders, gold nuggets, and barrels
 	bouldNum = floor((getLevel() / 2) + 2);
-	//goldNum = max(getLevel() / 2, 2);
+	goldNum = 2; //  ceil(getLevel() / 2);
 
 }

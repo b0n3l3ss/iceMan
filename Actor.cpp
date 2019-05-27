@@ -121,3 +121,17 @@ void Gold::updateisBribeState(bool update) {
 bool Gold::isBribeState() const {
 	return isBribe;
 }
+void Gold::turnVisible() {
+	double radius = 0;
+	double deltaX = abs(getX() - (world->player)->getX());
+	double deltaY = abs(getY() - (world->player)->getY());
+	radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if (radius <= 4)
+		setVisible(true);
+
+}
+void Gold::doSomething() {
+	if (!isVisible());
+		//turnVisible();
+
+}

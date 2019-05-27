@@ -38,8 +38,9 @@ public:
 	bool isIceVisable(int, int);
 	
 	~StudentWorld();
-private:
 	IceMan* player = nullptr;
+private:
+	//IceMan* player = nullptr;
 	Ice* ice[64][64] = {nullptr};
 	//Boulder* bould = nullptr;
 	//Boulder* bould2 = nullptr;
