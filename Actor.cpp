@@ -63,7 +63,6 @@ int IceMan::getHitPoints()
 
 // Boulder Functions
 
-
 void Boulder::doSomething() {
 	//immediately returns if boulder is "dead"
 	if(!(this->isVisible()))
@@ -85,6 +84,7 @@ void Boulder::doSomething() {
 		isFalling();
 	}
 }
+
 bool Boulder::isFalling() {
 	if(isStable())
 	{
@@ -93,8 +93,6 @@ bool Boulder::isFalling() {
 	}
 	return true;
 }
-
-
 
 bool Boulder::isStable(){
 	//if boulder is at bottom
@@ -112,4 +110,14 @@ bool Boulder::doneWaiting(){
 		return true;
 	m_waitingTime++;
 	return false;
+}
+
+
+// Gold Functions
+
+void Gold::updateisBribeState(bool update) {
+	isBribe = update;
+}
+bool Gold::isBribeState() const {
+	return isBribe;
 }

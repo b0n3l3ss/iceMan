@@ -27,6 +27,8 @@ public:
 	void removeBlocks(int x, int y);
 	
 	void removeBoulderIce(int x, int y);
+	void updateItemCount();
+
 	
 	bool isBoulderThereR(int, int);
 	bool isBoulderThereL(int, int);
@@ -46,6 +48,7 @@ private:
 	// vector
 	std::vector<Actor*> gameActors;
 	int bouldNum = 20; //floor((getLevel() / 2) + 2);
+	int goldNum = 0;
 	void createBoulder();
 	void checkForObject(int&, int&);
 	

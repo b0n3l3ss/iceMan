@@ -19,6 +19,7 @@ int StudentWorld::init() {
 	player = new IceMan(this);
 	
 	//creates both boulder
+	//updateItemCount();
 	createBoulder();
 	
 
@@ -315,35 +316,35 @@ bool StudentWorld::isBoulderThereL(int x, int y)
 	for (int i = 0; i < gameActors.size(); ++i) {
 		if(gameActors[i]->isVisible() &&
 			((x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()) ||
-			(x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()+1) ||
-			(x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()+2) ||
-			(x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()+3) ||
-			(x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()-1) ||
-			(x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()-2) ||
-			(x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()-3))) {
-			
-			return true;
+			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() + 1) ||
+			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() + 2) ||
+			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() + 3) ||
+			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() - 1) ||
+			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() - 2) ||
+			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() - 3))) {
+
+return true;
 		}
 	}
-	
+
 	return false;
 }
 
 bool StudentWorld::isBoulderThereU(int x, int y)
 {
 	//checks for boulders when pressing up
-	for(int i = 0; i < gameActors.size(); ++i) {
-		if(gameActors[i]->isVisible() && ((x == gameActors[i]->getX()+3 && y == gameActors[i]->getY()-4) ||
-			(x == gameActors[i]->getX()+2 && y == gameActors[i]->getY()-4) ||
-			(x == gameActors[i]->getX()+1 && y == gameActors[i]->getY()-4) ||
-			(x == gameActors[i]->getX() && y == gameActors[i]->getY()-4) ||
-			(x == gameActors[i]->getX()-1 && y == gameActors[i]->getY()-4) ||
-			(x == gameActors[i]->getX()-2 && y == gameActors[i]->getY()-4) ||
-			(x == gameActors[i]->getX()-3 && y == gameActors[i]->getY()-4))) {
+	for (int i = 0; i < gameActors.size(); ++i) {
+		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() + 3 && y == gameActors[i]->getY() - 4) ||
+			(x == gameActors[i]->getX() + 2 && y == gameActors[i]->getY() - 4) ||
+			(x == gameActors[i]->getX() + 1 && y == gameActors[i]->getY() - 4) ||
+			(x == gameActors[i]->getX() && y == gameActors[i]->getY() - 4) ||
+			(x == gameActors[i]->getX() - 1 && y == gameActors[i]->getY() - 4) ||
+			(x == gameActors[i]->getX() - 2 && y == gameActors[i]->getY() - 4) ||
+			(x == gameActors[i]->getX() - 3 && y == gameActors[i]->getY() - 4))) {
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -351,17 +352,17 @@ bool StudentWorld::isBoulderThereR(int x, int y)
 {
 	//checks for boulders when pressing right
 	for (int i = 0; i < gameActors.size(); ++i) {
-		if(gameActors[i]->isVisible() && ((x == gameActors[i]->getX()-4 && y == gameActors[i]->getY()) ||
-			(x == gameActors[i]->getX()-4 && y == gameActors[i]->getY()+1) ||
-			(x == gameActors[i]->getX()-4 && y == gameActors[i]->getY()+2) ||
-			(x == gameActors[i]->getX()-4 && y == gameActors[i]->getY()+3) ||
-			(x == gameActors[i]->getX()-4 && y == gameActors[i]->getY()-1) ||
-			(x == gameActors[i]->getX()-4 && y == gameActors[i]->getY()-2) ||
-			(x == gameActors[i]->getX()-4 && y == gameActors[i]->getY()-3))) {
+		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY()) ||
+			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 1) ||
+			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 2) ||
+			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 3) ||
+			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() - 1) ||
+			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() - 2) ||
+			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() - 3))) {
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -369,48 +370,77 @@ bool StudentWorld::isBoulderThereD(int x, int y)
 {
 	//checks for boulders when pressing down
 	for (int i = 0; i < gameActors.size(); ++i) {
-		if(gameActors[i]->isVisible() && ((x == gameActors[i]->getX()+3 && y == gameActors[i]->getY()+4) ||
-			(x == gameActors[i]->getX()+2 && y == gameActors[i]->getY()+4) ||
-			(x == gameActors[i]->getX()+1 && y == gameActors[i]->getY()+4) ||
-			(x == gameActors[i]->getX() && y == gameActors[i]->getY()+4) ||
-			(x == gameActors[i]->getX()-1 && y == gameActors[i]->getY()+4) ||
-			(x == gameActors[i]->getX()-2 && y == gameActors[i]->getY()+4) ||
-			(x == gameActors[i]->getX()-3 && y == gameActors[i]->getY()+4))) {
+		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() + 3 && y == gameActors[i]->getY() + 4) ||
+			(x == gameActors[i]->getX() + 2 && y == gameActors[i]->getY() + 4) ||
+			(x == gameActors[i]->getX() + 1 && y == gameActors[i]->getY() + 4) ||
+			(x == gameActors[i]->getX() && y == gameActors[i]->getY() + 4) ||
+			(x == gameActors[i]->getX() - 1 && y == gameActors[i]->getY() + 4) ||
+			(x == gameActors[i]->getX() - 2 && y == gameActors[i]->getY() + 4) ||
+			(x == gameActors[i]->getX() - 3 && y == gameActors[i]->getY() + 4))) {
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
-void StudentWorld::checkForObject(int &x, int &y){
-	
-	for(int i = 0; i < gameActors.size(); i++)
+void StudentWorld::checkForObject(int &x, int &y) {
+
+	srand((unsigned)time(0));
+	for (int i = 0; i < gameActors.size(); i++)
 	{
-		if(gameActors[i] == nullptr)
+		if (gameActors[i] == nullptr)
 		{
 			//do Nothing! Yay!
 		}
-		else if( (x > 26 && x < 34) || ( ( 
-			( (x >= gameActors[i]->getX() ) && (x <= gameActors[i]->getX()+4 ) )
-			&& ((y >= gameActors[i]->getY()) && (y <= gameActors[i]->getY()+4) ) ) ) )
+		else if (gameActors[i] != nullptr) {
+			double radius;
+			int deltaX = abs(x - gameActors[i]->getX());
+			int deltaY = abs(y - gameActors[i]->getY());
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			bool inCavern = (x > 26 && x < 34);
+			bool invalidRadius = false;
+			if (radius < 6)
+				invalidRadius = true;
+			/*bool invalidX = inCavern || ((x <= gameActors[i]->getX() + 4)
+				&& (x >= gameActors[i]->getX()));
+			bool invalidY = (y >= gameActors[i]->getY()) && (y <= gameActors[i]->getY() + 4);*/
+			if (inCavern || invalidRadius) {
+				int tempX = rand() % 60;
+				x = tempX;
+				int tempY = (rand() % 50) + 6;
+				y = tempY;
+				i = -1;
+			}
+		}
+		/*else if ((x > 26 && x < 34) || ((
+			((x >= gameActors[i]->getX()) && (x <= gameActors[i]->getX() + 4))
+			&& ((y >= gameActors[i]->getY()) && (y <= gameActors[i]->getY() + 4)))))
 		{
 			x = rand() % 60;
-			y = (rand()%50) + 6;
+			y = (rand() % 50) + 6;
 			i = -1;
-		}
+		}*/
 	}
 }
 
 bool StudentWorld::isIceVisable(int x, int y)
 {
-	for(int i = 0; i <= 3; i++)
+	for (int i = 0; i <= 3; i++)
 	{
 		//if ice does not exist just return true to avoid bad access error
-		if(ice[x+i][y] == nullptr)
+		if (ice[x + i][y] == nullptr)
 			return true;
-		if(ice[x+i][y]->isVisible())
+		if (ice[x + i][y]->isVisible())
 			return true;
 	}
 	return false;
+}
+
+void StudentWorld::updateItemCount() {
+	// A function that is called during initializaion of the level 
+	// to update the number of boulders, gold nuggets, and barrels
+	bouldNum = floor((getLevel() / 2) + 2);
+	//goldNum = max(getLevel() / 2, 2);
+
 }

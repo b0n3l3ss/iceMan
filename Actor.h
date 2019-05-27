@@ -106,4 +106,22 @@ public:
 	bool doneWaiting();
 };
 
+class Gold : public MapObject {
+private:
+	// This is to decide if the gold can be picked up by either Iceman or 
+	// one of the protestors as a bribe. It cannot be both, which I think
+	// might make things a bit easier
+	bool isBribe;
+public:
+	Gold(int x, int y, StudentWorld* w) : MapObject(IID_GOLD, x, y, right, 2, w) {
+		setVisible(false);
+		isBribe = false;
+	}
+	bool isBribeState() const;
+	void updateisBribeState(bool update);
+	~Gold() {
+		world = nullptr;
+	}
+};
+
 #endif //ACTOR_H_
