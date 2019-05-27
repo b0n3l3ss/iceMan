@@ -1,0 +1,1 @@
+1. Inefficient hit detection for boulders and possibly other objects
