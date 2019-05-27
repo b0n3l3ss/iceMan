@@ -21,7 +21,7 @@ int StudentWorld::init() {
 	//creates both boulder
 	updateItemCount();
 	createBoulder();
-	
+	createGold();
 
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -37,7 +37,7 @@ int StudentWorld::move() {
 	//bould->doSomething();
 	//gameActors[i]->doSomething();
 	//bould2->doSomething();
-	for (int i = 0; i < bouldNum; ++i) {
+	for (int i = 0; i < gameActors.size(); ++i) {
 		gameActors[i]->doSomething();
 	}
 	
@@ -262,7 +262,7 @@ void StudentWorld::createBoulder() {
 	// boulders to be called in the init() function in StudentWorld
 
 	srand((unsigned)time(0));
-	int total = bouldNum + goldNum;
+	int total = bouldNum;
 	for (int i = 0; i < total; ++i) {
 		
 		int randomX = (rand() % 60);
@@ -274,52 +274,22 @@ void StudentWorld::createBoulder() {
 		int randomY = (rand() % 50) + 6;
 		
 		checkForObject(randomX, randomY);
-		if (i < bouldNum) {
+		//if (i < bouldNum) {
 			Boulder* temp = new Boulder(randomX, randomY, this);
 			gameActors.push_back(temp);
 			removeBoulderIce(randomX, randomY);
-		}
+		/*}
 		else {
 			Gold * temp = new Gold(randomX, randomY, this);
 			gameActors.push_back(temp);
-		}
+		} */
 	}
-	/*srand((unsigned)time(0));
-	
-	int randomX = (rand()%60);
-	while(randomX > 26 && randomX < 34)
-	{
-		randomX = (rand()%60);
-	}
-	
-	int randomY = (rand()%50) + 6;
-	Boulder* bould = nullptr;
-	bould = new Boulder(randomX, randomY, this);
-	// Pushing the pointer into a vector
-	gameActors.push_back(bould);
-	removeBoulderIce(randomX, randomY);
-	
-	int randomX2 = (rand()%60);
-	while((randomX2 > 26 && randomX2 < 34) || ((randomX2 >= randomX) && (randomX2 < randomX+3)))
-	{
-		randomX2 = (rand()%60);
-	}
-	int randomY2 = (rand()%50) + 6;
-	while((randomY2 >= randomY) && (randomY2 < randomY+3))
-	{
-		randomY2 = (rand()%50) + 6;
-	}
-	Boulder* bould2 = nullptr;
-	bould2 = new Boulder(randomX2, randomY2, this);
-	// Pushing second boulder into the vector
-	gameActors.push_back(bould2);
-	removeBoulderIce(randomX2, randomY2); */
 }
 
 bool StudentWorld::isBoulderThereL(int x, int y)
 {
 	//checks for boulders when pressing left
-	for (int i = 0; i < gameActors.size(); ++i) {
+	for (int i = 0; i < bouldNum; ++i) {
 		if(gameActors[i]->isVisible() &&
 			((x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()) ||
 			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() + 1) ||
@@ -339,7 +309,7 @@ return true;
 bool StudentWorld::isBoulderThereU(int x, int y)
 {
 	//checks for boulders when pressing up
-	for (int i = 0; i < gameActors.size(); ++i) {
+	for (int i = 0; i < bouldNum; ++i) {
 		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() + 3 && y == gameActors[i]->getY() - 4) ||
 			(x == gameActors[i]->getX() + 2 && y == gameActors[i]->getY() - 4) ||
 			(x == gameActors[i]->getX() + 1 && y == gameActors[i]->getY() - 4) ||
@@ -357,7 +327,7 @@ bool StudentWorld::isBoulderThereU(int x, int y)
 bool StudentWorld::isBoulderThereR(int x, int y)
 {
 	//checks for boulders when pressing right
-	for (int i = 0; i < gameActors.size(); ++i) {
+	for (int i = 0; i < bouldNum; ++i) {
 		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY()) ||
 			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 1) ||
 			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 2) ||
@@ -375,7 +345,7 @@ bool StudentWorld::isBoulderThereR(int x, int y)
 bool StudentWorld::isBoulderThereD(int x, int y)
 {
 	//checks for boulders when pressing down
-	for (int i = 0; i < gameActors.size(); ++i) {
+	for (int i = 0; i < bouldNum; ++i) {
 		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() + 3 && y == gameActors[i]->getY() + 4) ||
 			(x == gameActors[i]->getX() + 2 && y == gameActors[i]->getY() + 4) ||
 			(x == gameActors[i]->getX() + 1 && y == gameActors[i]->getY() + 4) ||
@@ -417,14 +387,6 @@ void StudentWorld::checkForObject(int &x, int &y) {
 				i = -1;
 			}
 		}
-		/*else if ((x > 26 && x < 34) || ((
-			((x >= gameActors[i]->getX()) && (x <= gameActors[i]->getX() + 4))
-			&& ((y >= gameActors[i]->getY()) && (y <= gameActors[i]->getY() + 4)))))
-		{
-			x = rand() % 60;
-			y = (rand() % 50) + 6;
-			i = -1;
-		}*/
 	}
 }
 
@@ -447,4 +409,54 @@ void StudentWorld::updateItemCount() {
 	bouldNum = floor((getLevel() / 2) + 2);
 	goldNum = 2; //  ceil(getLevel() / 2);
 
+}
+
+void StudentWorld::createGold(){
+	srand((unsigned)time(0));
+	for (int i = bouldNum; i < bouldNum+goldNum; ++i) {
+		
+		int randomX = (rand() % 60);
+		while((gameActors.size() == 0) && (randomX > 26 && randomX < 34))
+		{
+			randomX = (rand()%60);
+		}
+		
+		int randomY = (rand() % 50) + 6;
+		
+		checkForObject(randomX, randomY);
+		
+	Gold * temp = new Gold(randomX, randomY, this);
+	gameActors.push_back(temp);
+	}
+}
+
+void StudentWorld::isGoldThere(int x, int y)
+{
+	double radius = 0;
+	double deltaX, deltaY;
+	for(int i = bouldNum; i < bouldNum+goldNum; ++i)
+	{
+		deltaX = abs(gameActors[i]->getX() - x);
+		deltaY = abs(gameActors[i]->getY() - y);
+		radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+		if(radius <= 3){
+			int tempTotal = 0;
+			//sets an iterator to the position of the gold
+			vector<Actor*>::iterator p = gameActors.begin();
+			while(tempTotal < i)
+			{
+				p++;
+				tempTotal++;
+			}
+			delete gameActors[i];
+			gameActors.erase(p);
+			goldNum--;
+		}
+		else if(radius <= 4)
+		{
+			gameActors[i]->setVisible(true);
+		}
+
+
+	}
 }

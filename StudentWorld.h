@@ -35,25 +35,26 @@ public:
 	bool isBoulderThereU(int, int);
 	bool isBoulderThereD(int, int);
 	
+	void isGoldThere(int, int);
+	
 	bool isIceVisable(int, int);
 	
+	
+	
 	~StudentWorld();
-	IceMan* player = nullptr;
+	
 private:
-	//IceMan* player = nullptr;
+	IceMan* player = nullptr;
 	Ice* ice[64][64] = {nullptr};
-	//Boulder* bould = nullptr;
-	//Boulder* bould2 = nullptr;
-	// Im fine keeping the boulders as their own individual pointers
-	// for testing purpouses, but Im going to start putting them in a 
-	// vector
 	std::vector<Actor*> gameActors;
-	int bouldNum = 20; //floor((getLevel() / 2) + 2);
-	int goldNum = 0;
+	int bouldNum;
+	int goldNum;
 	void createBoulder();
 	void checkForObject(int&, int&);
 	
 	void createIce();
+	
+	void createGold();
 
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);

@@ -25,6 +25,7 @@ void IceMan::doSomething() {
 				if(getX()-1 >= 0 && (getWorld()->isBoulderThereL(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX(), getY());
 					moveTo(getX()-1, getY());
+					getWorld()->isGoldThere(getX(), getY());
 				}
 				setDirection(left);
 				break;
@@ -32,6 +33,7 @@ void IceMan::doSomething() {
 				if(getX()+1 <= 60 && (getWorld()->isBoulderThereR(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX()+2, getY());
 					moveTo(getX()+1, getY());
+					getWorld()->isGoldThere(getX(), getY());
 				}
 				setDirection(right);
 				break;
@@ -39,6 +41,7 @@ void IceMan::doSomething() {
 				if(getY()-1 >= 0 && (getWorld()->isBoulderThereD(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX()+1, getY()-1);
 					moveTo(getX(), getY()-1);
+					getWorld()->isGoldThere(getX(), getY());
 				}
 				setDirection(down);
 				break;
@@ -46,6 +49,7 @@ void IceMan::doSomething() {
 				if(getY()+1 <= 60 && (getWorld()->isBoulderThereU(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX()+1, getY()+1);
 					moveTo(getX(), getY()+1);
+					getWorld()->isGoldThere(getX(), getY());
 				}
 				setDirection(up);
 				break;
@@ -122,16 +126,16 @@ bool Gold::isBribeState() const {
 	return isBribe;
 }
 void Gold::turnVisible() {
-	double radius = 0;
-	double deltaX = abs(getX() - (world->player)->getX());
-	double deltaY = abs(getY() - (world->player)->getY());
-	radius = sqrt(deltaX * deltaX + deltaY * deltaY);
-	if (radius <= 4)
-		setVisible(true);
+//	double radius = 0;
+//	double deltaX = abs(getX() - (world->player)->getX());
+//	double deltaY = abs(getY() - (world->player)->getY());
+//	radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+//	if (radius <= 4)
+//		setVisible(false);
 
 }
 void Gold::doSomething() {
-	if (!isVisible());
-		//turnVisible();
+	//if (isVisible());
+		turnVisible();
 
 }

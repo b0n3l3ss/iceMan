@@ -115,7 +115,7 @@ private:
 	void turnVisible();
 public:
 	Gold(int x, int y, StudentWorld* w) : MapObject(IID_GOLD, x, y, right, 2, w) {
-		setVisible(true);
+		setVisible(false);
 		isBribe = false;
 	}
 	bool isBribeState() const;

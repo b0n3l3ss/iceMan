@@ -1,1 +1,2 @@
 1. Inefficient hit detection for boulders and possibly other objects
+2. Number of Gold is not spawning in correctly with the level. Currently set at only 2
