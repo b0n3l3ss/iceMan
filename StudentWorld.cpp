@@ -37,7 +37,7 @@ int StudentWorld::move() {
 	//bould->doSomething();
 	//gameActors[i]->doSomething();
 	//bould2->doSomething();
-	for (int i = 0; i < gameActors.size(); ++i) {
+	for (unsigned int i = 0; i < gameActors.size(); ++i) {
 		gameActors[i]->doSomething();
 	}
 	
@@ -214,10 +214,10 @@ void StudentWorld::updateScore(){
 	//Needs to be implented properly
 	//Is currently only holding dummy variables
 	int health = player->getHitPoints()*10;
-	int squirts = /*getSquirts() */ 0;
-	int gold = /* getGold() */ 0;
-	int barrels = /* getBarrels() */ 0;
-	int sonar = /* getSonar() */ 0;
+	int squirts = player->getSquirts();
+	int gold = player->getGold();
+	int barrels = player->getBarrels();
+	int sonar = player->getSonar();
 	
 	int score = getScore();
 	string s = formatScoreBoard(level, lives, health, squirts, gold, barrels, sonar, score);
@@ -363,7 +363,7 @@ bool StudentWorld::isBoulderThereD(int x, int y)
 void StudentWorld::checkForObject(int &x, int &y) {
 
 	srand((unsigned)time(0));
-	for (int i = 0; i < gameActors.size(); i++)
+	for (unsigned int i = 0; i < gameActors.size(); i++)
 	{
 		if (gameActors[i] == nullptr)
 		{
@@ -406,7 +406,7 @@ bool StudentWorld::isIceVisable(int x, int y)
 void StudentWorld::updateItemCount() {
 	// A function that is called during initializaion of the level 
 	// to update the number of boulders, gold nuggets, and barrels
-	bouldNum = floor((getLevel() / 2) + 2);
+	bouldNum = int(floor((getLevel() / 2) + 2));
 	goldNum = 2; //  ceil(getLevel() / 2);
 
 }
@@ -451,6 +451,9 @@ void StudentWorld::isGoldThere(int x, int y)
 			delete gameActors[i];
 			gameActors.erase(p);
 			goldNum--;
+			playSound(SOUND_GOT_GOODIE);
+			increaseScore(10);
+			player->incGold();
 		}
 		else if(radius <= 4)
 		{

@@ -58,11 +58,21 @@ class IceMan : public MovingObject {
 public:
 	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
 		this->setVisible(true);
+		numSquirts = 5;
+		numSonar = 1;
+		numGold = 0;
+		numOil = 0;
 	};
 	// Wasn't sure if I needed to re-declare this, even though it is already
 	// in the MovingObject class
 	void doSomething();
-	int getHitPoints();
+	int getHitPoints() const;
+	int getSquirts() const;
+	int getBarrels() const;
+	int getSonar() const;
+
+	void incGold();
+	int getGold() const;
 	
 	~IceMan() { }
 	
@@ -71,6 +81,7 @@ private:
 	int numSquirts;
 	int numSonar;
 	int numGold;
+	int numOil;
 };
 
 class MapObject : public Actor {

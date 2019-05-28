@@ -56,10 +56,25 @@ void IceMan::doSomething() {
 		}
 	}
 }
-
-int IceMan::getHitPoints()
+void IceMan::incGold() {
+	++numGold;
+}
+int IceMan::getGold() const {
+	return numGold;
+}
+int IceMan::getHitPoints() const 
 {
 	return hitPoints;
+}
+int IceMan::getBarrels() const {
+	return numOil;
+}
+int IceMan::getSquirts() const {
+	return numSquirts;
+
+}
+int IceMan::getSonar() const {
+	return numSonar;
 }
 
 //MapObject Functions
