@@ -26,7 +26,6 @@ int StudentWorld::init() {
 	createOil();
 	// DO NOT MESS WITH THE ORDER OF THESE FUNCTION CALLS
 
-
 	return GWSTATUS_CONTINUE_GAME;
 }
 
@@ -44,6 +43,16 @@ int StudentWorld::move() {
 	for (unsigned int i = 0; i < gameActors.size(); ++i) {
 		gameActors[i]->doSomething();
 	}
+
+	if (oilNum == 0) {
+		playSound(SOUND_FINISHED_LEVEL);
+		return GWSTATUS_FINISHED_LEVEL;
+	}
+	else if (player->getHitPoints() == 0) {
+		playSound(SOUND_PLAYER_GIVE_UP);
+		return GWSTATUS_PLAYER_DIED;
+	}
+
 	
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -85,7 +94,7 @@ void StudentWorld::removeBlocks(int x, int y)
 	//if the iceman destroys atleast one block then the dig sound gets played
 	if(ice[x][y-64]->isVisible())
 	{
-		playSound(SOUND_DIG);
+		playSound(SOUND_PROTESTER_YELL);
 	}
 	
 	else if (ice[x][y - 63]->isVisible()) {
@@ -220,7 +229,7 @@ void StudentWorld::updateScore(){
 	int health = player->getHitPoints()*10;
 	int squirts = player->getSquirts();
 	int gold = player->getGold();
-	int barrels = player->getBarrels();
+	int barrels = oilNum;
 	int sonar = player->getSonar();
 	
 	int score = getScore();
@@ -254,24 +263,12 @@ void StudentWorld::removeBoulderIce(int x, int y)
 //creates both boulders
 void StudentWorld::createBoulder() {
 	
-
-	// For Some reason, this loop is not working. I tried to insert
-	// the boulders through a temp, but it did not work too well.  
-	// Iceman could walk through one of the boulders and would not fall
-	// down if there was no ice under it.  Also, take a look at the header file.
-	// I added a variable that contains the number of boulders per level, but 
-	// I dont think that this is going to work the way I wrote it. It needs to
-	// be updated each time the level starts, instead of when the sttudent world
-	// is made. So we might need to create a method that updates the number of 
-	// boulders to be called in the init() function in StudentWorld
-
 	srand((unsigned)time(0));
 	int total = bouldNum;
 	for (int i = 0; i < total; ++i) {
 		
 		int randomX = (rand() % 60);
-		while((gameActors.size() == 0) && (randomX > 26 && randomX < 34))
-		{
+		while((gameActors.size() == 0) && (randomX > 26 && randomX < 34)) {
 			randomX = (rand()%60);
 		}
 		
@@ -279,14 +276,9 @@ void StudentWorld::createBoulder() {
 		
 		checkForObject(randomX, randomY);
 		//if (i < bouldNum) {
-			Boulder* temp = new Boulder(randomX, randomY, this);
-			gameActors.push_back(temp);
-			removeBoulderIce(randomX, randomY);
-		/*}
-		else {
-			Gold * temp = new Gold(randomX, randomY, this);
-			gameActors.push_back(temp);
-		} */
+		Boulder* temp = new Boulder(randomX, randomY, this);
+		gameActors.push_back(temp);
+		removeBoulderIce(randomX, randomY);
 	}
 }
 
@@ -465,8 +457,7 @@ void StudentWorld::isMapObjectThere(int x, int y)
 			int tempTotal = 0;
 			//sets an iterator to the position of the gold
 			vector<Actor*>::iterator p = gameActors.begin();
-			while(tempTotal < i)
-			{
+			while(tempTotal < i) {
 				p++;
 				tempTotal++;
 			}
@@ -492,21 +483,9 @@ void StudentWorld::isMapObjectThere(int x, int y)
 				player->incOil();
 				return;
 			}
-			/*delete gameActors[i];
-			gameActors.erase(p);
-			goldNum--;
-			playSound(SOUND_GOT_GOODIE);
-			increaseScore(10);
-			player->incGold();*/
 		}
-		else if(radius <= 4)
-		{
+		else if(radius <= 4) {
 			gameActors[i]->setVisible(true);
 		}
-
-
-	}
-	for (int i = bouldAndGold; i < bouldAndGold; ++i) {
-
 	}
 }
