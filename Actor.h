@@ -70,9 +70,11 @@ public:
 	int getSquirts() const;
 	int getBarrels() const;
 	int getSonar() const;
-
-	void incGold();
 	int getGold() const;
+
+	void incOil();
+	void incGold();
+	
 	
 	~IceMan() { }
 	
@@ -135,6 +137,16 @@ public:
 	~Gold() {
 		world = nullptr;
 	}
+};
+
+class OilBarrel : public MapObject {
+private:
+
+public:
+	OilBarrel(int x, int y, StudentWorld* w) : MapObject(IID_BARREL, x, y, right, 2, w) {
+		setVisible(true);
+	}
+	   void doSomething();
 };
 
 #endif //ACTOR_H_

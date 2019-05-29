@@ -1,6 +1,7 @@
 #include "StudentWorld.h"
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,10 +19,13 @@ int StudentWorld::init() {
 	//create iceman
 	player = new IceMan(this);
 	
-	//creates both boulder
+	// THIS ORDER MUST NOT CHANGE
 	updateItemCount();
 	createBoulder();
 	createGold();
+	createOil();
+	// DO NOT MESS WITH THE ORDER OF THESE FUNCTION CALLS
+
 
 	return GWSTATUS_CONTINUE_GAME;
 }
@@ -408,7 +412,7 @@ void StudentWorld::updateItemCount() {
 	// to update the number of boulders, gold nuggets, and barrels
 	bouldNum = int(floor((getLevel() / 2) + 2));
 	goldNum = 2; //  ceil(getLevel() / 2);
-
+	oilNum = 2;
 }
 
 void StudentWorld::createGold(){
@@ -430,12 +434,30 @@ void StudentWorld::createGold(){
 	}
 }
 
-void StudentWorld::isGoldThere(int x, int y)
+void StudentWorld::createOil() {
+	int bouldGold = bouldNum + goldNum;
+	int bouldGoldOil = bouldGold + oilNum;
+	srand((unsigned)time(0));
+	for (int i = bouldGold; i < bouldGoldOil; ++i) {
+		int randomX = (rand() % 60);
+		while ((gameActors.size() == 0) && (randomX > 26 && randomX < 34)) {
+			randomX = (rand() % 60);
+		}
+		int randomY = (rand() % 50) + 6;
+		checkForObject(randomX, randomY);
+
+		OilBarrel * temp = new OilBarrel(randomX, randomY, this);
+		gameActors.push_back(temp);
+	}
+}
+
+void StudentWorld::isMapObjectThere(int x, int y)
 {
+	int bouldAndGold = bouldNum + goldNum;
+	int bouldGoldAndOil = bouldAndGold + oilNum;
 	double radius = 0;
 	double deltaX, deltaY;
-	for(int i = bouldNum; i < bouldNum+goldNum; ++i)
-	{
+	for(int i = bouldNum; i < bouldGoldAndOil; ++i) {
 		deltaX = abs(gameActors[i]->getX() - x);
 		deltaY = abs(gameActors[i]->getY() - y);
 		radius = sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -448,18 +470,43 @@ void StudentWorld::isGoldThere(int x, int y)
 				p++;
 				tempTotal++;
 			}
-			delete gameActors[i];
+			if (i < bouldAndGold) {
+				// If picked up gold, increase count, delete from 
+				// student world, increase score, play sound
+				delete gameActors[i];
+				gameActors.erase(p);
+				--goldNum;
+				playSound(SOUND_GOT_GOODIE);
+				increaseScore(10);
+				player->incGold();
+				return;
+			}
+			else {
+				// If picked up oil, increase count, delete from
+				// student world, increase score, play sound
+				delete gameActors[i];
+				gameActors.erase(p);
+				--oilNum;
+				playSound(SOUND_FOUND_OIL);
+				increaseScore(1000);
+				player->incOil();
+				return;
+			}
+			/*delete gameActors[i];
 			gameActors.erase(p);
 			goldNum--;
 			playSound(SOUND_GOT_GOODIE);
 			increaseScore(10);
-			player->incGold();
+			player->incGold();*/
 		}
 		else if(radius <= 4)
 		{
 			gameActors[i]->setVisible(true);
 		}
 
+
+	}
+	for (int i = bouldAndGold; i < bouldAndGold; ++i) {
 
 	}
 }

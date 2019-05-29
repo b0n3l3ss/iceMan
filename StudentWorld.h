@@ -35,8 +35,7 @@ public:
 	bool isBoulderThereU(int, int);
 	bool isBoulderThereD(int, int);
 	
-	void isGoldThere(int, int);
-	
+	void isMapObjectThere(int, int);
 	bool isIceVisable(int, int);
 	
 	
@@ -49,12 +48,13 @@ private:
 	std::vector<Actor*> gameActors;
 	int bouldNum;
 	int goldNum;
-	void createBoulder();
+	int oilNum;
 	void checkForObject(int&, int&);
 	
+	void createBoulder();
 	void createIce();
-	
 	void createGold();
+	void createOil();
 
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);

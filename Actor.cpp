@@ -25,7 +25,7 @@ void IceMan::doSomething() {
 				if(getX()-1 >= 0 && (getWorld()->isBoulderThereL(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX(), getY());
 					moveTo(getX()-1, getY());
-					getWorld()->isGoldThere(getX(), getY());
+					getWorld()->isMapObjectThere(getX(), getY());
 				}
 				setDirection(left);
 				break;
@@ -33,7 +33,7 @@ void IceMan::doSomething() {
 				if(getX()+1 <= 60 && (getWorld()->isBoulderThereR(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX()+2, getY());
 					moveTo(getX()+1, getY());
-					getWorld()->isGoldThere(getX(), getY());
+					getWorld()->isMapObjectThere(getX(), getY());
 				}
 				setDirection(right);
 				break;
@@ -41,7 +41,7 @@ void IceMan::doSomething() {
 				if(getY()-1 >= 0 && (getWorld()->isBoulderThereD(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX()+1, getY()-1);
 					moveTo(getX(), getY()-1);
-					getWorld()->isGoldThere(getX(), getY());
+					getWorld()->isMapObjectThere(getX(), getY());
 				}
 				setDirection(down);
 				break;
@@ -49,16 +49,21 @@ void IceMan::doSomething() {
 				if(getY()+1 <= 60 && (getWorld()->isBoulderThereU(getX(), getY()) == false)){
 					getWorld()->removeBlocks(getX()+1, getY()+1);
 					moveTo(getX(), getY()+1);
-					getWorld()->isGoldThere(getX(), getY());
+					getWorld()->isMapObjectThere(getX(), getY());
 				}
 				setDirection(up);
 				break;
+			//case KEY_PRESS_SPACE:
 		}
 	}
 }
 void IceMan::incGold() {
 	++numGold;
 }
+void IceMan::incOil() {
+	++numOil;
+}
+
 int IceMan::getGold() const {
 	return numGold;
 }
@@ -152,5 +157,11 @@ void Gold::turnVisible() {
 void Gold::doSomething() {
 	//if (isVisible());
 		turnVisible();
+
+}
+
+// Oil Barrel Functions
+
+void OilBarrel::doSomething() {
 
 }
