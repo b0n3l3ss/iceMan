@@ -64,10 +64,10 @@ void StudentWorld::cleanUp() {
 		player = nullptr;
 	}
 	for (int i = 0; i < gameActors.size(); ++i) {
-		if (gameActors[i] != nullptr) {
+		if (gameActors[i] != nullptr)
 			delete gameActors[i];
-		}
 	}
+	gameActors.clear();
 }
 
 void StudentWorld::createIce(){
@@ -90,7 +90,7 @@ void StudentWorld::removeBlocks(int x, int y)
 	//if the iceman destroys atleast one block then the dig sound gets played
 	if(ice[x][y-64]->isVisible())
 	{
-		playSound(SOUND_PROTESTER_YELL);
+		playSound(SOUND_DIG);
 	}
 	
 	else if (ice[x][y - 63]->isVisible()) {
@@ -398,9 +398,9 @@ bool StudentWorld::isIceVisable(int x, int y)
 void StudentWorld::updateItemCount() {
 	// A function that is called during initializaion of the level 
 	// to update the number of boulders, gold nuggets, and barrels
-	bouldNum = int(floor((getLevel() / 2) + 2));
-	goldNum = 2; //  ceil(getLevel() / 2);
-	oilNum = 2;
+	bouldNum = min(int(getLevel() / 2) + 2, 9);
+	goldNum = max(int(5 - getLevel() / 2), 2);
+	oilNum = min(int(2 + getLevel()), 21);
 }
 
 void StudentWorld::createGold(){
