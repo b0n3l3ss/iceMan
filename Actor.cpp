@@ -54,13 +54,20 @@ void IceMan::doSomething() {
 				setDirection(up);
 				break;
 			//case KEY_PRESS_SPACE:
-			//case KEY_PRESS_TAB
+			case KEY_PRESS_TAB:
+				getWorld()->dropGold(getX(), getY());
+				break;
 		}
 	}
 }
 void IceMan::incGold() {
 	++numGold;
 }
+
+void IceMan::decGold() {
+	--numGold;
+}
+
 void IceMan::incOil() {
 	++numOil;
 }
@@ -150,23 +157,8 @@ void Gold::updateisBribeState(bool update) {
 bool Gold::isBribeState() const {
 	return isBribe;
 }
-void Gold::turnVisible() {
-//	double radius = 0;
-//	double deltaX = abs(getX() - (world->player)->getX());
-//	double deltaY = abs(getY() - (world->player)->getY());
-//	radius = sqrt(deltaX * deltaX + deltaY * deltaY);
-//	if (radius <= 4)
-//		setVisible(false);
 
-}
-void Gold::doSomething() {
-	//if (isVisible());
-		turnVisible();
 
-}
 
 // Oil Barrel Functions
 
-void OilBarrel::doSomething() {
-
-}

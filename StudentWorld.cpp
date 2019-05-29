@@ -498,3 +498,8 @@ bool StudentWorld::iceManInsideBoulder(int x, int y)
 	}
 	return false;
 }
+
+void StudentWorld::dropGold(int x, int y)
+{
+	
+}

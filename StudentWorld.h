@@ -40,6 +40,8 @@ public:
 	
 	bool iceManInsideBoulder(int, int);
 	
+	void dropGold(int, int);
+	
 	~StudentWorld();
 	
 private:

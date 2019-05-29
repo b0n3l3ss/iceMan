@@ -74,6 +74,9 @@ public:
 
 	void incOil();
 	void incGold();
+	void decGold();
+	
+	
 	
 	void makeHimDead();
 	
@@ -126,7 +129,6 @@ private:
 	// one of the protestors as a bribe. It cannot be both, which I think
 	// might make things a bit easier
 	bool isBribe;
-	void turnVisible();
 public:
 	Gold(int x, int y, StudentWorld* w) : MapObject(IID_GOLD, x, y, right, 2, w) {
 		setVisible(false);
@@ -134,7 +136,7 @@ public:
 	}
 	bool isBribeState() const;
 	void updateisBribeState(bool update);
-	void doSomething();
+	void doSomething() { }
 	virtual ~Gold() {
 		world = nullptr;
 	}
@@ -148,7 +150,7 @@ public:
 		setVisible(true);
 	};
 	virtual ~OilBarrel() { };
-	void doSomething();
+	void doSomething(){ }
 	
 };
 
