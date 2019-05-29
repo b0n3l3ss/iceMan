@@ -75,6 +75,7 @@ public:
 	void incOil();
 	void incGold();
 	
+	void makeHimDead();
 	
 	~IceMan() { }
 	

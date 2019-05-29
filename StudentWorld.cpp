@@ -445,7 +445,7 @@ void StudentWorld::isMapObjectThere(int x, int y)
 	int bouldGoldAndOil = bouldAndGold + oilNum;
 	double radius = 0;
 	double deltaX, deltaY;
-	for(int i = bouldNum; i < bouldGoldAndOil; ++i) {
+	for(int i = 0; i < bouldGoldAndOil; ++i) {
 		deltaX = abs(gameActors[i]->getX() - x);
 		deltaY = abs(gameActors[i]->getY() - y);
 		radius = sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -457,7 +457,11 @@ void StudentWorld::isMapObjectThere(int x, int y)
 				p++;
 				tempTotal++;
 			}
-			if (i < bouldAndGold) {
+			if(i < bouldNum)
+			{
+				player->makeHimDead();
+			}
+			else if (i < bouldAndGold) {
 				// If picked up gold, increase count, delete from 
 				// student world, increase score, play sound
 				delete gameActors[i];
@@ -484,4 +488,13 @@ void StudentWorld::isMapObjectThere(int x, int y)
 			gameActors[i]->setVisible(true);
 		}
 	}
+}
+
+bool StudentWorld::iceManInsideBoulder(int x, int y)
+{
+	for(int i = 0; i < bouldNum; ++i)
+	{
+		gameActors[i];
+	}
+	return false;
 }

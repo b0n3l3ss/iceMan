@@ -38,7 +38,7 @@ public:
 	void isMapObjectThere(int, int);
 	bool isIceVisable(int, int);
 	
-	
+	bool iceManInsideBoulder(int, int);
 	
 	~StudentWorld();
 	

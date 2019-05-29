@@ -13,7 +13,7 @@ StudentWorld* Actor::getWorld(){
 
 // IceMan Functions
 void IceMan::doSomething() {
-	// If ice man is dead
+	getWorld()->isMapObjectThere(getX(), getY());
 	if (hitPoints == 0)
 		return;
 	int ch;
@@ -54,6 +54,7 @@ void IceMan::doSomething() {
 				setDirection(up);
 				break;
 			//case KEY_PRESS_SPACE:
+			//case KEY_PRESS_TAB
 		}
 	}
 }
@@ -80,6 +81,10 @@ int IceMan::getSquirts() const {
 }
 int IceMan::getSonar() const {
 	return numSonar;
+}
+
+void IceMan::makeHimDead(){
+	hitPoints = 0;
 }
 
 //MapObject Functions
