@@ -30,16 +30,12 @@ int StudentWorld::init() {
 }
 
 int StudentWorld::move() {
-// This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
-// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
-	
+
 	if(player->getHitPoints() <= 0)
 		return GWSTATUS_PLAYER_DIED;
 	player->doSomething();
 	updateScore();
-	//bould->doSomething();
-	//gameActors[i]->doSomething();
-	//bould2->doSomething();
+	
 	for (unsigned int i = 0; i < gameActors.size(); ++i) {
 		gameActors[i]->doSomething();
 	}
@@ -48,12 +44,7 @@ int StudentWorld::move() {
 		playSound(SOUND_FINISHED_LEVEL);
 		return GWSTATUS_FINISHED_LEVEL;
 	}
-	else if (player->getHitPoints() == 0) {
-		playSound(SOUND_PLAYER_GIVE_UP);
-		return GWSTATUS_PLAYER_DIED;
-	}
 
-	
 	return GWSTATUS_CONTINUE_GAME;
 }
 
@@ -71,6 +62,11 @@ void StudentWorld::cleanUp() {
 	if(player != nullptr){
 		delete player;
 		player = nullptr;
+	}
+	for (int i = 0; i < gameActors.size(); ++i) {
+		if (gameActors[i] != nullptr) {
+			delete gameActors[i];
+		}
 	}
 }
 

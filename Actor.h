@@ -134,7 +134,7 @@ public:
 	bool isBribeState() const;
 	void updateisBribeState(bool update);
 	void doSomething();
-	~Gold() {
+	virtual ~Gold() {
 		world = nullptr;
 	}
 };
@@ -145,8 +145,10 @@ private:
 public:
 	OilBarrel(int x, int y, StudentWorld* w) : MapObject(IID_BARREL, x, y, right, 2, w) {
 		setVisible(false);
-	}
-	   void doSomething();
+	};
+	virtual ~OilBarrel() { };
+	void doSomething();
+	
 };
 
 #endif //ACTOR_H_
