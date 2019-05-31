@@ -31,6 +31,7 @@ public:
 	void isMapObjectThere(int, int);
 	bool isIceVisable(int, int);
 	void dropGold(int, int);
+	void createSquirt(int, int, Actor::Direction); // If this doesnt work, its cause of the Actor namespace
 	~StudentWorld();
 	
 private:
@@ -45,6 +46,7 @@ private:
 	void createIce();
 	void createGold();
 	void createOil();
+	
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);
 };

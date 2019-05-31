@@ -30,7 +30,7 @@ void IceMan::doSomething() {
 		switch(ch)
 		{
 			case KEY_PRESS_LEFT:
-				if(getX()-1 >= 0 && (getWorld()->isBoulderThereL(getX(), getY()) == false)){
+				if(getX()-1 >= 0 && (getWorld()->isBoulderThereL(getX(), getY()) == false) && (getDirection() == left)){
 					getWorld()->removeBlocks(getX(), getY());
 					moveTo(getX()-1, getY());
 					getWorld()->isMapObjectThere(getX(), getY());
@@ -38,7 +38,7 @@ void IceMan::doSomething() {
 				setDirection(left);
 				break;
 			case KEY_PRESS_RIGHT:
-				if(getX()+1 <= 60 && (getWorld()->isBoulderThereR(getX(), getY()) == false)){
+				if(getX()+1 <= 60 && (getWorld()->isBoulderThereR(getX(), getY()) == false) && (getDirection() == right)){
 					getWorld()->removeBlocks(getX()+2, getY());
 					moveTo(getX()+1, getY());
 					getWorld()->isMapObjectThere(getX(), getY());
@@ -46,7 +46,7 @@ void IceMan::doSomething() {
 				setDirection(right);
 				break;
 			case KEY_PRESS_DOWN:
-				if(getY()-1 >= 0 && (getWorld()->isBoulderThereD(getX(), getY()) == false)){
+				if(getY()-1 >= 0 && (getWorld()->isBoulderThereD(getX(), getY()) == false) && (getDirection() == down)){
 					getWorld()->removeBlocks(getX()+1, getY()-1);
 					moveTo(getX(), getY()-1);
 					getWorld()->isMapObjectThere(getX(), getY());
@@ -54,14 +54,25 @@ void IceMan::doSomething() {
 				setDirection(down);
 				break;
 			case KEY_PRESS_UP:
-				if(getY()+1 <= 60 && (getWorld()->isBoulderThereU(getX(), getY()) == false)){
+				if(getY()+1 <= 60 && (getWorld()->isBoulderThereU(getX(), getY()) == false) && (getDirection() == up)){
 					getWorld()->removeBlocks(getX()+1, getY()+1);
 					moveTo(getX(), getY()+1);
 					getWorld()->isMapObjectThere(getX(), getY());
 				}
 				setDirection(up);
 				break;
-			//case KEY_PRESS_SPACE:
+			case KEY_PRESS_SPACE:
+				if (numSquirts > 0) {
+					if (getDirection() == right)
+						getWorld()->createSquirt(getX() + 4, getY(), right);
+					else if (getDirection() == up)
+						getWorld()->createSquirt(getX(), getY() + 4, up);
+					else if (getDirection() == left)
+						getWorld()->createSquirt(getX() - 4, getY(), left);
+					else
+						getWorld()->createSquirt(getX(), getY() - 4, down);
+				}
+				break;
 			case KEY_PRESS_TAB:
 				//if(numGold > 0)
 				{

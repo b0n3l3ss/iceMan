@@ -1,5 +1,4 @@
-3. Dropping gold for protestors to pick up as a bribe
-1. Added drop gold function but the function still needs to be implemented
-2. Currently when the arrow key is pressed if the iceman is not facing that direction he will turn to that direction but will also move in that direction as well. This needs to be changed so that when an arrow key in a different direction is pressed he only faces that way and does not actually move that way. 
-4. Fix dead state for all other map objects
-5. Go through code and find any function that are doing absolutely nothing
+0 Dropping gold for protestors to pick up as a bribe
+0 Fix dead state for all other map objects
+0 Go through code and find any function that are doing absolutely nothing
+0 Have water spurt be optimized when hits a protester

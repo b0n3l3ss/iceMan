@@ -514,3 +514,8 @@ void StudentWorld::dropGold(int x, int y)
 		player->decGold();
 	}
 }
+
+void StudentWorld::createSquirt(int x, int y, Actor::Direction dir){
+	Squirt* temp = new Squirt(x, y, dir, this);
+	gameActors.push_back(temp);
+}

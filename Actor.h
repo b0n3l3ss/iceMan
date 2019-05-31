@@ -159,4 +159,12 @@ public:
 	
 };
 
+class Squirt : public MapObject {
+public:
+	Squirt(int x, int y, Direction d, StudentWorld* w) : MapObject(IID_WATER_SPURT, x, y, d, 1, w){
+		setVisible(true);
+	}
+	void doSomething() { };
+};
+
 #endif //ACTOR_H_
