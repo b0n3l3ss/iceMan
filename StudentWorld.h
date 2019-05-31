@@ -32,7 +32,8 @@ public:
 	bool isIceVisable(int, int, Actor::Direction);
 	void dropGold(int, int);
 	void createSquirt(int, int, Actor::Direction);
-	void checkSquirtRadius(int, int);
+	void checkSquirtRadius(int, int, int);
+	bool checkSquirtIce(int, int, Actor::Direction);
 	~StudentWorld();
 	
 private:

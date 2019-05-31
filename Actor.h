@@ -122,7 +122,6 @@ public:
 	};
 	virtual ~Boulder() { };
 	virtual void doSomething();
-	// Returns hasFallen
 	virtual bool isFalling();
 	bool isStable();
 	bool doneWaiting();
@@ -165,15 +164,19 @@ class Squirt : public MapObject {
 private:
 	bool isSquirt;
 	int squirtTime;
+	int vecPosition;
 public:
-	Squirt(int x, int y, Direction d, StudentWorld* w) : MapObject(IID_WATER_SPURT, x, y, d, 1, w){
+	Squirt(int x, int y, int pos, Direction d, StudentWorld* w) : MapObject(IID_WATER_SPURT, x, y, d, 1, w) {
 		setVisible(true);
 		isSquirt = false;
 		squirtTime = 0;
+		vecPosition = pos;
 	}
 	void doSomething();
 	bool getIsSquirt() const;
 	void updateIsSquirt(bool);
+	int getVecPosition() const;
+	
 };
 
 class Sonar : public MapObject {

@@ -467,7 +467,7 @@ void StudentWorld::createOil() {
 	}
 }
 
-//specifically used for the iceman only
+// Needs to be updated for protestors
 void StudentWorld::isMapObjectThere(int x, int y)
 {
 	int bouldAndGold = bouldNum + goldNum;
@@ -534,14 +534,14 @@ void StudentWorld::dropGold(int x, int y)
 void StudentWorld::createSquirt(int x, int y, Actor::Direction dir){
 	if (player->getSquirts() > 0)
 	{
-		Squirt* temp = new Squirt(x, y, dir, this);
+		Squirt* temp = new Squirt(x, y, gameActors.size(), dir, this);
 		temp->updateIsSquirt(true);
 		gameActors.push_back(temp);
 		player->decSquirt();
 	}
 }
-
-void StudentWorld::checkSquirtRadius(int x, int y){
+// Needs to be updated for protestors
+void StudentWorld::checkSquirtRadius(int x, int y, int pos){
 	int bouldAndGold = bouldNum + goldNum;
 	int bouldGoldAndOil = bouldAndGold + oilNum;
 	double radius = 0;
@@ -551,7 +551,16 @@ void StudentWorld::checkSquirtRadius(int x, int y){
 		deltaY = abs(gameActors[i]->getY() - y);
 		radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 		if(radius <= 3){
-			gameActors[gameActors.size()-1]->setDead();
+			gameActors[pos]->setDead();
+		}
+	}
+}
+
+bool StudentWorld::checkSquirtIce(int x, int y, Actor::Direction dir) {
+	if (dir == Actor::right) {
+		for (int i = 0; i < 4; ++i) {
+			if (ice[x + i][y] == nullptr && ice[x + i][y]->isVisible())
+				return true;
 		}
 	}
 }

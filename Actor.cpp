@@ -65,22 +65,38 @@ void IceMan::doSomething() {
 				if (numSquirts > 0) {
 					if (getDirection() == right)
 					{
-						if(!(getWorld()->isIceVisable(getX()+1, getY(), right)))
+						if ((getWorld()->isIceVisable(getX() + 4, getY(), right))) {
+							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+							--numSquirts;
+						}
+						else
 							getWorld()->createSquirt(getX() + 4, getY(), right);
 					}
 					else if (getDirection() == up)
 					{
-						if(!(getWorld()->isIceVisable(getX(), getY()+1, up)))
+						if ((getWorld()->isIceVisable(getX(), getY() + 4, up))) {
+							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+							--numSquirts;
+						}
+						else
 							getWorld()->createSquirt(getX(), getY() + 4, up);
 					}
 					else if (getDirection() == left)
 					{
-						if(!(getWorld()->isIceVisable(getX()-1, getY(), left)))
+						if ((getWorld()->isIceVisable(getX() - 4, getY(), left))) {
+							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+							--numSquirts;
+						}
+						else
 							getWorld()->createSquirt(getX() - 4, getY(), left);
 					}
 					else
 					{
-						if(!(getWorld()->isIceVisable(getX(), getY()-1, down)))
+						if ((getWorld()->isIceVisable(getX(), getY() - 4, down))) {
+							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+							--numSquirts;
+						}
+						else
 							getWorld()->createSquirt(getX(), getY() - 4, down);
 					}
 				}
@@ -222,7 +238,7 @@ void Squirt::doSomething(){
 	if(isSquirt && squirtTime <= 6)
 	{
 		//checks to see if the squirt is about to hit an actor object
-		getWorld()->checkSquirtRadius(getX(), getY());
+		getWorld()->checkSquirtRadius(getX(), getY(), vecPosition);
 		if(getDirection() == right)
 		{
 			if(squirtTime == 0)
@@ -270,4 +286,8 @@ bool Squirt::getIsSquirt() const{
 
 void Squirt::updateIsSquirt(bool update){
 	isSquirt = update;
+}
+
+int Squirt::getVecPosition() const {
+	return vecPosition;
 }
