@@ -534,7 +534,7 @@ void StudentWorld::dropGold(int x, int y)
 void StudentWorld::createSquirt(int x, int y, Actor::Direction dir){
 	if (player->getSquirts() > 0)
 	{
-		Squirt* temp = new Squirt(x, y, gameActors.size(), dir, this);
+		Squirt* temp = new Squirt(x, y, int(gameActors.size()), dir, this);
 		temp->updateIsSquirt(true);
 		gameActors.push_back(temp);
 		player->decSquirt();
@@ -556,11 +556,17 @@ void StudentWorld::checkSquirtRadius(int x, int y, int pos){
 	}
 }
 
-bool StudentWorld::checkSquirtIce(int x, int y, Actor::Direction dir) {
-	if (dir == Actor::right) {
-		for (int i = 0; i < 4; ++i) {
-			if (ice[x + i][y] == nullptr && ice[x + i][y]->isVisible())
+bool StudentWorld::checkInitialSquirt(int x, int y)
+{
+	for(int i = 0; i < 4; ++i)
+	{
+		for(int j = 0; j < 4; ++j)
+		{
+			if(ice[x+i][y+j]->isVisible())
+			{
 				return true;
+			}
 		}
 	}
+	return false;
 }

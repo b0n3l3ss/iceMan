@@ -61,7 +61,7 @@ class IceMan : public MovingObject {
 public:
 	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
 		this->setVisible(true);
-		numSquirts = 50;
+		numSquirts = 5;
 		numSonar = 1;
 		numGold = 0;
 		numOil = 0;

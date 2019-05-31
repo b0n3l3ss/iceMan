@@ -65,7 +65,7 @@ void IceMan::doSomething() {
 				if (numSquirts > 0) {
 					if (getDirection() == right)
 					{
-						if ((getWorld()->isIceVisable(getX() + 4, getY(), right))) {
+						if (getWorld()->checkInitialSquirt(getX()+4, getY())) {
 							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 							--numSquirts;
 						}
@@ -74,7 +74,7 @@ void IceMan::doSomething() {
 					}
 					else if (getDirection() == up)
 					{
-						if ((getWorld()->isIceVisable(getX(), getY() + 4, up))) {
+						if (getWorld()->checkInitialSquirt(getX(), getY()+4)) {
 							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 							--numSquirts;
 						}
@@ -83,7 +83,7 @@ void IceMan::doSomething() {
 					}
 					else if (getDirection() == left)
 					{
-						if ((getWorld()->isIceVisable(getX() - 4, getY(), left))) {
+						if (getWorld()->checkInitialSquirt(getX()-4, getY())) {
 							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 							--numSquirts;
 						}
@@ -92,7 +92,7 @@ void IceMan::doSomething() {
 					}
 					else
 					{
-						if ((getWorld()->isIceVisable(getX(), getY() - 4, down))) {
+						if (getWorld()->checkInitialSquirt(getX(), getY()-4)) {
 							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 							--numSquirts;
 						}

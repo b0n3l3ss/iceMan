@@ -33,7 +33,7 @@ public:
 	void dropGold(int, int);
 	void createSquirt(int, int, Actor::Direction);
 	void checkSquirtRadius(int, int, int);
-	bool checkSquirtIce(int, int, Actor::Direction);
+	bool checkInitialSquirt(int, int);
 	~StudentWorld();
 	
 private:
