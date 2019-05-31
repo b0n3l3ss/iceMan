@@ -29,9 +29,10 @@ public:
 	bool isBoulderThereU(int, int);
 	bool isBoulderThereD(int, int);
 	void isMapObjectThere(int, int);
-	bool isIceVisable(int, int);
+	bool isIceVisable(int, int, Actor::Direction);
 	void dropGold(int, int);
-	void createSquirt(int, int, Actor::Direction); // If this doesnt work, its cause of the Actor namespace
+	void createSquirt(int, int, Actor::Direction);
+	void checkSquirtRadius(int, int);
 	~StudentWorld();
 	
 private:

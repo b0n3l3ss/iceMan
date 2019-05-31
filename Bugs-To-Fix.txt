@@ -2,3 +2,4 @@
 0 Fix dead state for all other map objects
 0 Go through code and find any function that are doing absolutely nothing
 0 Have water spurt be optimized when hits a protester
+0 Squirts will no disappear when hitting ice and actor objects but will still fire if iceman is next to an ice block. This is an error.

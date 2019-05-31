@@ -61,7 +61,7 @@ class IceMan : public MovingObject {
 public:
 	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
 		this->setVisible(true);
-		numSquirts = 5;
+		numSquirts = 50;
 		numSonar = 1;
 		numGold = 0;
 		numOil = 0;
@@ -176,9 +176,9 @@ public:
 	void updateIsSquirt(bool);
 };
 
-class Radar : public MapObject {
+class Sonar : public MapObject {
 public:
-	Radar(int x, int y, StudentWorld* w) : MapObject(IID_SONAR, x, y, right, 1, w) {
+	Sonar(int x, int y, StudentWorld* w) : MapObject(IID_SONAR, x, y, right, 1, w) {
 		setVisible(true);
 	}
 };

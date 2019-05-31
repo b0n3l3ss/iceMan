@@ -64,13 +64,25 @@ void IceMan::doSomething() {
 			case KEY_PRESS_SPACE:
 				if (numSquirts > 0) {
 					if (getDirection() == right)
-						getWorld()->createSquirt(getX() + 4, getY(), right);
+					{
+						if(!(getWorld()->isIceVisable(getX()+1, getY(), right)))
+							getWorld()->createSquirt(getX() + 4, getY(), right);
+					}
 					else if (getDirection() == up)
-						getWorld()->createSquirt(getX(), getY() + 4, up);
+					{
+						if(!(getWorld()->isIceVisable(getX(), getY()+1, up)))
+							getWorld()->createSquirt(getX(), getY() + 4, up);
+					}
 					else if (getDirection() == left)
-						getWorld()->createSquirt(getX() - 4, getY(), left);
+					{
+						if(!(getWorld()->isIceVisable(getX()-1, getY(), left)))
+							getWorld()->createSquirt(getX() - 4, getY(), left);
+					}
 					else
-						getWorld()->createSquirt(getX(), getY() - 4, down);
+					{
+						if(!(getWorld()->isIceVisable(getX(), getY()-1, down)))
+							getWorld()->createSquirt(getX(), getY() - 4, down);
+					}
 				}
 				break;
 			case KEY_PRESS_TAB:
@@ -167,7 +179,7 @@ bool Boulder::isStable(){
 		return true;
 	if(getWorld()->isBoulderThereD(getX(), getY()))
 		return true;
-	if(!(getWorld()->isIceVisable(getX(), getY()-1)))
+	if(!(getWorld()->isIceVisable(getX(), getY()-1, down)))
 		return false;
 	return true;
 }
@@ -209,12 +221,16 @@ bool Gold::isBribeState() const {
 void Squirt::doSomething(){
 	if(isSquirt && squirtTime <= 6)
 	{
+		//checks to see if the squirt is about to hit an actor object
+		getWorld()->checkSquirtRadius(getX(), getY());
 		if(getDirection() == right)
 		{
 			if(squirtTime == 0)
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 			moveTo(getX()+1, getY());
 			squirtTime++;
+			if(getWorld()->isIceVisable(getX()+3, getY(), right))
+				setDead();
 		}
 		if(getDirection() == left)
 		{
@@ -222,6 +238,8 @@ void Squirt::doSomething(){
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 			moveTo(getX()-1, getY());
 			squirtTime++;
+			if(getWorld()->isIceVisable(getX(), getY(), left))
+				setDead();
 		}
 		if(getDirection() == up)
 		{
@@ -229,6 +247,8 @@ void Squirt::doSomething(){
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 			moveTo(getX(), getY()+1);
 			squirtTime++;
+			if(getWorld()->isIceVisable(getX(), getY()+3, up))
+				setDead();
 		}
 		if(getDirection() == down)
 		{
@@ -236,12 +256,12 @@ void Squirt::doSomething(){
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
 			moveTo(getX(), getY()-1);
 			squirtTime++;
+			if(getWorld()->isIceVisable(getX(), getY(), down))
+				setDead();
 		}
 	}
 	if(squirtTime > 6)
-	{
 		setDead();
-	}
 }
 
 bool Squirt::getIsSquirt() const{

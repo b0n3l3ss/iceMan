@@ -396,15 +396,29 @@ void StudentWorld::checkForObject(int &x, int &y) {
 	}
 }
 
-bool StudentWorld::isIceVisable(int x, int y)
+bool StudentWorld::isIceVisable(int x, int y, Actor::Direction dir)
 {
-	for (int i = 0; i <= 3; i++)
+	if(dir == Actor::up || dir == Actor::down)
 	{
-		//if ice does not exist just return true to avoid bad access error
-		if (ice[x + i][y] == nullptr)
-			return true;
-		if (ice[x + i][y]->isVisible())
-			return true;
+		for (int i = 0; i <= 3; i++)
+		{
+			//if ice does not exist just return true to avoid bad access error
+			if (ice[x + i][y] == nullptr)
+				return true;
+			if (ice[x + i][y]->isVisible())
+				return true;
+		}
+	}
+	if(dir == Actor::right || dir == Actor::left)
+	{
+		for (int i = 0; i <= 3; i++)
+		{
+			//if ice does not exist just return true to avoid bad access error
+			if (ice[x][y + i] == nullptr)
+				return true;
+			if (ice[x][y + i]->isVisible())
+				return true;
+		}
 	}
 	return false;
 }
@@ -453,6 +467,7 @@ void StudentWorld::createOil() {
 	}
 }
 
+//specifically used for the iceman only
 void StudentWorld::isMapObjectThere(int x, int y)
 {
 	int bouldAndGold = bouldNum + goldNum;
@@ -517,10 +532,26 @@ void StudentWorld::dropGold(int x, int y)
 }
 
 void StudentWorld::createSquirt(int x, int y, Actor::Direction dir){
-	if (player->getSquirts() > 0) {
+	if (player->getSquirts() > 0)
+	{
 		Squirt* temp = new Squirt(x, y, dir, this);
 		temp->updateIsSquirt(true);
 		gameActors.push_back(temp);
 		player->decSquirt();
+	}
+}
+
+void StudentWorld::checkSquirtRadius(int x, int y){
+	int bouldAndGold = bouldNum + goldNum;
+	int bouldGoldAndOil = bouldAndGold + oilNum;
+	double radius = 0;
+	double deltaX, deltaY;
+	for(int i = 0; i < bouldGoldAndOil; ++i) {
+		deltaX = abs(gameActors[i]->getX() - x);
+		deltaY = abs(gameActors[i]->getY() - y);
+		radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+		if(radius <= 3){
+			gameActors[gameActors.size()-1]->setDead();
+		}
 	}
 }
