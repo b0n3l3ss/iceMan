@@ -78,6 +78,8 @@ public:
 	void incOil();
 	void incGold();
 	void decGold();
+	void incSquirt();
+	void decSquirt();
 	
 	
 	

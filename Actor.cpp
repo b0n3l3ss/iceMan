@@ -74,24 +74,32 @@ void IceMan::doSomething() {
 				}
 				break;
 			case KEY_PRESS_TAB:
-				//if(numGold > 0)
-				{
+				if(numGold > 0) {
 					getWorld()->dropGold(getX(), getY());
 					break;
 				}
+				break;
+			case KEY_PRESS_ESCAPE:
+				makeHimDead();
+				break;
 		}
 	}
 }
+
 void IceMan::incGold() {
 	++numGold;
 }
-
 void IceMan::decGold() {
 	--numGold;
 }
-
 void IceMan::incOil() {
 	++numOil;
+}
+void IceMan::incSquirt() {
+	++numSquirts;
+}
+void IceMan::decSquirt() {
+	--numSquirts;
 }
 
 int IceMan::getGold() const {
@@ -113,6 +121,7 @@ int IceMan::getSonar() const {
 }
 
 void IceMan::makeHimDead(){
+	getWorld()->playSound(SOUND_PLAYER_GIVE_UP);
 	hitPoints = 0;
 }
 

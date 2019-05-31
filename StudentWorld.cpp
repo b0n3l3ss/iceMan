@@ -31,8 +31,10 @@ int StudentWorld::init() {
 
 int StudentWorld::move() {
 
-	if(player->getHitPoints() <= 0)
+	if (player->getHitPoints() <= 0) {
+		decLives();
 		return GWSTATUS_PLAYER_DIED;
+	}
 	player->doSomething();
 	updateScore();
 	
@@ -503,7 +505,6 @@ void StudentWorld::isMapObjectThere(int x, int y)
 }
 
 
-
 void StudentWorld::dropGold(int x, int y)
 {
 	if (player->getGold() > 0) {
@@ -516,7 +517,10 @@ void StudentWorld::dropGold(int x, int y)
 }
 
 void StudentWorld::createSquirt(int x, int y, Actor::Direction dir){
-	Squirt* temp = new Squirt(x, y, dir, this);
-	temp->updateIsSquirt(true);
-	gameActors.push_back(temp);
+	if (player->getSquirts() > 0) {
+		Squirt* temp = new Squirt(x, y, dir, this);
+		temp->updateIsSquirt(true);
+		gameActors.push_back(temp);
+		player->decSquirt();
+	}
 }
