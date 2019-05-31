@@ -160,11 +160,18 @@ public:
 };
 
 class Squirt : public MapObject {
+private:
+	bool isSquirt;
+	int squirtTime;
 public:
 	Squirt(int x, int y, Direction d, StudentWorld* w) : MapObject(IID_WATER_SPURT, x, y, d, 1, w){
 		setVisible(true);
+		isSquirt = false;
+		squirtTime = 0;
 	}
-	void doSomething() { };
+	void doSomething();
+	bool getIsSquirt() const;
+	void updateIsSquirt(bool);
 };
 
 #endif //ACTOR_H_

@@ -195,3 +195,50 @@ bool Gold::isBribeState() const {
 
 // Oil Barrel Functions
 
+//Squirt Functions
+
+void Squirt::doSomething(){
+	if(isSquirt && squirtTime <= 6)
+	{
+		if(getDirection() == right)
+		{
+			if(squirtTime == 0)
+				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+			moveTo(getX()+1, getY());
+			squirtTime++;
+		}
+		if(getDirection() == left)
+		{
+			if(squirtTime == 0)
+				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+			moveTo(getX()-1, getY());
+			squirtTime++;
+		}
+		if(getDirection() == up)
+		{
+			if(squirtTime == 0)
+				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+			moveTo(getX(), getY()+1);
+			squirtTime++;
+		}
+		if(getDirection() == down)
+		{
+			if(squirtTime == 0)
+				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+			moveTo(getX(), getY()-1);
+			squirtTime++;
+		}
+	}
+	if(squirtTime > 6)
+	{
+		setDead();
+	}
+}
+
+bool Squirt::getIsSquirt() const{
+	return isSquirt;
+}
+
+void Squirt::updateIsSquirt(bool update){
+	isSquirt = update;
+}
