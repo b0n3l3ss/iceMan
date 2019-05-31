@@ -15,13 +15,17 @@ protected:
 	// That way all of the objects have acess to world for their
 	// doSomething methods
 	StudentWorld* world = nullptr;
+	bool isItDead;
 public:
 	Actor(int ID, int x, int y, Direction d, double size, int depth, StudentWorld* w)
 	: GraphObject(ID, x, y, d, size, depth) {
 		world = w;
+		isItDead = false;
 	}
 	virtual void doSomething() = 0;
 	virtual StudentWorld* getWorld();
+	virtual bool isDead() const;
+	virtual void setDead();
 	virtual ~Actor() { }
 };
 
@@ -39,7 +43,6 @@ class MovingObject : public Actor {
 protected:
 	// Protected so both iceman and protestors can access their hitpoints
 	int hitPoints;
-	
 public:
 	// Constructor normal constructor for general Moving obj with HP parameter
 	MovingObject(int hp, int ID, int x, int y, Direction d, float size, int depth, StudentWorld* w)
@@ -129,14 +132,16 @@ private:
 	// one of the protestors as a bribe. It cannot be both, which I think
 	// might make things a bit easier
 	bool isBribe;
+	int bribeTime;
 public:
 	Gold(int x, int y, StudentWorld* w) : MapObject(IID_GOLD, x, y, right, 2, w) {
 		setVisible(false);
 		isBribe = false;
+		bribeTime = 0;
 	}
 	bool isBribeState() const;
 	void updateisBribeState(bool update);
-	void doSomething() { }
+	void doSomething();
 	virtual ~Gold() {
 		world = nullptr;
 	}

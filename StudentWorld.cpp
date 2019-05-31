@@ -38,6 +38,18 @@ int StudentWorld::move() {
 	
 	for (unsigned int i = 0; i < gameActors.size(); ++i) {
 		gameActors[i]->doSomething();
+		if(gameActors[i]->isDead() /*&& (i > (bouldNum + goldNum + oilNum))*/)
+		{
+			vector<Actor*>::iterator p = gameActors.begin();
+			int tempTotal = 0;
+			//sets an iterator to the position of the gameActor
+			while(tempTotal < i) {
+				p++;
+				tempTotal++;
+			}
+			delete gameActors[i];
+			gameActors.erase(p);
+		}
 	}
 
 	if (oilNum == 0) {
@@ -490,16 +502,15 @@ void StudentWorld::isMapObjectThere(int x, int y)
 	}
 }
 
-bool StudentWorld::iceManInsideBoulder(int x, int y)
-{
-	for(int i = 0; i < bouldNum; ++i)
-	{
-		gameActors[i];
-	}
-	return false;
-}
+
 
 void StudentWorld::dropGold(int x, int y)
 {
-	
+	if (player->getGold() > 0) {
+		Gold* temp = new Gold(x, y, this);
+		temp->setVisible(true);
+		temp->updateisBribeState(true);
+		gameActors.push_back(temp);
+		player->decGold();
+	}
 }

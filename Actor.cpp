@@ -3,7 +3,6 @@
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
 
-// 
 
 
 // Actor Functions
@@ -11,7 +10,16 @@ StudentWorld* Actor::getWorld(){
 	return world;
 }
 
+bool Actor::isDead() const {
+	return isItDead;
+}
+
+void Actor::setDead() {
+	isItDead = true;
+}
+
 // IceMan Functions
+
 void IceMan::doSomething() {
 	getWorld()->isMapObjectThere(getX(), getY());
 	if (hitPoints == 0)
@@ -55,8 +63,11 @@ void IceMan::doSomething() {
 				break;
 			//case KEY_PRESS_SPACE:
 			case KEY_PRESS_TAB:
-				getWorld()->dropGold(getX(), getY());
-				break;
+				//if(numGold > 0)
+				{
+					getWorld()->dropGold(getX(), getY());
+					break;
+				}
 		}
 	}
 }
@@ -150,6 +161,17 @@ bool Boulder::doneWaiting(){
 
 
 // Gold Functions
+void Gold::doSomething(){
+	if(isBribe == true)
+	{
+		if(bribeTime >= 100)
+		{
+			this->setDead();
+			isBribe = false;
+		}
+		bribeTime++;
+	}
+}
 
 void Gold::updateisBribeState(bool update) {
 	isBribe = update;

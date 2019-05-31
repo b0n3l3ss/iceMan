@@ -19,29 +19,18 @@ public:
 	}
 
 	virtual int init();
-
 	virtual int move();
-
 	virtual void cleanUp();
-	
 	void removeBlocks(int x, int y);
-	
 	void removeBoulderIce(int x, int y);
 	void updateItemCount();
-
-	
 	bool isBoulderThereR(int, int);
 	bool isBoulderThereL(int, int);
 	bool isBoulderThereU(int, int);
 	bool isBoulderThereD(int, int);
-	
 	void isMapObjectThere(int, int);
 	bool isIceVisable(int, int);
-	
-	bool iceManInsideBoulder(int, int);
-	
 	void dropGold(int, int);
-	
 	~StudentWorld();
 	
 private:
@@ -52,12 +41,10 @@ private:
 	int goldNum;
 	int oilNum;
 	void checkForObject(int&, int&);
-	
 	void createBoulder();
 	void createIce();
 	void createGold();
 	void createOil();
-
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);
 };
