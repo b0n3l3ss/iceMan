@@ -570,3 +570,12 @@ bool StudentWorld::checkInitialSquirt(int x, int y)
 	}
 	return false;
 }
+
+void StudentWorld::createSonar() {
+	Sonar* temp = new Sonar( int(gameActors.size()), this);
+	gameActors.push_back(temp);
+}
+
+int StudentWorld::sonarTimeMax(){
+	return max(100, 300 - 10*int(getLevel()));
+}

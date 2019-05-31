@@ -155,6 +155,9 @@ void IceMan::makeHimDead(){
 
 //MapObject Functions
 
+int MapObject::getVecPosition() const {
+	return vecPosition;
+}
 
 // Boulder Functions
 
@@ -288,6 +291,10 @@ void Squirt::updateIsSquirt(bool update){
 	isSquirt = update;
 }
 
-int Squirt::getVecPosition() const {
-	return vecPosition;
+void Sonar::doSomething() {
+	if(sonarTime > int(getWorld()->sonarTimeMax()))
+	{
+		setDead();
+	}
+	sonarTime++;
 }

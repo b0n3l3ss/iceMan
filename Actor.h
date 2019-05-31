@@ -98,13 +98,14 @@ private:
 class MapObject : public Actor {
 protected:
 	StudentWorld* world;
+	int vecPosition;
 public:
 	// All of the Map objects start out with a size of one, 
 	// but everything else is specific to each MapObject
 	MapObject(int ID, int x, int y, Direction d, int depth, StudentWorld* w)
 		: Actor(ID, x, y, d, 1, depth, w) { };
 	virtual ~MapObject() { };
-	
+	int getVecPosition() const;
 	// Pure virtual class
 	virtual void doSomething() = 0;
 	
@@ -164,7 +165,6 @@ class Squirt : public MapObject {
 private:
 	bool isSquirt;
 	int squirtTime;
-	int vecPosition;
 public:
 	Squirt(int x, int y, int pos, Direction d, StudentWorld* w) : MapObject(IID_WATER_SPURT, x, y, d, 1, w) {
 		setVisible(true);
@@ -175,15 +175,20 @@ public:
 	void doSomething();
 	bool getIsSquirt() const;
 	void updateIsSquirt(bool);
-	int getVecPosition() const;
+	//int getVecPosition() const;
 	
 };
 
 class Sonar : public MapObject {
+private:
+	int sonarTime;
 public:
-	Sonar(int x, int y, StudentWorld* w) : MapObject(IID_SONAR, x, y, right, 1, w) {
+	Sonar(int vec, StudentWorld* w) : MapObject(IID_SONAR, 4, 60, right, 1, w) {
 		setVisible(true);
+		vecPosition = vec;
+		sonarTime = 0;
 	}
+	void doSomething();
 };
 
 #endif //ACTOR_H_

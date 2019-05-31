@@ -34,6 +34,7 @@ public:
 	void createSquirt(int, int, Actor::Direction);
 	void checkSquirtRadius(int, int, int);
 	bool checkInitialSquirt(int, int);
+	int sonarTimeMax();
 	~StudentWorld();
 	
 private:
@@ -48,6 +49,7 @@ private:
 	void createIce();
 	void createGold();
 	void createOil();
+	void createSonar();
 	
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);
