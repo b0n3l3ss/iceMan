@@ -176,4 +176,11 @@ public:
 	void updateIsSquirt(bool);
 };
 
+class Radar : public MapObject {
+public:
+	Radar(int x, int y, StudentWorld* w) : MapObject(IID_SONAR, x, y, right, 1, w) {
+		setVisible(true);
+	}
+};
+
 #endif //ACTOR_H_
