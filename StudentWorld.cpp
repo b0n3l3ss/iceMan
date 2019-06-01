@@ -31,7 +31,8 @@ int StudentWorld::init() {
 }
 
 int StudentWorld::move() {
-
+	// If Ice man has lost all of his hit points, Iceman dies and the level
+	// restarts
 	if (player->getHitPoints() <= 0) {
 		decLives();
 		return GWSTATUS_PLAYER_DIED;
@@ -41,7 +42,7 @@ int StudentWorld::move() {
 	
 	for (unsigned int i = 0; i < gameActors.size(); ++i) {
 		gameActors[i]->doSomething();
-		if(gameActors[i]->isDead() /*&& (i > (bouldNum + goldNum + oilNum))*/)
+		if(gameActors[i]->isDead())
 		{
 			vector<Actor*>::iterator p = gameActors.begin();
 			int tempTotal = 0;
@@ -54,7 +55,7 @@ int StudentWorld::move() {
 			gameActors.erase(p);
 		}
 	}
-
+	// If all oil Barells have been picked up, the level has been complete
 	if (oilNum == 0) {
 		playSound(SOUND_FINISHED_LEVEL);
 		return GWSTATUS_FINISHED_LEVEL;
@@ -250,25 +251,12 @@ void StudentWorld::updateScore(){
 
 void StudentWorld::removeBoulderIce(int x, int y)
 {
-	ice[x][y]->setVisible(false);
-	ice[x+1][y]->setVisible(false);
-	ice[x+2][y]->setVisible(false);
-	ice[x+3][y]->setVisible(false);
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			ice[x + i][y + j]->setVisible(false);
+		}
+	}
 	
-	ice[x][y+1]->setVisible(false);
-	ice[x+1][y+1]->setVisible(false);
-	ice[x+2][y+1]->setVisible(false);
-	ice[x+3][y+1]->setVisible(false);
-	
-	ice[x][y+2]->setVisible(false);
-	ice[x+1][y+2]->setVisible(false);
-	ice[x+2][y+2]->setVisible(false);
-	ice[x+3][y+2]->setVisible(false);
-	
-	ice[x][y+3]->setVisible(false);
-	ice[x+1][y+3]->setVisible(false);
-	ice[x+2][y+3]->setVisible(false);
-	ice[x+3][y+3]->setVisible(false);
 }
 
 //creates both boulders
@@ -295,75 +283,58 @@ void StudentWorld::createBoulder() {
 
 bool StudentWorld::isBoulderThereL(int x, int y)
 {
-	//checks for boulders when pressing left
 	for (int i = 0; i < bouldNum; ++i) {
-		if(gameActors[i]->isVisible() &&
-			((x == gameActors[i]->getX()+4 && y == gameActors[i]->getY()) ||
-			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() + 1) ||
-			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() + 2) ||
-			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() + 3) ||
-			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() - 1) ||
-			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() - 2) ||
-			(x == gameActors[i]->getX() + 4 && y == gameActors[i]->getY() - 3))) {
-
-return true;
+		if (gameActors[i] != nullptr) {
+			double deltaX = gameActors[i]->getX() - player->getX() + 1;
+			double deltaY = gameActors[i]->getY() - player->getY();
+			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if (radius <= 3)
+				return true;
 		}
 	}
-
 	return false;
 }
 
 bool StudentWorld::isBoulderThereU(int x, int y)
 {
-	//checks for boulders when pressing up
 	for (int i = 0; i < bouldNum; ++i) {
-		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() + 3 && y == gameActors[i]->getY() - 4) ||
-			(x == gameActors[i]->getX() + 2 && y == gameActors[i]->getY() - 4) ||
-			(x == gameActors[i]->getX() + 1 && y == gameActors[i]->getY() - 4) ||
-			(x == gameActors[i]->getX() && y == gameActors[i]->getY() - 4) ||
-			(x == gameActors[i]->getX() - 1 && y == gameActors[i]->getY() - 4) ||
-			(x == gameActors[i]->getX() - 2 && y == gameActors[i]->getY() - 4) ||
-			(x == gameActors[i]->getX() - 3 && y == gameActors[i]->getY() - 4))) {
-			return true;
+		if (gameActors[i] != nullptr) {
+			double deltaX = gameActors[i]->getX() - player->getX();
+			double deltaY = gameActors[i]->getY() - player->getY() - 1;
+			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if (radius <= 3)
+				return true;
 		}
 	}
-
 	return false;
 }
 
 bool StudentWorld::isBoulderThereR(int x, int y)
 {
-	//checks for boulders when pressing right
 	for (int i = 0; i < bouldNum; ++i) {
-		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY()) ||
-			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 1) ||
-			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 2) ||
-			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() + 3) ||
-			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() - 1) ||
-			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() - 2) ||
-			(x == gameActors[i]->getX() - 4 && y == gameActors[i]->getY() - 3))) {
-			return true;
+		if (gameActors[i] != nullptr) {
+			double deltaX = gameActors[i]->getX() - player->getX() - 1;
+			double deltaY = gameActors[i]->getY() - player->getY();
+			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if (radius <= 3)
+				return true;
 		}
 	}
-
 	return false;
 }
 
 bool StudentWorld::isBoulderThereD(int x, int y)
 {
-	//checks for boulders when pressing down
+
 	for (int i = 0; i < bouldNum; ++i) {
-		if (gameActors[i]->isVisible() && ((x == gameActors[i]->getX() + 3 && y == gameActors[i]->getY() + 4) ||
-			(x == gameActors[i]->getX() + 2 && y == gameActors[i]->getY() + 4) ||
-			(x == gameActors[i]->getX() + 1 && y == gameActors[i]->getY() + 4) ||
-			(x == gameActors[i]->getX() && y == gameActors[i]->getY() + 4) ||
-			(x == gameActors[i]->getX() - 1 && y == gameActors[i]->getY() + 4) ||
-			(x == gameActors[i]->getX() - 2 && y == gameActors[i]->getY() + 4) ||
-			(x == gameActors[i]->getX() - 3 && y == gameActors[i]->getY() + 4))) {
-			return true;
+		if (gameActors[i] != nullptr) {
+			double deltaX = gameActors[i]->getX() - player->getX();
+			double deltaY = gameActors[i]->getY() - player->getY() + 1;
+			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if (radius <= 3)
+				return true;
 		}
 	}
-
 	return false;
 }
 
