@@ -1,7 +1,7 @@
 ﻿  Actor.cpp
   StudentWorld.cpp
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(48): warning C4018: '<': signed/unsigned mismatch
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(80): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(49): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(81): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(589): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(566): warning C4715: 'StudentWorld::checkSquirtIce': not all control paths return a value
   IceMan.vcxproj -> C:\Users\Jonas\source\repos\CS30_Project3_iceMan\IceMan\Debug\IceMan.exe

@@ -33,6 +33,8 @@ public:
 	void dropGold(int, int);
 	void createSquirt(int, int, Actor::Direction);
 	void checkSquirtRadius(int, int, int);
+	void useSonar();
+	void pickUpSonar(int);
 	bool checkInitialSquirt(int, int);
 	int sonarTimeMax();
 	~StudentWorld();

@@ -80,6 +80,7 @@ public:
 	void decGold();
 	void incSquirt();
 	void decSquirt();
+	void incSonar();
 	
 	
 	

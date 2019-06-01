@@ -110,6 +110,10 @@ void IceMan::doSomething() {
 			case KEY_PRESS_ESCAPE:
 				makeHimDead();
 				break;
+			/*case KEY_PRESS_Z:
+				world->useSonar();
+				--numSonar;
+*/
 		}
 	}
 }
@@ -117,15 +121,19 @@ void IceMan::doSomething() {
 void IceMan::incGold() {
 	++numGold;
 }
+
 void IceMan::decGold() {
 	--numGold;
 }
+
 void IceMan::incOil() {
 	++numOil;
 }
+
 void IceMan::incSquirt() {
 	++numSquirts;
 }
+
 void IceMan::decSquirt() {
 	--numSquirts;
 }
@@ -133,17 +141,21 @@ void IceMan::decSquirt() {
 int IceMan::getGold() const {
 	return numGold;
 }
+
 int IceMan::getHitPoints() const 
 {
 	return hitPoints;
 }
+
 int IceMan::getBarrels() const {
 	return numOil;
 }
+
 int IceMan::getSquirts() const {
 	return numSquirts;
 
 }
+
 int IceMan::getSonar() const {
 	return numSonar;
 }
@@ -151,6 +163,10 @@ int IceMan::getSonar() const {
 void IceMan::makeHimDead(){
 	getWorld()->playSound(SOUND_PLAYER_GIVE_UP);
 	hitPoints = 0;
+}
+
+void IceMan::incSonar() {
+	++numSonar;
 }
 
 //MapObject Functions
@@ -227,6 +243,7 @@ void Gold::doSomething(){
 void Gold::updateisBribeState(bool update) {
 	isBribe = update;
 }
+
 bool Gold::isBribeState() const {
 	return isBribe;
 }
@@ -292,6 +309,7 @@ void Squirt::updateIsSquirt(bool update){
 }
 
 void Sonar::doSomething() {
+	getWorld()->pickUpSonar(vecPosition);
 	if(sonarTime > int(getWorld()->sonarTimeMax()))
 	{
 		setDead();

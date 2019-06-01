@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -578,4 +579,30 @@ void StudentWorld::createSonar() {
 
 int StudentWorld::sonarTimeMax(){
 	return max(100, 300 - 10*int(getLevel()));
+}
+
+void StudentWorld::useSonar() {
+	// Only runs if the player has enough sonar charges
+
+	if (player->getSonar() <= 0)
+		return;
+	for (int i = 0; i < gameActors.size(); ++i) {
+		if (gameActors[i] != nullptr) {
+			double deltaX = gameActors[i]->getX() - player->getX();
+			double deltaY = gameActors[i]->getY() - player->getY();
+			double radius = sqrt(deltaX * deltaX + deltaY + deltaY);
+			if (radius <= 12)
+				gameActors[i]->setVisible(true);
+		}
+	}
+}
+
+void StudentWorld::pickUpSonar(int pos) {
+	double deltaX = player->getX() - gameActors[pos]->getX();
+	double deltaY = player->getY() - gameActors[pos]->getY();
+	double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if (radius <= 3) {
+		gameActors[pos]->setDead();
+		player->incSonar();
+	}
 }
