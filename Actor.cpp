@@ -22,9 +22,7 @@ int Actor::getVecPosition() const {
 	return vecPosition;
 }
 
-void Actor::decVecPosition() {
-	--vecPosition;
-}
+
 
 // IceMan Functions
 
@@ -208,7 +206,7 @@ void Boulder::doSomething() {
 bool Boulder::isFalling() {
 	if (isStable())
 	{
-		this->setVisible(false);
+		setDead();
 		return false;
 	}
 	return true;

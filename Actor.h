@@ -28,7 +28,6 @@ public:
 	virtual bool isDead() const;
 	virtual void setDead();
 	int getVecPosition() const;
-	void decVecPosition();
 	virtual ~Actor() { }
 };
 

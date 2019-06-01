@@ -43,21 +43,13 @@ int StudentWorld::move() {
 	updateScore();
 	
 	for (unsigned int i = 0; i < gameActors.size(); ++i) {
-		gameActors[i]->doSomething();
-		if(gameActors[i]->isDead())
+		if(gameActors[i] != nullptr)
+			gameActors[i]->doSomething();
+		//if gameactor is dead, delete and then set to nullptr
+		if(gameActors[i] != nullptr && gameActors[i]->isDead())
 		{
-			vector<Actor*>::iterator p = gameActors.begin();
-			int tempTotal = 0;
-			//sets an iterator to the position of the gameActor
-			while(tempTotal < i) {
-				p++;
-				tempTotal++;
-			}
 			delete gameActors[i];
-			gameActors.erase(p);
-			for (int j = i; j < gameActors.size(); ++j) {
-				gameActors[i]->decVecPosition();
-			}
+			gameActors[i] = nullptr;
 		}
 	}
 	// If all oil Barells have been picked up, the level has been complete
@@ -348,11 +340,7 @@ void StudentWorld::checkForObject(int &x, int &y) {
 	srand((unsigned)time(0));
 	for (unsigned int i = 0; i < gameActors.size(); i++)
 	{
-		if (gameActors[i] == nullptr)
-		{
-			//do Nothing! Yay!
-		}
-		else if (gameActors[i] != nullptr) {
+		if (gameActors[i] != nullptr) {
 			double radius;
 			int deltaX = abs(x - gameActors[i]->getX());
 			int deltaY = abs(y - gameActors[i]->getY());
@@ -422,7 +410,7 @@ void StudentWorld::createGold(){
 		
 		checkForObject(randomX, randomY);
 		
-	Gold * temp = new Gold(randomX, randomY, gameActors.size(), this);
+	Gold * temp = new Gold(randomX, randomY, int(gameActors.size()), this);
 	gameActors.push_back(temp);
 	}
 }
@@ -452,46 +440,49 @@ void StudentWorld::isMapObjectThere(int x, int y)
 	double radius = 0;
 	double deltaX, deltaY;
 	for(int i = 0; i < bouldGoldAndOil; ++i) {
-		deltaX = abs(gameActors[i]->getX() - x);
-		deltaY = abs(gameActors[i]->getY() - y);
-		radius = sqrt(deltaX * deltaX + deltaY * deltaY);
-		if(radius <= 3){
-			int tempTotal = 0;
-			//sets an iterator to the position of the gold
-			vector<Actor*>::iterator p = gameActors.begin();
-			while(tempTotal < i) {
-				p++;
-				tempTotal++;
+		if(gameActors[i] != nullptr)
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				int tempTotal = 0;
+				//sets an iterator to the position of the gold
+				vector<Actor*>::iterator p = gameActors.begin();
+				while(tempTotal < i) {
+					p++;
+					tempTotal++;
+				}
+				if(i < bouldNum)
+				{
+					player->makeHimDead();
+				}
+				else if (i < bouldAndGold) {
+					// If picked up gold, increase count, delete from
+					// student world, increase score, play sound
+					delete gameActors[i];
+					gameActors.erase(p);
+					--goldNum;
+					playSound(SOUND_GOT_GOODIE);
+					increaseScore(10);
+					player->incGold();
+					return;
+				}
+				else {
+					// If picked up oil, increase count, delete from
+					// student world, increase score, play sound
+					delete gameActors[i];
+					gameActors.erase(p);
+					--oilNum;
+					playSound(SOUND_FOUND_OIL);
+					increaseScore(1000);
+					player->incOil();
+					return;
+				}
 			}
-			if(i < bouldNum)
-			{
-				player->makeHimDead();
+			else if(radius <= 4) {
+				gameActors[i]->setVisible(true);
 			}
-			else if (i < bouldAndGold) {
-				// If picked up gold, increase count, delete from 
-				// student world, increase score, play sound
-				delete gameActors[i];
-				gameActors.erase(p);
-				--goldNum;
-				playSound(SOUND_GOT_GOODIE);
-				increaseScore(10);
-				player->incGold();
-				return;
-			}
-			else {
-				// If picked up oil, increase count, delete from
-				// student world, increase score, play sound
-				delete gameActors[i];
-				gameActors.erase(p);
-				--oilNum;
-				playSound(SOUND_FOUND_OIL);
-				increaseScore(1000);
-				player->incOil();
-				return;
-			}
-		}
-		else if(radius <= 4) {
-			gameActors[i]->setVisible(true);
 		}
 	}
 }
@@ -500,7 +491,7 @@ void StudentWorld::isMapObjectThere(int x, int y)
 void StudentWorld::dropGold(int x, int y)
 {
 	if (player->getGold() > 0) {
-		Gold* temp = new Gold(x, y, gameActors.size(), this);
+		Gold* temp = new Gold(x, y, int(gameActors.size()), this);
 		temp->setVisible(true);
 		temp->updateisBribeState(true);
 		gameActors.push_back(temp);
@@ -524,11 +515,14 @@ void StudentWorld::checkSquirtRadius(int x, int y, int pos){
 	double radius = 0;
 	double deltaX, deltaY;
 	for(int i = 0; i < bouldGoldAndOil; ++i) {
-		deltaX = abs(gameActors[i]->getX() - x);
-		deltaY = abs(gameActors[i]->getY() - y);
-		radius = sqrt(deltaX * deltaX + deltaY * deltaY);
-		if(radius <= 3){
-			gameActors[pos]->setDead();
+		if(gameActors[i] != nullptr)
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				gameActors[pos]->setDead();
+			}
 		}
 	}
 }
