@@ -25,6 +25,8 @@ int StudentWorld::init() {
 	createBoulder();
 	createGold();
 	createOil();
+	createSonar();
+	
 	// DO NOT MESS WITH THE ORDER OF THESE FUNCTION CALLS
 
 	return GWSTATUS_CONTINUE_GAME;
@@ -53,6 +55,9 @@ int StudentWorld::move() {
 			}
 			delete gameActors[i];
 			gameActors.erase(p);
+			for (int j = i; j < gameActors.size(); ++j) {
+				gameActors[i]->decVecPosition();
+			}
 		}
 	}
 	// If all oil Barells have been picked up, the level has been complete
@@ -417,7 +422,7 @@ void StudentWorld::createGold(){
 		
 		checkForObject(randomX, randomY);
 		
-	Gold * temp = new Gold(randomX, randomY, this);
+	Gold * temp = new Gold(randomX, randomY, gameActors.size(), this);
 	gameActors.push_back(temp);
 	}
 }
@@ -495,7 +500,7 @@ void StudentWorld::isMapObjectThere(int x, int y)
 void StudentWorld::dropGold(int x, int y)
 {
 	if (player->getGold() > 0) {
-		Gold* temp = new Gold(x, y, this);
+		Gold* temp = new Gold(x, y, gameActors.size(), this);
 		temp->setVisible(true);
 		temp->updateisBribeState(true);
 		gameActors.push_back(temp);
@@ -542,6 +547,8 @@ bool StudentWorld::checkInitialSquirt(int x, int y)
 	}
 	return false;
 }
+
+// Sonar Related Functions
 
 void StudentWorld::createSonar() {
 	Sonar* temp = new Sonar( int(gameActors.size()), this);

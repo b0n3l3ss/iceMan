@@ -6,7 +6,7 @@
 
 
 // Actor Functions
-StudentWorld* Actor::getWorld(){
+StudentWorld* Actor::getWorld() {
 	return world;
 }
 
@@ -18,6 +18,14 @@ void Actor::setDead() {
 	isItDead = true;
 }
 
+int Actor::getVecPosition() const {
+	return vecPosition;
+}
+
+void Actor::decVecPosition() {
+	--vecPosition;
+}
+
 // IceMan Functions
 
 void IceMan::doSomething() {
@@ -25,91 +33,91 @@ void IceMan::doSomething() {
 	if (hitPoints == 0)
 		return;
 	int ch;
-	if(getWorld()->getKey(ch) == true)
+	if (getWorld()->getKey(ch) == true)
 	{
-		switch(ch)
+		switch (ch)
 		{
-			case KEY_PRESS_LEFT:
-				if(getX()-1 >= 0 && (getWorld()->isBoulderThereL(getX(), getY()) == false) && (getDirection() == left)){
-					getWorld()->removeBlocks(getX(), getY());
-					moveTo(getX()-1, getY());
-					getWorld()->isMapObjectThere(getX(), getY());
-				}
-				setDirection(left);
-				break;
-			case KEY_PRESS_RIGHT:
-				if(getX()+1 <= 60 && (getWorld()->isBoulderThereR(getX(), getY()) == false) && (getDirection() == right)){
-					getWorld()->removeBlocks(getX()+2, getY());
-					moveTo(getX()+1, getY());
-					getWorld()->isMapObjectThere(getX(), getY());
-				}
-				setDirection(right);
-				break;
-			case KEY_PRESS_DOWN:
-				if(getY()-1 >= 0 && (getWorld()->isBoulderThereD(getX(), getY()) == false) && (getDirection() == down)){
-					getWorld()->removeBlocks(getX()+1, getY()-1);
-					moveTo(getX(), getY()-1);
-					getWorld()->isMapObjectThere(getX(), getY());
-				}
-				setDirection(down);
-				break;
-			case KEY_PRESS_UP:
-				if(getY()+1 <= 60 && (getWorld()->isBoulderThereU(getX(), getY()) == false) && (getDirection() == up)){
-					getWorld()->removeBlocks(getX()+1, getY()+1);
-					moveTo(getX(), getY()+1);
-					getWorld()->isMapObjectThere(getX(), getY());
-				}
-				setDirection(up);
-				break;
-			case KEY_PRESS_SPACE:
-				if (numSquirts > 0) {
-					if (getDirection() == right)
-					{
-						if (getWorld()->checkInitialSquirt(getX()+4, getY())) {
-							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-							--numSquirts;
-						}
-						else
-							getWorld()->createSquirt(getX() + 4, getY(), right);
-					}
-					else if (getDirection() == up)
-					{
-						if (getWorld()->checkInitialSquirt(getX(), getY()+4)) {
-							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-							--numSquirts;
-						}
-						else
-							getWorld()->createSquirt(getX(), getY() + 4, up);
-					}
-					else if (getDirection() == left)
-					{
-						if (getWorld()->checkInitialSquirt(getX()-4, getY())) {
-							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-							--numSquirts;
-						}
-						else
-							getWorld()->createSquirt(getX() - 4, getY(), left);
+		case KEY_PRESS_LEFT:
+			if (getX() - 1 >= 0 && (getWorld()->isBoulderThereL(getX(), getY()) == false) && (getDirection() == left)) {
+				getWorld()->removeBlocks(getX(), getY());
+				moveTo(getX() - 1, getY());
+				getWorld()->isMapObjectThere(getX(), getY());
+			}
+			setDirection(left);
+			break;
+		case KEY_PRESS_RIGHT:
+			if (getX() + 1 <= 60 && (getWorld()->isBoulderThereR(getX(), getY()) == false) && (getDirection() == right)) {
+				getWorld()->removeBlocks(getX() + 2, getY());
+				moveTo(getX() + 1, getY());
+				getWorld()->isMapObjectThere(getX(), getY());
+			}
+			setDirection(right);
+			break;
+		case KEY_PRESS_DOWN:
+			if (getY() - 1 >= 0 && (getWorld()->isBoulderThereD(getX(), getY()) == false) && (getDirection() == down)) {
+				getWorld()->removeBlocks(getX() + 1, getY() - 1);
+				moveTo(getX(), getY() - 1);
+				getWorld()->isMapObjectThere(getX(), getY());
+			}
+			setDirection(down);
+			break;
+		case KEY_PRESS_UP:
+			if (getY() + 1 <= 60 && (getWorld()->isBoulderThereU(getX(), getY()) == false) && (getDirection() == up)) {
+				getWorld()->removeBlocks(getX() + 1, getY() + 1);
+				moveTo(getX(), getY() + 1);
+				getWorld()->isMapObjectThere(getX(), getY());
+			}
+			setDirection(up);
+			break;
+		case KEY_PRESS_SPACE:
+			if (numSquirts > 0) {
+				if (getDirection() == right)
+				{
+					if (getWorld()->checkInitialSquirt(getX() + 4, getY())) {
+						getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+						--numSquirts;
 					}
 					else
-					{
-						if (getWorld()->checkInitialSquirt(getX(), getY()-4)) {
-							getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-							--numSquirts;
-						}
-						else
-							getWorld()->createSquirt(getX(), getY() - 4, down);
+						getWorld()->createSquirt(getX() + 4, getY(), right);
+				}
+				else if (getDirection() == up)
+				{
+					if (getWorld()->checkInitialSquirt(getX(), getY() + 4)) {
+						getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+						--numSquirts;
 					}
+					else
+						getWorld()->createSquirt(getX(), getY() + 4, up);
 				}
-				break;
-			case KEY_PRESS_TAB:
-				if(numGold > 0) {
-					getWorld()->dropGold(getX(), getY());
-					break;
+				else if (getDirection() == left)
+				{
+					if (getWorld()->checkInitialSquirt(getX() - 4, getY())) {
+						getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+						--numSquirts;
+					}
+					else
+						getWorld()->createSquirt(getX() - 4, getY(), left);
 				}
+				else
+				{
+					if (getWorld()->checkInitialSquirt(getX(), getY() - 4)) {
+						getWorld()->playSound(SOUND_PLAYER_SQUIRT);
+						--numSquirts;
+					}
+					else
+						getWorld()->createSquirt(getX(), getY() - 4, down);
+				}
+			}
+			break;
+		case KEY_PRESS_TAB:
+			if (numGold > 0) {
+				getWorld()->dropGold(getX(), getY());
 				break;
-			case KEY_PRESS_ESCAPE:
-				makeHimDead();
-				break;
+			}
+			break;
+		case KEY_PRESS_ESCAPE:
+			makeHimDead();
+			break;
 			/*case KEY_PRESS_Z:
 				world->useSonar();
 				--numSonar;
@@ -142,7 +150,7 @@ int IceMan::getGold() const {
 	return numGold;
 }
 
-int IceMan::getHitPoints() const 
+int IceMan::getHitPoints() const
 {
 	return hitPoints;
 }
@@ -160,7 +168,7 @@ int IceMan::getSonar() const {
 	return numSonar;
 }
 
-void IceMan::makeHimDead(){
+void IceMan::makeHimDead() {
 	getWorld()->playSound(SOUND_PLAYER_GIVE_UP);
 	hitPoints = 0;
 }
@@ -171,27 +179,25 @@ void IceMan::incSonar() {
 
 //MapObject Functions
 
-int MapObject::getVecPosition() const {
-	return vecPosition;
-}
+
 
 // Boulder Functions
 
 void Boulder::doSomething() {
 	//immediately returns if boulder is "dead"
-	if(!(this->isVisible()))
+	if (!(this->isVisible()))
 		return;
 	//immediately return if boulder is stable
-	else if(isStable())
+	else if (isStable())
 		return;
 	//if rock is waiting return
-	else if(!(doneWaiting()))
+	else if (!(doneWaiting()))
 		return;
-	else if(isFalling())
+	else if (isFalling())
 	{
 		//doSomething and play sound
-		moveTo(getX(), getY()-1);
-		if(hasFallen == false){
+		moveTo(getX(), getY() - 1);
+		if (hasFallen == false) {
 			getWorld()->playSound(SOUND_FALLING_ROCK);
 			hasFallen = true;
 		}
@@ -200,7 +206,7 @@ void Boulder::doSomething() {
 }
 
 bool Boulder::isFalling() {
-	if(isStable())
+	if (isStable())
 	{
 		this->setVisible(false);
 		return false;
@@ -208,19 +214,19 @@ bool Boulder::isFalling() {
 	return true;
 }
 
-bool Boulder::isStable(){
+bool Boulder::isStable() {
 	//if boulder is at bottom
-	if(getY() <= 0)
+	if (getY() <= 0)
 		return true;
-	if(getWorld()->isBoulderThereD(getX(), getY()))
+	if (getWorld()->isBoulderThereD(getX(), getY()))
 		return true;
-	if(!(getWorld()->isIceVisable(getX(), getY()-1, down)))
+	if (!(getWorld()->isIceVisable(getX(), getY() - 1, down)))
 		return false;
 	return true;
 }
 
-bool Boulder::doneWaiting(){
-	if(m_waitingTime >= 30)
+bool Boulder::doneWaiting() {
+	if (m_waitingTime >= 30)
 		return true;
 	m_waitingTime++;
 	return false;
@@ -228,12 +234,12 @@ bool Boulder::doneWaiting(){
 
 
 // Gold Functions
-void Gold::doSomething(){
-	if(isBribe == true)
+void Gold::doSomething() {
+	if (isBribe == true)
 	{
-		if(bribeTime >= 100)
+		if (bribeTime >= 100)
 		{
-			this->setDead();
+			setDead();
 			isBribe = false;
 		}
 		bribeTime++;
@@ -254,63 +260,65 @@ bool Gold::isBribeState() const {
 
 //Squirt Functions
 
-void Squirt::doSomething(){
-	if(isSquirt && squirtTime <= 6)
+void Squirt::doSomething() {
+	if (isSquirt && squirtTime <= 6)
 	{
 		//checks to see if the squirt is about to hit an actor object
 		getWorld()->checkSquirtRadius(getX(), getY(), vecPosition);
-		if(getDirection() == right)
+		if (getDirection() == right)
 		{
-			if(squirtTime == 0)
+			if (squirtTime == 0)
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-			moveTo(getX()+1, getY());
+			moveTo(getX() + 1, getY());
 			squirtTime++;
-			if(getWorld()->isIceVisable(getX()+3, getY(), right))
+			if (getWorld()->isIceVisable(getX() + 3, getY(), right))
 				setDead();
 		}
-		if(getDirection() == left)
+		if (getDirection() == left)
 		{
-			if(squirtTime == 0)
+			if (squirtTime == 0)
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-			moveTo(getX()-1, getY());
+			moveTo(getX() - 1, getY());
 			squirtTime++;
-			if(getWorld()->isIceVisable(getX(), getY(), left))
+			if (getWorld()->isIceVisable(getX(), getY(), left))
 				setDead();
 		}
-		if(getDirection() == up)
+		if (getDirection() == up)
 		{
-			if(squirtTime == 0)
+			if (squirtTime == 0)
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-			moveTo(getX(), getY()+1);
+			moveTo(getX(), getY() + 1);
 			squirtTime++;
-			if(getWorld()->isIceVisable(getX(), getY()+3, up))
+			if (getWorld()->isIceVisable(getX(), getY() + 3, up))
 				setDead();
 		}
-		if(getDirection() == down)
+		if (getDirection() == down)
 		{
-			if(squirtTime == 0)
+			if (squirtTime == 0)
 				getWorld()->playSound(SOUND_PLAYER_SQUIRT);
-			moveTo(getX(), getY()-1);
+			moveTo(getX(), getY() - 1);
 			squirtTime++;
-			if(getWorld()->isIceVisable(getX(), getY(), down))
+			if (getWorld()->isIceVisable(getX(), getY(), down))
 				setDead();
 		}
 	}
-	if(squirtTime > 6)
+	if (squirtTime > 6)
 		setDead();
 }
 
-bool Squirt::getIsSquirt() const{
+bool Squirt::getIsSquirt() const {
 	return isSquirt;
 }
 
-void Squirt::updateIsSquirt(bool update){
+void Squirt::updateIsSquirt(bool update) {
 	isSquirt = update;
 }
 
+// Sonar Functions
+
 void Sonar::doSomething() {
 	getWorld()->pickUpSonar(vecPosition);
-	if(sonarTime > int(getWorld()->sonarTimeMax()))
+	if (sonarTime > int(getWorld()->sonarTimeMax()))
 	{
 		setDead();
 	}

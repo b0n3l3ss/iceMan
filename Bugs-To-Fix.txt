@@ -4,4 +4,14 @@
 0 Have water spurt be optimized when hits a protester
 0 update isMovingObjectThere for protestors
 0 update squirtRadius for protestors
-0 squirt gets created corrected, just needs to have something to create it, and needs to be able to be picked up by iceman
+0 squirt gets created corrected, just needs to have something to create it, and needs to be able 
+  to be picked up by iceman
+
+
+
+0 THERE IS A BUG THAT NEEDS TO BE FIXED ASAP!!!! if you grab the oil or gold before the sonar
+  is removed from the vector, then it crashes. I implemented a loop in the move function that 
+  will update the vector position of the remaining actors if one of the previous actors was deleted.
+  This loop will only run if it runs into an actor in "dead" state, so we need to go back and fix
+  the gold and oil barrels so that instead of deleteting them when we run into them, we set them dead.
+  

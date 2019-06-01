@@ -1,5 +1,2 @@
-﻿  StudentWorld.cpp
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(50): warning C4018: '<': signed/unsigned mismatch
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(82): warning C4018: '<': signed/unsigned mismatch
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(560): warning C4018: '<': signed/unsigned mismatch
+﻿  Actor.cpp
   IceMan.vcxproj -> C:\Users\Jonas\source\repos\CS30_Project3_iceMan\IceMan\Debug\IceMan.exe
