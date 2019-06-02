@@ -83,6 +83,7 @@ public:
 	void incSquirt();
 	void decSquirt();
 	void incSonar();
+	void decSonar();
 
 
 

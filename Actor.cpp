@@ -31,6 +31,7 @@ void IceMan::doSomething() {
 	if (hitPoints == 0)
 		return;
 	int ch;
+	char c;
 	if (getWorld()->getKey(ch) == true)
 	{
 		switch (ch)
@@ -116,10 +117,15 @@ void IceMan::doSomething() {
 		case KEY_PRESS_ESCAPE:
 			makeHimDead();
 			break;
-			/*case KEY_PRESS_Z:
-				world->useSonar();
-				--numSonar;
-*/
+		}
+		switch (c) {
+			case 'z':
+				getWorld()->useSonar();
+				break;
+				
+			case 'Z':
+				getWorld()->useSonar();
+				break;
 		}
 	}
 }
@@ -173,6 +179,10 @@ void IceMan::makeHimDead() {
 
 void IceMan::incSonar() {
 	++numSonar;
+}
+
+void IceMan::decSonar(){
+	--numSonar;
 }
 
 //MapObject Functions

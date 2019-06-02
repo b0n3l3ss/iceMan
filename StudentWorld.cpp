@@ -446,13 +446,13 @@ void StudentWorld::isMapObjectThere(int x, int y)
 			deltaY = abs(gameActors[i]->getY() - y);
 			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if(radius <= 3){
-				int tempTotal = 0;
+//				int tempTotal = 0;
 				//sets an iterator to the position of the gold
-				vector<Actor*>::iterator p = gameActors.begin();
-				while(tempTotal < i) {
-					p++;
-					tempTotal++;
-				}
+//				vector<Actor*>::iterator p = gameActors.begin();
+//				while(tempTotal < i) {
+//					p++;
+//					tempTotal++;
+//				}
 				if(i < bouldNum)
 				{
 					player->makeHimDead();
@@ -461,19 +461,21 @@ void StudentWorld::isMapObjectThere(int x, int y)
 					// If picked up gold, increase count, delete from
 					// student world, increase score, play sound
 					delete gameActors[i];
-					gameActors.erase(p);
-					--goldNum;
+					gameActors[i] = nullptr;
+//					gameActors.erase(p);
+//					--goldNum;
 					playSound(SOUND_GOT_GOODIE);
 					increaseScore(10);
 					player->incGold();
 					return;
 				}
-				else {
+				else if (i < bouldGoldAndOil){
 					// If picked up oil, increase count, delete from
 					// student world, increase score, play sound
 					delete gameActors[i];
-					gameActors.erase(p);
-					--oilNum;
+					gameActors[i] = nullptr;
+//					gameActors.erase(p);
+//					--oilNum;
 					playSound(SOUND_FOUND_OIL);
 					increaseScore(1000);
 					player->incOil();
@@ -567,6 +569,7 @@ void StudentWorld::useSonar() {
 				gameActors[i]->setVisible(true);
 		}
 	}
+	player->decSonar();
 }
 
 void StudentWorld::pickUpSonar(int pos) {
@@ -578,3 +581,4 @@ void StudentWorld::pickUpSonar(int pos) {
 		player->incSonar();
 	}
 }
+//jonas is a super bib
