@@ -8,22 +8,6 @@
 
 
 // Actor Functions
-StudentWorld* Actor::getWorld() {
-	return world;
-}
-
-bool Actor::isDead() const {
-	return isItDead;
-}
-
-void Actor::setDead() {
-	isItDead = true;
-}
-
-int Actor::getVecPosition() const {
-	return vecPosition;
-}
-
 
 
 // IceMan Functions
@@ -126,60 +110,6 @@ void IceMan::doSomething() {
 	}
 }
 
-void IceMan::incGold() {
-	++numGold;
-}
-
-void IceMan::decGold() {
-	--numGold;
-}
-
-void IceMan::incOil() {
-	++numOil;
-}
-
-void IceMan::incSquirt() {
-	numSquirts += 5;
-}
-
-void IceMan::decSquirt() {
-	--numSquirts;
-}
-
-int IceMan::getGold() const {
-	return numGold;
-}
-
-int IceMan::getHitPoints() const
-{
-	return hitPoints;
-}
-
-int IceMan::getBarrels() const {
-	return numOil;
-}
-
-int IceMan::getSquirts() const {
-	return numSquirts;
-
-}
-
-int IceMan::getSonar() const {
-	return numSonar;
-}
-
-void IceMan::makeHimDead() {
-	getWorld()->playSound(SOUND_PLAYER_GIVE_UP);
-	hitPoints = 0;
-}
-
-void IceMan::incSonar() {
-	++numSonar;
-}
-
-void IceMan::decSonar(){
-	--numSonar;
-}
 
 
 //Protestor Functions
@@ -368,13 +298,6 @@ void Gold::doSomething() {
 	}
 }
 
-void Gold::updateisBribeState(bool update) {
-	isBribe = update;
-}
-
-bool Gold::isBribeState() const {
-	return isBribe;
-}
 
 
 
@@ -428,13 +351,7 @@ void Squirt::doSomething() {
 		setDead();
 }
 
-bool Squirt::getIsSquirt() const {
-	return isSquirt;
-}
 
-void Squirt::updateIsSquirt(bool update) {
-	isSquirt = update;
-}
 
 // Sonar Functions
 

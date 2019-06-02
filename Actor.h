@@ -25,10 +25,10 @@ public:
 		isItDead = false;
 	}
 	virtual void doSomething() = 0;
-	virtual StudentWorld* getWorld();
-	virtual bool isDead() const;
-	virtual void setDead();
-	int getVecPosition() const;
+	virtual StudentWorld* getWorld() { return world; }
+	virtual bool isDead() const { return isItDead; }
+	virtual void setDead() { isItDead = true; }
+	int getVecPosition() const { return vecPosition; }
 	bool returnProtestor() const { return protestor; }
 	virtual ~Actor() { }
 };
@@ -110,24 +110,24 @@ public:
 	// Wasn't sure if I needed to re-declare this, even though it is already
 	// in the MovingObject class
 	void doSomething();
-	int getHitPoints() const;
-	int getSquirts() const;
-	int getBarrels() const;
-	int getSonar() const;
-	int getGold() const;
+	int getHitPoints() const { return hitPoints; }
+	int getSquirts() const { return numSquirts; }
+	int getBarrels() const { return numOil; }
+	int getSonar() const { return numSonar; }
+	int getGold() const { return numGold; }
 
-	void incOil();
-	void incGold();
-	void decGold();
-	void incSquirt();
-	void decSquirt();
-	void incSonar();
-	void decSonar();
+	void incOil() { ++numOil; }
+	void incGold() { ++numGold; }
+	void decGold() { --numGold; }
+	void incSquirt() { ++numSquirts; }
+	void decSquirt() { --numSquirts; }
+	void incSonar() { ++numSonar; }
+	void decSonar() { --numSonar; }
 	void decHealth() { --hitPoints; }
 
 
 
-	void makeHimDead();
+	void makeHimDead() { isItDead = true; }
 
 	~IceMan() { }
 
@@ -184,8 +184,8 @@ public:
 		isBribe = false;
 		bribeTime = 0;
 	}
-	bool isBribeState() const;
-	void updateisBribeState(bool update);
+	bool isBribeState() const { return isBribe; }
+	void updateisBribeState(bool update) { isBribe = update; }
 	void doSomething();
 	virtual ~Gold() {
 		world = nullptr;
@@ -216,8 +216,8 @@ public:
 		vecPosition = VecPos;
 	}
 	void doSomething();
-	bool getIsSquirt() const;
-	void updateIsSquirt(bool);
+	bool getIsSquirt() const { return isSquirt; }
+	void updateIsSquirt(bool update) { isSquirt = update; }
 	//int getVecPosition() const;
 
 };

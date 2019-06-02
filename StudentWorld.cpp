@@ -255,7 +255,6 @@ void StudentWorld::removeBoulderIce(int x, int y)
 			ice[x + i][y + j]->setVisible(false);
 		}
 	}
-	
 }
 
 //creates both boulders
@@ -673,4 +672,4 @@ bool StudentWorld::iceProtestorH(int x, int y) const {
 
 
 
-// Greg is a super bib
+// Jonas is a super duper bib

@@ -21,32 +21,34 @@ public:
 	virtual int init();
 	virtual int move();
 	virtual void cleanUp();
-	void removeBlocks(int x, int y);
-	void removeBoulderIce(int x, int y);
-	void updateItemCount();
-	bool isBoulderThereR(int, int);
-	bool isBoulderThereL(int, int);
-	bool isBoulderThereU(int, int);
-	bool isBoulderThereD(int, int);
-	void isMapObjectThere(int, int);
-	bool isIceVisable(int, int, Actor::Direction);
-	void dropGold(int, int);
-	void createSquirt(int, int, Actor::Direction);
-	void checkSquirtRadius(int, int, int);
-	void useSonar();
-	void pickUpSonar(int);
+	
 	bool checkInitialSquirt(int, int);
-	int sonarTimeMax();
-	int waterPoolTimeMax();
-	void createWaterPool();
-	void pickUpWaterPool(int pos);
-	void createSonarOrWater();
-	bool isThereIce(int, int);
+	void checkSquirtRadius(int, int, int);
 	void createRegProtestor();
-	bool isIceManThere(int, int) const;
+	void createSonarOrWater();
+	void createSquirt(int, int, Actor::Direction);
+	void createWaterPool();
+	void dropGold(int, int);
 	bool iceProtestorH(int, int) const;
 	bool iceProtestorV(int, int) const;
+	bool isBoulderThereD(int, int);
+	bool isBoulderThereL(int, int);
+	bool isBoulderThereR(int, int);
+	bool isBoulderThereU(int, int);
+	bool isIceManThere(int, int) const;
+	bool isIceVisable(int, int, Actor::Direction);
+	void isMapObjectThere(int, int);
+	bool isThereIce(int, int);
+	void removeBlocks(int x, int y);
+	void removeBoulderIce(int x, int y);
+	int  sonarTimeMax();
+	void pickUpSonar(int);
+	void pickUpWaterPool(int pos);
+	void updateItemCount();
+	void useSonar();
+	int  waterPoolTimeMax();
 	
+	//still needs to be implemented
 	int findRadius(int);
 	
 	~StudentWorld();
