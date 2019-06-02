@@ -571,6 +571,7 @@ void StudentWorld::pickUpSonar(int pos) {
 	if (radius <= 3) {
 		gameActors[pos]->setDead();
 		player->incSonar();
+		playSound(SOUND_GOT_GOODIE);
 	}
 }
 
@@ -595,6 +596,7 @@ void StudentWorld::pickUpWaterPool(int pos) {
 	if (radius <= 3) {
 		gameActors[pos]->setDead();
 		player->incSquirt();
+		playSound(SOUND_GOT_GOODIE);
 	}
 }
 
@@ -603,6 +605,12 @@ int StudentWorld::waterPoolTimeMax(){
 }
 
 void StudentWorld::createSonarOrWater(){
+	int g = int(getLevel())*25+300;
+	int randNum = rand()%g;
+	if(randNum != 0)
+	{
+		return;
+	}
 	int randomNumber = rand()%5;
 	if(randomNumber == 0)
 	{
