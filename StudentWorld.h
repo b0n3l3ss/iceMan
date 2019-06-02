@@ -41,6 +41,7 @@ public:
 	bool isThereIce(int, int);
 	void removeBlocks(int x, int y);
 	void removeBoulderIce(int x, int y);
+	int  setTicksToWait();
 	int  sonarTimeMax();
 	void pickUpSonar(int);
 	void pickUpWaterPool(int pos);

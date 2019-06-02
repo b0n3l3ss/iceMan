@@ -113,9 +113,7 @@ void IceMan::doSomething() {
 
 
 //Protestor Functions
-void Protestor::setTicksToWait() {
-	ticksToWait = std::max(0, 3 - int(getWorld()->getLevel()) / 4);
-}
+
 
 // Regular Protestor Functions
 
@@ -128,12 +126,11 @@ void RegularProtestor::doSomething() {
 	}
 
 	
-	if (ticksToWait != 0) {  // Rest state
-		--ticksToWait;
+	if ((ticksToWait % int(getWorld()->setTicksToWait())) != 0) {  // Rest state
+		++ticksToWait;
 		return;
 	}
 	else { // Not rest state lol leeleeleeleeleeleeleeleeleelee
-		setTicksToWait();
 		if (isLeaving) {
 			if (getX() == 60 && getY() == 60) {
 				setDead();
@@ -144,7 +141,7 @@ void RegularProtestor::doSomething() {
 				return;
 			}
 		}
-		else if (iceManInView()) {
+		else if (false /*iceManInView()*/) {
 			if (getDirection() == right) { // if ice man is right
 				moveTo(getX() + 1, getY());
 				return;
@@ -162,8 +159,56 @@ void RegularProtestor::doSomething() {
 				return;
 			}
 		}
-
+		//picks a new direction
+		else if(numSquaresToMoveInCurrentDirection <= 0){
+			direction = rand()%4;
+			switch (direction) {
+				case 0: //right
+					setDirection(right);
+					break;
+					
+				case 1: //left
+					setDirection(left);
+					break;
+				case 2: //up
+					setDirection(up);
+					break;
+				case 3: //down
+					setDirection(down);
+					break;
+			}
+			numSquaresToMoveInCurrentDirection = (rand()%60) + 8;
+			moveProtestor();
+		}
+		else if(numSquaresToMoveInCurrentDirection > 0){
+			moveProtestor();
+		}
+		++ticksToWait;
 	}
+}
+
+void Protestor::moveProtestor() {
+	if(getDirection() == right && !(getWorld()->isIceVisable(getX()+3, getY(), right)))
+	{
+		moveTo(getX() + 1, getY());
+	}
+	else if(getDirection() == left && !(getWorld()->isIceVisable(getX()-1, getY(), left)))
+	{
+		moveTo(getX()-1, getY());
+	}
+	else if(getDirection() == up && !(getWorld()->isIceVisable(getX(), getY()+3, up)))
+	{
+		moveTo(getX(), getY()+1);
+	}
+	else if(getDirection() == down && !(getWorld()->isIceVisable(getX(), getY()-1, down)))
+	{
+		moveTo(getX(), getY()-1);
+	}
+	else{
+		numSquaresToMoveInCurrentDirection = 0;
+		return;
+	}
+	--numSquaresToMoveInCurrentDirection;
 }
 
 bool Protestor::iceManInView() {

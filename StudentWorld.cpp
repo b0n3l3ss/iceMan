@@ -364,7 +364,7 @@ void StudentWorld::checkForObject(int &x, int &y) {
 
 bool StudentWorld::isIceVisable(int x, int y, Actor::Direction dir)
 {
-	if(x < 0 || x > 64 || y < 0 || y > 64)
+	if(x < 0 || x > 64 || y < 0 || y > 63)
 		return true;
 	if(dir == Actor::up || dir == Actor::down)
 	{
@@ -662,7 +662,9 @@ bool StudentWorld::iceProtestorH(int x, int y) const {
 	return false;
 }
 
-
+int StudentWorld::setTicksToWait(){
+	return max(0, 3 - int(getLevel()) / 4);
+}
 
 
 

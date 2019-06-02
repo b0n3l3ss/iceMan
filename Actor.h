@@ -68,11 +68,16 @@ protected:
 	int ticksToWait;
 	int ticksToTurn;
 	int restCounter;
+	int numSquaresToMoveInCurrentDirection;
+	int direction;
 public:
 	Protestor(int hp, int ID, StudentWorld* w) : MovingObject(hp, ID, 60, 60, left, 1, 0, w) {
 		setVisible(true);
 		protestor = true;
 		isLeaving = false;
+		ticksToWait = 0;
+		numSquaresToMoveInCurrentDirection = 0;
+		direction = -1;
 	}
 	bool getType() const { return isHardcore; }
 	bool getStatus() const { return isLeaving; }
@@ -84,6 +89,7 @@ public:
 	void moveToExit();
 	bool iceManInView();
 	void setTicksToWait();
+	void moveProtestor();
 	//void move();
 };
 
@@ -92,8 +98,6 @@ private:
 
 public:
 	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) {
-		setTicksToWait();
-		isLeaving = false;
 	}
 	void doSomething();
 };
