@@ -9,6 +9,12 @@
 
 // Actor Functions
 
+void Actor::hitBySquirt(){
+	hitPoints -= 2;
+	stun = true;
+	stunTime = std::max(50, 100 - int(getWorld()->getLevel())*10);
+	getWorld()->playSound(SOUND_PROTESTER_ANNOYED);
+}
 
 // IceMan Functions
 
@@ -118,14 +124,35 @@ void IceMan::doSomething() {
 // Regular Protestor Functions
 
 void RegularProtestor::doSomething() {
-
+	
+	//just temporary
+	//deletes the iceman instead of him leaving
+	if(isLeaving)
+	{
+		setDead();
+		return;
+	}
+	//checks to see if boulder is falling on protestor
+	getWorld()->isMapObjectThereProtestor(getX(), getY(), this);
 	// If has no health, set dead
-	if (hitPoints == 0) {
+	if (hitPoints <= 0) {
+		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
 		isLeaving = true;
 		return;
 	}
+	if(stun)
+	{
+		if(stunTime > 0)
+		{
+			--stunTime;
+		}
+		else{
+			stun = false;
+		}
+		return;
+	}
 
-	
+	/*
 	if ((ticksToWait % int(getWorld()->setTicksToWait())) != 0) {  // Rest state
 		++ticksToWait;
 		return;
@@ -185,6 +212,7 @@ void RegularProtestor::doSomething() {
 		}
 		++ticksToWait;
 	}
+	 */
 }
 
 void Protestor::moveProtestor() {
@@ -230,7 +258,7 @@ bool Protestor::iceManInView() {
 	}
 	else if (getDirection() == up) {
 
-		for (int i = 0; i < getY() + i < 60; ++i) {
+		for (int i = 0; getY() + i < 60; ++i) {
 			if (getWorld()->isIceManThere(getX(), getY() + i))
 				return true;
 			if (getWorld()->iceProtestorV(getX(), getY() + i))

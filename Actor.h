@@ -18,11 +18,16 @@ protected:
 	bool isItDead;
 	int vecPosition;
 	bool protestor = false;
+	int hitPoints;
+	bool stun;
+	int stunTime;
 public:
 	Actor(int ID, int x, int y, Direction d, double size, int depth, StudentWorld* w)
 		: GraphObject(ID, x, y, d, size, depth) {
 		world = w;
 		isItDead = false;
+			stun = false;
+			stunTime = 0;
 	}
 	virtual void doSomething() = 0;
 	virtual StudentWorld* getWorld() { return world; }
@@ -30,6 +35,8 @@ public:
 	virtual void setDead() { isItDead = true; }
 	int getVecPosition() const { return vecPosition; }
 	bool returnProtestor() const { return protestor; }
+	void hitBySquirt();
+	void setHitpointsToZero() { hitPoints -= hitPoints; } //used for protestor so that he will be killed by boulder
 	virtual ~Actor() { }
 };
 
@@ -46,7 +53,6 @@ public:
 class MovingObject : public Actor {
 protected:
 	// Protected so both iceman and protestors can access their hitpoints
-	int hitPoints;
 public:
 	// Constructor normal constructor for general Moving obj with HP parameter
 	MovingObject(int hp, int ID, int x, int y, Direction d, float size, int depth, StudentWorld* w)
@@ -78,6 +84,7 @@ public:
 		ticksToWait = 0;
 		numSquaresToMoveInCurrentDirection = 0;
 		direction = -1;
+		
 	}
 	bool getType() const { return isHardcore; }
 	bool getStatus() const { return isLeaving; }
@@ -88,7 +95,7 @@ public:
 	//bool checkGold();
 	void moveToExit();
 	bool iceManInView();
-	void setTicksToWait();
+	//void setTicksToWait();
 	void moveProtestor();
 	//void move();
 };
@@ -97,15 +104,14 @@ class RegularProtestor : public Protestor {
 private:
 
 public:
-	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) {
-	}
+	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) { }
 	void doSomething();
 };
 
 class IceMan : public MovingObject {
 public:
 	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
-		this->setVisible(true);
+		setVisible(true);
 		numSquirts = 5;
 		numSonar = 1;
 		numGold = 0;
@@ -131,7 +137,7 @@ public:
 
 
 
-	void makeHimDead() { isItDead = true; }
+	void makeHimDead() { isItDead = true; hitPoints = 0; }
 
 	~IceMan() { }
 
@@ -257,11 +263,3 @@ public:
 };
 
 #endif //ACTOR_H_
-
-<<<<<<< HEAD
-
-
-//Greg is the bibbiest bibb
-=======
-//Jonas is wibble nib
->>>>>>> 6baf2d3ffd70d08877897ec586457c0080494aeb

@@ -38,6 +38,7 @@ public:
 	bool isIceManThere(int, int) const;
 	bool isIceVisable(int, int, Actor::Direction);
 	void isMapObjectThere(int, int);
+	void isMapObjectThereProtestor(int,int, Actor*);
 	bool isThereIce(int, int);
 	void removeBlocks(int x, int y);
 	void removeBoulderIce(int x, int y);

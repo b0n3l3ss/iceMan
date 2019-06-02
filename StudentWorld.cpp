@@ -482,6 +482,24 @@ void StudentWorld::isMapObjectThere(int x, int y)
 	}
 }
 
+//checks to see if a boulder is falling on a protestor
+void StudentWorld::isMapObjectThereProtestor(int x, int y, Actor* p)
+{
+	int deltaX, deltaY, radius;
+	for(int i = 0; i < bouldNum; ++i) {
+		if(gameActors[i] != nullptr)
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				p->setHitpointsToZero();
+				return;
+			}
+		}
+	}
+}
+
 
 void StudentWorld::dropGold(int x, int y)
 {
@@ -517,6 +535,22 @@ void StudentWorld::checkSquirtRadius(int x, int y, int pos){
 			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if(radius <= 3){
 				gameActors[pos]->setDead();
+			}
+		}
+	}
+	for(int i = bouldGoldAndOil; i < gameActors.size(); ++i)
+	{
+		if(gameActors[i] != nullptr)
+		{
+			if(gameActors[i]->returnProtestor())
+			{
+				deltaX = abs(gameActors[i]->getX() - x);
+				deltaY = abs(gameActors[i]->getY() - y);
+				radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+				if(radius <= 3){
+					gameActors[pos]->setDead();
+					gameActors[i]->hitBySquirt();
+				}
 			}
 		}
 	}
