@@ -43,7 +43,9 @@ public:
 	void createSonarOrWater();
 	bool isThereIce(int, int);
 	void createRegProtestor();
-	bool isIceManThere(int, int);
+	bool isIceManThere(int, int) const;
+	bool iceProtestorH(int, int) const;
+	bool iceProtestorV(int, int) const;
 	
 	int findRadius(int);
 	

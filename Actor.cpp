@@ -238,23 +238,36 @@ void RegularProtestor::doSomething() {
 
 bool Protestor::iceManInView() {
 	if (getDirection() == right) {
-		for (int i = 0; i < 60; i += 4) {
+		for (int i = 0; i + getX() < 60; ++i) {
+			if (getWorld()->isIceManThere(getX() + i, getY()))
+				return true;
+			if (getWorld()->iceProtestorH(getX() + i, getY()))
+				return false;
+		}
+		/*for (int i = 0; i < 60; i += 4) {
 			for (int j = i; j < i + 4; ++j) {
 				if (getWorld()->isIceManThere(getX() + j, getY()))
 					return true;
 			}
 			if (getWorld()->isThereIce(getX(), getY()))
 				return false;
-		}
+		}*/
 	}
 	else if (getDirection() == left) {
-		for (int i = 0; i < 60; i += 4) {
+		for (int i = 0; getX() - i > 0; ++i) {
+			if (getWorld()->isIceManThere(getX() - i, getY()))
+				return true;
+			if (getWorld()->iceProtestorH(getX() - i, getY()))
+				return false;
+
+
+		/*for (int i = 0; i < 60; i += 4) {
 			for (int j = i; j < i + 4; ++j) {
 				if (getWorld()->isIceManThere(getX() - j, getY()))
 					return true;
 			}
 			if (getWorld()->isThereIce(getX() - i, getY()))
-				return false;
+				return false;*/
 		}
 	}
 	else if (getDirection() == up) {

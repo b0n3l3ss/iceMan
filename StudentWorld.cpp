@@ -645,13 +645,19 @@ void StudentWorld::createRegProtestor() {
 	gameActors.push_back(temp);
 }
 
-bool StudentWorld::isIceManThere(int x, int y) {
+bool StudentWorld::isIceManThere(int x, int y) const {
 	if (player->getX() == x && player->getY() == y)
 		return true;
 	return false;
 }
 
-
+bool StudentWorld::iceProtestorH(int x, int y) const {
+	for (int i = -2; i < 2; ++i) {
+		if (ice[x][y + i]->isVisible())
+			return true;
+	}
+	return false;
+}
 
 
 
