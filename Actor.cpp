@@ -31,7 +31,6 @@ void IceMan::doSomething() {
 	if (hitPoints == 0)
 		return;
 	int ch;
-	char c;
 	if (getWorld()->getKey(ch) == true)
 	{
 		switch (ch)
@@ -117,15 +116,10 @@ void IceMan::doSomething() {
 		case KEY_PRESS_ESCAPE:
 			makeHimDead();
 			break;
-		}
-		switch (c) {
-			case 'z':
-				getWorld()->useSonar();
-				break;
-				
-			case 'Z':
-				getWorld()->useSonar();
-				break;
+		case 'z':
+		case 'Z':
+			getWorld()->useSonar();
+			break;
 		}
 	}
 }

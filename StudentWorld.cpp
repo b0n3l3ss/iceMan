@@ -564,7 +564,7 @@ void StudentWorld::useSonar() {
 		if (gameActors[i] != nullptr) {
 			double deltaX = gameActors[i]->getX() - player->getX();
 			double deltaY = gameActors[i]->getY() - player->getY();
-			double radius = sqrt(deltaX * deltaX + deltaY + deltaY);
+			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if (radius <= 12)
 				gameActors[i]->setVisible(true);
 		}
