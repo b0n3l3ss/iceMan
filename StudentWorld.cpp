@@ -55,7 +55,7 @@ int StudentWorld::move() {
 		}
 	}
 	// If all oil Barells have been picked up, the level has been complete
-	if (oilNum == 0) {
+	if (oilNum - player->getBarrels() == 0) {
 		playSound(SOUND_FINISHED_LEVEL);
 		return GWSTATUS_FINISHED_LEVEL;
 	}
@@ -240,7 +240,7 @@ void StudentWorld::updateScore(){
 	int health = player->getHitPoints()*10;
 	int squirts = player->getSquirts();
 	int gold = player->getGold();
-	int barrels = oilNum;
+	int barrels = oilNum - player->getBarrels();
 	int sonar = player->getSonar();
 	
 	int score = getScore();
@@ -364,7 +364,7 @@ void StudentWorld::checkForObject(int &x, int &y) {
 
 bool StudentWorld::isIceVisable(int x, int y, Actor::Direction dir)
 {
-	if(x < 0 || x > 64 || y < 0 || y > 63)
+	if(x < 0 || x > 63 || y < 0 || y > 62)
 		return true;
 	if(dir == Actor::up || dir == Actor::down)
 	{
@@ -471,6 +471,7 @@ void StudentWorld::isMapObjectThere(int x, int y)
 					playSound(SOUND_FOUND_OIL);
 					increaseScore(1000);
 					player->incOil();
+					//--oilNum;
 					return;
 				}
 			}
@@ -655,8 +656,16 @@ bool StudentWorld::isIceManThere(int x, int y) const {
 }
 
 bool StudentWorld::iceProtestorH(int x, int y) const {
-	for (int i = -2; i < 2; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		if (ice[x][y + i]->isVisible())
+			return true;
+	}
+	return false;
+}
+
+bool StudentWorld::iceProtestorV(int x, int y) const {
+	for (int i = 0; i < 4; ++i) {
+		if (ice[x + i][y]->isVisible())
 			return true;
 	}
 	return false;

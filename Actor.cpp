@@ -138,25 +138,25 @@ void RegularProtestor::doSomething() {
 			}
 			else {
 				moveToExit();
-				return;
+				//return;
 			}
 		}
-		else if (false /*iceManInView()*/) {
+		else if (iceManInView()) {
 			if (getDirection() == right) { // if ice man is right
 				moveTo(getX() + 1, getY());
-				return;
+				//return;
 			}
 			else if (getDirection() == left) { // if ice man is left
 				moveTo(getX() - 1, getY());
-				return;
+				//return;
 			}
 			else if (getDirection() == up) { // if ice man is up
 				moveTo(getX(), getY() + 1);
-				return;
+				//return;
 			}
 			else { // If ice man is down
 				moveTo(getX(), getY() - 1);
-				return;
+				//return;
 			}
 		}
 		//picks a new direction
@@ -188,7 +188,7 @@ void RegularProtestor::doSomething() {
 }
 
 void Protestor::moveProtestor() {
-	if(getDirection() == right && !(getWorld()->isIceVisable(getX()+3, getY(), right)))
+	if(getDirection() == right && !(getWorld()->isIceVisable(getX() + 4, getY(), right)))
 	{
 		moveTo(getX() + 1, getY());
 	}
@@ -219,14 +219,6 @@ bool Protestor::iceManInView() {
 			if (getWorld()->iceProtestorH(getX() + i, getY()))
 				return false;
 		}
-		/*for (int i = 0; i < 60; i += 4) {
-			for (int j = i; j < i + 4; ++j) {
-				if (getWorld()->isIceManThere(getX() + j, getY()))
-					return true;
-			}
-			if (getWorld()->isThereIce(getX(), getY()))
-				return false;
-		}*/
 	}
 	else if (getDirection() == left) {
 		for (int i = 0; getX() - i > 0; ++i) {
@@ -234,34 +226,22 @@ bool Protestor::iceManInView() {
 				return true;
 			if (getWorld()->iceProtestorH(getX() - i, getY()))
 				return false;
-
-
-		/*for (int i = 0; i < 60; i += 4) {
-			for (int j = i; j < i + 4; ++j) {
-				if (getWorld()->isIceManThere(getX() - j, getY()))
-					return true;
-			}
-			if (getWorld()->isThereIce(getX() - i, getY()))
-				return false;*/
 		}
 	}
 	else if (getDirection() == up) {
-		for (int i = 0; i < 60; i += 4) {
-			for (int j = i; j < i + 4; ++j) {
-				if (getWorld()->isIceManThere(getX(), getY() + j))
+
+		for (int i = 0; i < getY() + i < 60; ++i) {
+			if (getWorld()->isIceManThere(getX(), getY() + i))
 				return true;
-			}
-			if (getWorld()->isThereIce(getX(), getY() + i))
+			if (getWorld()->iceProtestorV(getX(), getY() + i))
 				return false;
 		}
 	}
 	else {
-		for (int i = 0; i < 60; i += 4) {
-			for (int j = i; j < i + 4; ++j) {
-				if (getWorld()->isIceManThere(getX(), getY() - j))
-					return true;
-			}
-			if (getWorld()->isThereIce(getX(), getY() - i))
+		for (int i = 0; i - getY() < 0; ++i) {
+			if (getWorld()->isIceManThere(getX(), getY() - i))
+				return true;
+			if (getWorld()->iceProtestorV(getX(), getY() - i))
 				return false;
 		}
 	}
