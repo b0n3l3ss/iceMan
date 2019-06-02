@@ -569,6 +569,7 @@ void StudentWorld::useSonar() {
 				gameActors[i]->setVisible(true);
 		}
 	}
+	playSound(SOUND_SONAR);
 	player->decSonar();
 }
 
