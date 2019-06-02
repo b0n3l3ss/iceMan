@@ -230,7 +230,7 @@ bool Protestor::iceManInView() {
 	}
 	else if (getDirection() == up) {
 
-		for (int i = 0; i < getY() + i < 60; ++i) {
+		for (int i = 0; getY() + i < 60; ++i) {
 			if (getWorld()->isIceManThere(getX(), getY() + i))
 				return true;
 			if (getWorld()->iceProtestorV(getX(), getY() + i))

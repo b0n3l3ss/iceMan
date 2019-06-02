@@ -257,11 +257,3 @@ public:
 };
 
 #endif //ACTOR_H_
-
-<<<<<<< HEAD
-
-
-//Greg is the bibbiest bibb
-=======
-//Jonas is wibble nib
->>>>>>> 6baf2d3ffd70d08877897ec586457c0080494aeb

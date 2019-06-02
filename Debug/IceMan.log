@@ -1,3 +1,6 @@
 ﻿  Actor.cpp
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\actor.cpp(233): warning C4804: '<': unsafe use of type 'bool' in operation
+  StudentWorld.cpp
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(81): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(559): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   IceMan.vcxproj -> C:\Users\Jonas\source\repos\CS30_Project3_iceMan\IceMan\Debug\IceMan.exe
