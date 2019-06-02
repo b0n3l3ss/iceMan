@@ -17,21 +17,16 @@ protected:
 	StudentWorld* world = nullptr;
 	bool isItDead;
 	int vecPosition;
-	bool isSonar;
-	bool isWater;
 public:
 	Actor(int ID, int x, int y, Direction d, double size, int depth, StudentWorld* w)
 		: GraphObject(ID, x, y, d, size, depth) {
 		world = w;
 		isItDead = false;
-			isSonar = false;
-			isWater = false;
 	}
 	virtual void doSomething() = 0;
 	virtual StudentWorld* getWorld();
 	virtual bool isDead() const;
 	virtual void setDead();
-	bool isWaterOrSonar();
 	int getVecPosition() const;
 	virtual ~Actor() { }
 };
@@ -197,7 +192,6 @@ public:
 		vecPosition = vecPos;
 		sonarTime = 0;
 		isActive = false;
-		isSonar = true;
 	}
 	void doSomething();
 	void setActive() { isActive = true; }
@@ -213,7 +207,6 @@ public:
 		vecPosition = vecPos;
 		waterTime = 0;
 		isActive = false;
-		isWater = true;
 	}
 	void doSomething();
 	void setActive() { isActive = true; }

@@ -603,8 +603,6 @@ int StudentWorld::waterPoolTimeMax(){
 }
 
 void StudentWorld::createSonarOrWater(){
-	if(isSonarOrWaterActive())
-		return;
 	int randomNumber = rand()%5;
 	if(randomNumber == 0)
 	{
@@ -631,16 +629,7 @@ bool StudentWorld::isThereIce(int x, int y)
 	return false;
 }
 
-bool StudentWorld::isSonarOrWaterActive(){
-	for(int i = 0; i < int(gameActors.size()); ++i)
-	{
-		if(gameActors[i] != nullptr && gameActors[i]->isWaterOrSonar())
-		{
-			return true;
-		}
-	}
-	return false;
-}
+
 
 
 //jonas is a super bib

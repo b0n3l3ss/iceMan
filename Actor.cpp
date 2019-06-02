@@ -22,11 +22,6 @@ int Actor::getVecPosition() const {
 	return vecPosition;
 }
 
-bool Actor::isWaterOrSonar(){
-	if(isWater || isSonar)
-		return true;
-	return false;
-}
 
 
 // IceMan Functions
