@@ -365,6 +365,8 @@ void StudentWorld::checkForObject(int &x, int &y) {
 
 bool StudentWorld::isIceVisable(int x, int y, Actor::Direction dir)
 {
+	if(x < 0 || x > 64 || y < 0 || y > 64)
+		return true;
 	if(dir == Actor::up || dir == Actor::down)
 	{
 		for (int i = 0; i <= 3; i++)
@@ -522,6 +524,8 @@ void StudentWorld::checkSquirtRadius(int x, int y, int pos){
 
 bool StudentWorld::checkInitialSquirt(int x, int y)
 {
+	if(x < 0 || x > 60)
+		return true;
 	for(int i = 0; i < 4; ++i)
 	{
 		for(int j = 0; j < 4; ++j)
