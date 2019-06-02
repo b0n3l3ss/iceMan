@@ -37,6 +37,15 @@ public:
 	void pickUpSonar(int);
 	bool checkInitialSquirt(int, int);
 	int sonarTimeMax();
+	int waterPoolTimeMax();
+	void createWaterPool();
+	void pickUpWaterPool(int pos);
+	void createSonarOrWater();
+	bool isThereIce(int, int);
+	bool isSonarOrWaterActive();
+	
+	int findRadius(int);
+	
 	~StudentWorld();
 	
 private:

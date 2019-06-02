@@ -4,5 +4,5 @@
 0 Have water spurt be optimized when hits a protester
 0 update isMovingObjectThere for protestors
 0 update squirtRadius for protestors
-0 squirt gets created corrected, just needs to have something to create it, and needs to be able to be picked up by iceman
 0 barrels of oil need to have visuals turned off
+0 implement findRadius function

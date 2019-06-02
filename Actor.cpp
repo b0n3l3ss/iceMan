@@ -22,6 +22,11 @@ int Actor::getVecPosition() const {
 	return vecPosition;
 }
 
+bool Actor::isWaterOrSonar(){
+	if(isWater || isSonar)
+		return true;
+	return false;
+}
 
 
 // IceMan Functions
@@ -137,7 +142,7 @@ void IceMan::incOil() {
 }
 
 void IceMan::incSquirt() {
-	++numSquirts;
+	numSquirts += 5;
 }
 
 void IceMan::decSquirt() {
@@ -178,6 +183,8 @@ void IceMan::incSonar() {
 void IceMan::decSonar(){
 	--numSonar;
 }
+
+
 
 //MapObject Functions
 
@@ -324,5 +331,18 @@ void Sonar::doSomething() {
 	{
 		setDead();
 	}
-	sonarTime++;
+	if(isActive)
+		++sonarTime;
+}
+
+//Water Pool Functions
+
+void WaterPool::doSomething(){
+	getWorld()->pickUpWaterPool(vecPosition);
+	if(waterTime > int(getWorld()->sonarTimeMax()))
+	{
+		setDead();
+	}
+	if(isActive)
+		++waterTime;
 }

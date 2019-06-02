@@ -25,7 +25,6 @@ int StudentWorld::init() {
 	createBoulder();
 	createGold();
 	createOil();
-	createSonar();
 	
 	// DO NOT MESS WITH THE ORDER OF THESE FUNCTION CALLS
 
@@ -41,6 +40,8 @@ int StudentWorld::move() {
 	}
 	player->doSomething();
 	updateScore();
+	
+	createSonarOrWater();
 	
 	for (unsigned int i = 0; i < gameActors.size(); ++i) {
 		if(gameActors[i] != nullptr)
@@ -446,13 +447,6 @@ void StudentWorld::isMapObjectThere(int x, int y)
 			deltaY = abs(gameActors[i]->getY() - y);
 			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if(radius <= 3){
-//				int tempTotal = 0;
-				//sets an iterator to the position of the gold
-//				vector<Actor*>::iterator p = gameActors.begin();
-//				while(tempTotal < i) {
-//					p++;
-//					tempTotal++;
-//				}
 				if(i < bouldNum)
 				{
 					player->makeHimDead();
@@ -462,8 +456,6 @@ void StudentWorld::isMapObjectThere(int x, int y)
 					// student world, increase score, play sound
 					delete gameActors[i];
 					gameActors[i] = nullptr;
-//					gameActors.erase(p);
-//					--goldNum;
 					playSound(SOUND_GOT_GOODIE);
 					increaseScore(10);
 					player->incGold();
@@ -474,8 +466,6 @@ void StudentWorld::isMapObjectThere(int x, int y)
 					// student world, increase score, play sound
 					delete gameActors[i];
 					gameActors[i] = nullptr;
-//					gameActors.erase(p);
-//					--oilNum;
 					playSound(SOUND_FOUND_OIL);
 					increaseScore(1000);
 					player->incOil();
@@ -548,6 +538,7 @@ bool StudentWorld::checkInitialSquirt(int x, int y)
 
 void StudentWorld::createSonar() {
 	Sonar* temp = new Sonar( int(gameActors.size()), this);
+	temp->setActive();
 	gameActors.push_back(temp);
 }
 
@@ -582,4 +573,74 @@ void StudentWorld::pickUpSonar(int pos) {
 		player->incSonar();
 	}
 }
+
+//Water Pool related Functions
+
+void StudentWorld::createWaterPool(){
+	int randX = rand()%60, randY = rand()%60;
+	while(isThereIce(randX, randY))
+	{
+		randX = rand()%60;
+		randY = rand()%60;
+	}
+	WaterPool* temp = new WaterPool(randX, randY, int(gameActors.size()) , this);
+	temp->setActive();
+	gameActors.push_back(temp);
+}
+
+void StudentWorld::pickUpWaterPool(int pos) {
+	double deltaX = player->getX() - gameActors[pos]->getX();
+	double deltaY = player->getY() - gameActors[pos]->getY();
+	double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if (radius <= 3) {
+		gameActors[pos]->setDead();
+		player->incSquirt();
+	}
+}
+
+int StudentWorld::waterPoolTimeMax(){
+	return max(100, 300 - 10*int(getLevel()));
+}
+
+void StudentWorld::createSonarOrWater(){
+	if(isSonarOrWaterActive())
+		return;
+	int randomNumber = rand()%5;
+	if(randomNumber == 0)
+	{
+		createSonar();
+	}
+	else
+	{
+		createWaterPool();
+	}
+}
+
+bool StudentWorld::isThereIce(int x, int y)
+{
+	for(int i = 0; i < 4; ++i)
+	{
+		for(int j = 0; j < 4; ++j)
+		{
+			if(ice[x+i][y+i]->isVisible())
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool StudentWorld::isSonarOrWaterActive(){
+	for(int i = 0; i < int(gameActors.size()); ++i)
+	{
+		if(gameActors[i] != nullptr && gameActors[i]->isWaterOrSonar())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
 //jonas is a super bib
