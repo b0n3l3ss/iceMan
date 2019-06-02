@@ -119,7 +119,7 @@ public:
 	void incOil() { ++numOil; }
 	void incGold() { ++numGold; }
 	void decGold() { --numGold; }
-	void incSquirt() { ++numSquirts; }
+	void incSquirt() { numSquirts += 5; }
 	void decSquirt() { --numSquirts; }
 	void incSonar() { ++numSonar; }
 	void decSonar() { --numSonar; }
