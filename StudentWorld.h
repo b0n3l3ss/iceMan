@@ -42,7 +42,8 @@ public:
 	void pickUpWaterPool(int pos);
 	void createSonarOrWater();
 	bool isThereIce(int, int);
-	bool isSonarOrWaterActive();
+	void createRegProtestor();
+	bool isIceManThere(int, int);
 	
 	int findRadius(int);
 	

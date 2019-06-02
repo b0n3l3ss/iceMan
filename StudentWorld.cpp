@@ -25,6 +25,7 @@ int StudentWorld::init() {
 	createBoulder();
 	createGold();
 	createOil();
+	createRegProtestor();
 	
 	// DO NOT MESS WITH THE ORDER OF THESE FUNCTION CALLS
 
@@ -447,7 +448,7 @@ void StudentWorld::isMapObjectThere(int x, int y)
 			deltaY = abs(gameActors[i]->getY() - y);
 			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if(radius <= 3){
-				if(i < bouldNum)
+				if (i < bouldNum)
 				{
 					player->makeHimDead();
 				}
@@ -461,7 +462,7 @@ void StudentWorld::isMapObjectThere(int x, int y)
 					player->incGold();
 					return;
 				}
-				else if (i < bouldGoldAndOil){
+				else if (i < bouldGoldAndOil) {
 					// If picked up oil, increase count, delete from
 					// student world, increase score, play sound
 					delete gameActors[i];
@@ -637,7 +638,29 @@ bool StudentWorld::isThereIce(int x, int y)
 	return false;
 }
 
+// Regular Protestor related functions
+
+void StudentWorld::createRegProtestor() {
+	RegularProtestor* temp = new RegularProtestor(this);
+	gameActors.push_back(temp);
+}
+
+bool StudentWorld::isIceManThere(int x, int y) {
+	if (player->getX() == x && player->getY() == y)
+		return true;
+	return false;
+}
 
 
 
-//jonas is a super bib
+
+
+
+
+
+
+
+
+
+
+// Greg is a super bib

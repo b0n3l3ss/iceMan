@@ -17,6 +17,7 @@ protected:
 	StudentWorld* world = nullptr;
 	bool isItDead;
 	int vecPosition;
+	bool protestor = false;
 public:
 	Actor(int ID, int x, int y, Direction d, double size, int depth, StudentWorld* w)
 		: GraphObject(ID, x, y, d, size, depth) {
@@ -28,6 +29,7 @@ public:
 	virtual bool isDead() const;
 	virtual void setDead();
 	int getVecPosition() const;
+	bool returnProtestor() const { return protestor; }
 	virtual ~Actor() { }
 };
 
@@ -59,6 +61,43 @@ public:
 	virtual ~MovingObject() { }
 };
 
+class Protestor : public MovingObject {
+protected:
+	bool isHardcore;
+	bool isLeaving;
+	int ticksToWait;
+	int ticksToTurn;
+	int restCounter;
+public:
+	Protestor(int hp, int ID, StudentWorld* w) : MovingObject(hp, ID, 60, 60, left, 1, 0, w) {
+		setVisible(true);
+		protestor = true;
+		isLeaving = false;
+	}
+	bool getType() const { return isHardcore; }
+	bool getStatus() const { return isLeaving; }
+	virtual void doSomething() = 0;
+	//void leaveTheMap();
+	//void followIceMan();
+	//bool checkSquirt();
+	//bool checkGold();
+	void moveToExit();
+	bool iceManInView();
+	void setTicksToWait();
+	//void move();
+};
+
+class RegularProtestor : public Protestor {
+private:
+
+public:
+	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) {
+		setTicksToWait();
+		isLeaving = false;
+	}
+	void doSomething();
+};
+
 class IceMan : public MovingObject {
 public:
 	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
@@ -84,6 +123,7 @@ public:
 	void decSquirt();
 	void incSonar();
 	void decSonar();
+	void decHealth() { --hitPoints; }
 
 
 
