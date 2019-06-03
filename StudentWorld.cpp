@@ -51,6 +51,7 @@ int StudentWorld::move() {
 	// restarts
 	if (player->getHitPoints() <= 0) {
 		decLives();
+		playSound(SOUND_PLAYER_ANNOYED);
 		return GWSTATUS_PLAYER_DIED;
 	}
 	player->doSomething();
@@ -748,6 +749,7 @@ bool StudentWorld::isThereIce(int x, int y)
 }
 
 void StudentWorld::createProtestor(){
+	srand((unsigned)time(0));
 	int randNum = rand()%2;
 	if(randNum == 0)
 	{

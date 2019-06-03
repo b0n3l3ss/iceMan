@@ -234,6 +234,10 @@ void RegularProtestor::doSomething() {
 	if(isLeaving)
 	{
 		moveToExit();
+		if(getX() == 60 && getY() == 60)
+		{
+			setDead();
+		}
 		return;
 	}
 	//checks to see if boulder is falling on protestor
@@ -366,7 +370,11 @@ void RegularProtestor::doSomething() {
 void HardcoreProtestor::doSomething(){
 	if(isLeaving)
 	{
-		setDead();
+		moveToExit();
+		if(getX() == 60 && getY() == 60)
+		{
+			setDead();
+		}
 		return;
 	}
 	//checks to see if boulder is falling on protestor or if there is gold

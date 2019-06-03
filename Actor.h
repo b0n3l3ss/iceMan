@@ -18,7 +18,7 @@ struct LeavingMap {
 			for (int j = 0; j < 61; ++j)
 				map[i][j] = 1000;
 		}
-		std::cout << "Filled" << std::endl;
+		
 		world = w;
 		calculateMap();
 		/*for (int i = 0; i < 60; ++i) {
