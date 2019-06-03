@@ -88,9 +88,25 @@ public:
 	//bool checkGold();
 	void moveToExit();
 	bool iceManInView();
-	void setTicksToWait();
+	//void setTicksToWait();
 	void moveProtestor();
 	//void move();
+};
+
+struct LeavingMap {
+	// Funcitons
+	LeavingMap(StudentWorld* w) {
+		world = w;
+		calculateMap();
+	}
+	void calculateMap() noexcept;
+	void calculateMapAux(int, int, int) noexcept;
+	void doNothing();
+	StudentWorld* getWorld() const { return world; }
+
+	// Data Members
+	StudentWorld* world;
+	int map[60][60] = { 10000 };
 };
 
 class RegularProtestor : public Protestor {

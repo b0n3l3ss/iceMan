@@ -2,6 +2,10 @@
 #include "StudentWorld.h"
 #include <cmath>
 #include <algorithm>
+#include <future>
+#include <thread>
+
+//std::mutex m;
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
 
@@ -113,6 +117,8 @@ void IceMan::doSomething() {
 
 
 //Protestor Functions
+
+
 
 
 // Regular Protestor Functions
@@ -323,13 +329,9 @@ void Gold::doSomething() {
 	}
 }
 
-
-
-
 // Oil Barrel Functions
 
 //Squirt Functions
-
 void Squirt::doSomething() {
 	if (isSquirt && squirtTime <= 6)
 	{
@@ -376,8 +378,6 @@ void Squirt::doSomething() {
 		setDead();
 }
 
-
-
 // Sonar Functions
 
 void Sonar::doSomething() {
@@ -400,4 +400,35 @@ void WaterPool::doSomething(){
 	}
 	if(isActive)
 		++waterTime;
+}
+
+// Leaving Map Functions
+void LeavingMap::calculateMap() noexcept{
+	int startingX = 60;
+	int startingY = 60;
+	int startingValue = 0;
+	
+	std::thread thTest(&LeavingMap::doNothing, *this);
+	thTest.join();
+	std::thread th(&LeavingMap::calculateMapAux, *this, startingX, startingY, startingValue);
+	th.join();
+}
+void LeavingMap::calculateMapAux(int x, int y, int value) noexcept{
+	if (x < 0 || x > 60)
+		return;
+	if (y < 0 || y > 60)
+		return;
+	map[x][y] = value;
+	if (!(getWorld()->isThereIce(x + 1, y)) && map[x + 1][y] > value + 1)
+		calculateMapAux(x + 1, y, value + 1);
+	if (!getWorld()->isThereIce(x - 1, y) && map[x - 1][y] > value + 1)
+		calculateMapAux(x - 1, y, value + 1);
+	if (!getWorld()->isThereIce(x, y + 1) && map[x][y + 1] > value + 1)
+		calculateMapAux(x, y + 1, value + 1);
+	if (!getWorld()->isThereIce(x, y - 1) && map[x][y - 1] != value + 1)
+		calculateMapAux(x, y - 1, value + 1);
+}
+
+void LeavingMap::doNothing(){
+	return;
 }
