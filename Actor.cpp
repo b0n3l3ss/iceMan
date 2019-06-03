@@ -124,57 +124,111 @@ void IceMan::doSomething() {
 
 //Protestor Functions
 
+void Protestor::moveProtestor() {
+	if(getDirection() == right && !(getWorld()->isIceVisable(getX() + 4, getY(), right)))
+	{
+		moveTo(getX() + 1, getY());
+	}
+	else if(getDirection() == left && !(getWorld()->isIceVisable(getX()-1, getY(), left)))
+	{
+		moveTo(getX()-1, getY());
+	}
+	else if(getDirection() == up && !(getWorld()->isIceVisable(getX(), getY()+3, up)))
+	{
+		moveTo(getX(), getY()+1);
+	}
+	else if(getDirection() == down && !(getWorld()->isIceVisable(getX(), getY()-1, down)))
+	{
+		moveTo(getX(), getY()-1);
+	}
+	else{
+		numSquaresToMoveInCurrentDirection = 0;
+		return;
+	}
+	--numSquaresToMoveInCurrentDirection;
+}
+
+bool Protestor::iceManInView(int& direction) {
+	//right
+	for (int i = 0; i + getX() < 60; ++i) {
+		if (getWorld()->isIceManThere(getX() + i, getY())){
+			direction = 0;
+			return true;
+		}
+		if (getWorld()->iceProtestorH(getX() + i, getY()))
+			return false;
+	}
+	//left
+	
+		for (int i = 0; getX() - i > 0; ++i) {
+			if (getWorld()->isIceManThere(getX() - i, getY())){
+				direction = 1;
+				return true;
+			}
+			if (getWorld()->iceProtestorH(getX() - i, getY()))
+				return false;
+		}
+	//up
+	
+		
+		for (int i = 0; getY() + i < 60; ++i) {
+			if (getWorld()->isIceManThere(getX(), getY() + i)){
+				direction = 2;
+				return true;
+			}
+			if (getWorld()->iceProtestorV(getX(), getY() + i))
+				return false;
+		}
+	//down
+		for (int i = 0; i - getY() < 0; ++i) {
+			if (getWorld()->isIceManThere(getX(), getY() - i)){
+				direction = 3;
+				return true;
+			}
+			if (getWorld()->iceProtestorV(getX(), getY() - i))
+				return false;
+		}
+	return false;
+}
 
 
+bool Protestor::isAtIntersection(int &direction)
+{
+	//right or left
+	if(getY() != 60 && (getDirection() == up || getDirection() == down))
+	{
+		//right
+		if (!(getWorld()->isIceVisable(getX()+3, getY(), right))){
+			direction = 0;
+			return true;
+		}
+		//left
+		if(!(getWorld()->isIceVisable(getX()-1, getY(), left)))
+		{
+			direction = 1;
+			return true;
+		}
+	}
+	else if(getDirection() == left || getDirection() == right)
+	{
+		//up
+		if (!(getWorld()->isIceVisable(getX(), getY()+3, up))){
+			direction = 2;
+			return true;
+		}
+		//down
+		if(!(getWorld()->isIceVisable(getX(), getY()-1, down)))
+		{
+			direction = 3;
+			return true;
+		}
+	}
+	return false;
+}
 
 // Regular Protestor Functions
 
 void RegularProtestor::doSomething() {
-	
-//	int ch;
-//	if (getWorld()->getKey(ch) == true)
-//	{
-//		switch (ch)
-//		{
-//			case KEY_PRESS_LEFT:
-//				if (getX() - 1 >= 0 && (getWorld()->isBoulderThereL(this) == false) && (getDirection() == left)) {
-//					getWorld()->removeBlocks(getX(), getY());
-//					moveTo(getX() - 1, getY());
-//					getWorld()->isMapObjectThere(getX(), getY());
-//				}
-//				setDirection(left);
-//				return;
-//			case KEY_PRESS_RIGHT:
-//				if (getX() + 1 <= 60 && (getWorld()->isBoulderThereR(this) == false) && (getDirection() == right)) {
-//					getWorld()->removeBlocks(getX() + 2, getY());
-//					moveTo(getX() + 1, getY());
-//					getWorld()->isMapObjectThere(getX(), getY());
-//				}
-//				setDirection(right);
-//				return;
-//			case KEY_PRESS_DOWN:
-//				if (getY() - 1 >= 0 && (getWorld()->isBoulderThereD(this) == false) && (getDirection() == down)) {
-//					getWorld()->removeBlocks(getX() + 1, getY() - 1);
-//					moveTo(getX(), getY() - 1);
-//					getWorld()->isMapObjectThere(getX(), getY());
-//				}
-//				setDirection(down);
-//				return;
-//			case KEY_PRESS_UP:
-//				if (getY() + 1 <= 60 && (getWorld()->isBoulderThereU(this) == false) && (getDirection() == up)) {
-//					getWorld()->removeBlocks(getX() + 1, getY() + 1);
-//					moveTo(getX(), getY() + 1);
-//					getWorld()->isMapObjectThere(getX(), getY());
-//				}
-//				setDirection(up);
-//				return;
-//		}
-//	}
-	
-	
-	
-	
-	
 	//just temporary
 	//deletes the iceman instead of him leaving
 	if(isLeaving)
@@ -183,7 +237,7 @@ void RegularProtestor::doSomething() {
 		return;
 	}
 	//checks to see if boulder is falling on protestor
-	getWorld()->isMapObjectThereProtestor(getX(), getY(), this);
+	getWorld()->isMapObjectThereRegProtestor(getX(), getY(), this);
 	// If has no health, set dead
 	if (hitPoints <= 0) {
 		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
@@ -234,23 +288,50 @@ void RegularProtestor::doSomething() {
 				getWorld()->decreaseIcemanHealth();
 			}
 		}
-		else if (iceManInView()) {
-			if (getDirection() == right) { // if ice man is right
+		else if (iceManInView(direction)) {
+			if (direction == 0) { // if ice man is right
+				setDirection(right);
 				moveTo(getX() + 1, getY());
-				//return;
 			}
-			else if (getDirection() == left) { // if ice man is left
+			else if (direction == 1) { // if ice man is left
+				setDirection(left);
 				moveTo(getX() - 1, getY());
-				//return;
 			}
-			else if (getDirection() == up) { // if ice man is up
+			else if (direction == 2) { // if ice man is up
+				setDirection(up);
 				moveTo(getX(), getY() + 1);
-				//return;
 			}
-			else { // If ice man is down
+			else if(direction == 3){ // If ice man is down
+				setDirection(down);
 				moveTo(getX(), getY() - 1);
-				//return;
 			}
+		}
+		else if(!madeTurn && isAtIntersection(direction))
+		{
+			madeTurn = true;
+			perpendicularTurnTime = 0;
+			if(direction == 0)
+			{
+				setDirection(right);
+				moveTo(getX()+1, getY());
+			}
+			else if(direction == 1)
+			{
+				setDirection(left);
+				moveTo(getX()-1, getY());
+			}
+			else if(direction == 2)
+				
+			{
+				setDirection(up);
+				moveTo(getX(), getY()+1);
+			}
+			else if(direction == 3)
+			{
+				setDirection(down);
+				moveTo(getX(), getY()-1);
+			}
+			numSquaresToMoveInCurrentDirection = (rand()%60) + 8;
 		}
 		//picks a new direction
 		else if(numSquaresToMoveInCurrentDirection <= 0){
@@ -280,65 +361,160 @@ void RegularProtestor::doSomething() {
 	}
 }
 
-void Protestor::moveProtestor() {
-	if(getDirection() == right && !(getWorld()->isIceVisable(getX() + 4, getY(), right)))
+//Hardcore Protestor Functions
+
+void HardcoreProtestor::doSomething(){
+	if(isLeaving)
 	{
-		moveTo(getX() + 1, getY());
-	}
-	else if(getDirection() == left && !(getWorld()->isIceVisable(getX()-1, getY(), left)))
-	{
-		moveTo(getX()-1, getY());
-	}
-	else if(getDirection() == up && !(getWorld()->isIceVisable(getX(), getY()+3, up)))
-	{
-		moveTo(getX(), getY()+1);
-	}
-	else if(getDirection() == down && !(getWorld()->isIceVisable(getX(), getY()-1, down)))
-	{
-		moveTo(getX(), getY()-1);
-	}
-	else{
-		numSquaresToMoveInCurrentDirection = 0;
+		setDead();
 		return;
 	}
-	--numSquaresToMoveInCurrentDirection;
-}
+	//checks to see if boulder is falling on protestor or if there is gold
+	getWorld()->isMapObjectThereHardProtestor(getX(), getY(), this);
+	// If has no health, set dead
+	if (hitPoints <= 0) {
+		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
+		isLeaving = true;
+		return;
+	}
+	if(stun)
+	{
+		if(stunTime > 0)
+		{
+			--stunTime;
+		}
+		else{
+			stun = false;
+		}
+		return;
+	}
+	if ((ticksToWait % int(getWorld()->setTicksToWait())) != 0) {  // Rest state
+		++ticksToWait;
+		return;
+	}
+	else { // Not rest state lol leeleeleeleeleeleeleeleeleelee
+		if (shouting)
+		{
+			--shoutingTimer;
+			if (shoutingTimer <= 0)
+			{
+				shouting = false;
+				shoutingTimer = 15;
+			}
+		}
+		
+		if (isLeaving) {
+			if (getX() == 60 && getY() == 60) {
+				setDead();
+				return;
+			}
+			else {
+				moveToExit();
+				//return;
+			}
+		}
+		else if(isStaring)
+		{
+			//if for some reason is staring is true but ticks to stare is less than 0 make is staring false
+			if(ticksToStare < 0)
+				isStaring = false;
+			if(currentStareTick >= ticksToStare)
+			{
+				isStaring = false;
+				currentStareTick = 0;
+				return;
+			}
+			++currentStareTick;
+		}
+		else if (getWorld()->isTouchingIceman(this)){
+			if(!shouting)
+			{
+				shouting = true;
+				getWorld()->playSound(SOUND_PROTESTER_YELL);
+				getWorld()->decreaseIcemanHealth();
+			}
+		}
+		else if (iceManInView(direction)) {
+			if (direction == 0) { // if ice man is right
+				setDirection(right);
+				moveTo(getX() + 1, getY());
+			}
+			else if (direction == 1) { // if ice man is left
+				setDirection(left);
+				moveTo(getX() - 1, getY());
+			}
+			else if (direction == 2) { // if ice man is up
+				setDirection(up);
+				moveTo(getX(), getY() + 1);
+			}
+			else if(direction == 3){ // If ice man is down
+				setDirection(down);
+				moveTo(getX(), getY() - 1);
+			}
+		}
+		else if(!madeTurn && isAtIntersection(direction))
+		{
+			madeTurn = true;
+			perpendicularTurnTime = 0;
+			if(direction == 0)
+			{
+				setDirection(right);
+				moveTo(getX()+1, getY());
+			}
+			else if(direction == 1)
+			{
+				setDirection(left);
+				moveTo(getX()-1, getY());
+			}
+			else if(direction == 2)
+				
+			{
+				setDirection(up);
+				moveTo(getX(), getY()+1);
+			}
+			else if(direction == 3)
+			{
+				setDirection(down);
+				moveTo(getX(), getY()-1);
+			}
+			numSquaresToMoveInCurrentDirection = (rand()%60) + 8;
+		}
+		//picks a new direction
+		else if(numSquaresToMoveInCurrentDirection <= 0){
+			direction = rand()%4;
+			switch (direction) {
+				case 0: //right
+					setDirection(right);
+					break;
+					
+				case 1: //left
+					setDirection(left);
+					break;
+				case 2: //up
+					setDirection(up);
+					break;
+				case 3: //down
+					setDirection(down);
+					break;
+			}
+			numSquaresToMoveInCurrentDirection = (rand()%60) + 8;
+			moveProtestor();
+		}
+		else if(numSquaresToMoveInCurrentDirection > 0){
+			moveProtestor();
+		}
+		++ticksToWait;
+		if(madeTurn)
+		{
+			++perpendicularTurnTime;
+		}
+		if(perpendicularTurnTime >= 200)
+		{
+			madeTurn = false;
+		}
+	}
 
-bool Protestor::iceManInView() {
-	if (getDirection() == right) {
-		for (int i = 0; i + getX() < 60; ++i) {
-			if (getWorld()->isIceManThere(getX() + i, getY()))
-				return true;
-			if (getWorld()->iceProtestorH(getX() + i, getY()))
-				return false;
-		}
-	}
-	else if (getDirection() == left) {
-		for (int i = 0; getX() - i > 0; ++i) {
-			if (getWorld()->isIceManThere(getX() - i, getY()))
-				return true;
-			if (getWorld()->iceProtestorH(getX() - i, getY()))
-				return false;
-		}
-	}
-	else if (getDirection() == up) {
-
-		for (int i = 0; getY() + i < 60; ++i) {
-			if (getWorld()->isIceManThere(getX(), getY() + i))
-				return true;
-			if (getWorld()->iceProtestorV(getX(), getY() + i))
-				return false;
-		}
-	}
-	else {
-		for (int i = 0; i - getY() < 0; ++i) {
-			if (getWorld()->isIceManThere(getX(), getY() - i))
-				return true;
-			if (getWorld()->iceProtestorV(getX(), getY() - i))
-				return false;
-		}
-	}
-	return false;
+	return;
 }
 
 void Protestor::moveToExit() {
@@ -527,6 +703,4 @@ void LeavingMap::calculateMapAux(int x, int y, int value) noexcept{
 	return;
 }
 
-void LeavingMap::doNothing(){
-	return;
-}
+

@@ -14,6 +14,11 @@ GameWorld* createStudentWorld(string assetDir)
 // Students:  Add code to this file (if you wish), StudentWorld.h, Actor.h and Actor.cpp
 
 int StudentWorld::init() {
+	srand((unsigned)time(0));
+	protestorWaitTime = max(25, 200 - int(getLevel()));
+	maxNumProtestor = min(15, 2 + (int(getLevel()*1.5)));
+	protestorWaitTimeCounter = 1;
+	
 	// Create & print out ice with 2d array
 	createIce();
 	
@@ -25,7 +30,9 @@ int StudentWorld::init() {
 	createBoulder();
 	createGold();
 	createOil();
-	createRegProtestor();
+	
+	createProtestor();
+	numProtestor = 1;
 	
 	// DO NOT MESS WITH THE ORDER OF THESE FUNCTION CALLS
 
@@ -33,6 +40,13 @@ int StudentWorld::init() {
 }
 
 int StudentWorld::move() {
+	if(protestorWaitTimeCounter % protestorWaitTime == 0 && numProtestor < maxNumProtestor)
+	{
+		createProtestor();
+		++numProtestor;
+	}
+	++protestorWaitTimeCounter;
+	
 	// If Ice man has lost all of his hit points, Iceman dies and the level
 	// restarts
 	if (player->getHitPoints() <= 0) {
@@ -50,6 +64,11 @@ int StudentWorld::move() {
 		//if gameactor is dead, delete and then set to nullptr
 		if(gameActors[i] != nullptr && gameActors[i]->isDead())
 		{
+			//decreases the amount of protestors on the board
+			if(gameActors[i]->isProtestor())
+			{
+				--numProtestor;
+			}
 			delete gameActors[i];
 			gameActors[i] = nullptr;
 		}
@@ -208,9 +227,9 @@ StudentWorld::~StudentWorld(){
 //puts all values nicely into a string for the scoreboard
 string StudentWorld::formatScoreBoard(int level, int lives, int health,
 	int squirts, int gold, int barrels, int sonar, int score){
-	string str = "Level: " + to_string(level) + " Lives: " + to_string(lives) 
-		+  " Health: " + to_string(health) + "% Water: " + to_string(squirts) 
-		+ " Gold: " + to_string(gold) + " Oil Left: " + to_string(barrels) 
+	string str = "Level: " + to_string(level) + " Lives: " + to_string(lives)
+		+  " Health: " + to_string(health) + "% Water: " + to_string(squirts)
+		+ " Gold: " + to_string(gold) + " Oil Left: " + to_string(barrels)
 		+ " Sonar: " + to_string(sonar) + " Score: ";
 	
 	//checks to see what the score is an determines how many zeroes to put in front
@@ -260,7 +279,6 @@ void StudentWorld::removeBoulderIce(int x, int y)
 //creates both boulders
 void StudentWorld::createBoulder() {
 	
-	srand((unsigned)time(0));
 	int total = bouldNum;
 	for (int i = 0; i < total; ++i) {
 		
@@ -338,7 +356,6 @@ bool StudentWorld::isBoulderThereD(Actor* p)
 
 void StudentWorld::checkForObject(int &x, int &y) {
 
-	srand((unsigned)time(0));
 	for (unsigned int i = 0; i < gameActors.size(); i++)
 	{
 		if (gameActors[i] != nullptr) {
@@ -377,7 +394,7 @@ bool StudentWorld::isIceVisable(int x, int y, Actor::Direction dir)
 				return true;
 		}
 	}
-	if(dir == Actor::right || dir == Actor::left)
+	else if(dir == Actor::right || dir == Actor::left)
 	{
 		for (int i = 0; i <= 3; i++)
 		{
@@ -400,7 +417,6 @@ void StudentWorld::updateItemCount() {
 }
 
 void StudentWorld::createGold(){
-	srand((unsigned)time(0));
 	for (int i = bouldNum; i < bouldNum+goldNum; ++i) {
 		
 		int randomX = (rand() % 60);
@@ -421,7 +437,6 @@ void StudentWorld::createGold(){
 void StudentWorld::createOil() {
 	int bouldGold = bouldNum + goldNum;
 	int bouldGoldOil = bouldGold + oilNum;
-	srand((unsigned)time(0));
 	for (int i = bouldGold; i < bouldGoldOil; ++i) {
 		int randomX = (rand() % 60);
 		while ((gameActors.size() == 0) && (randomX > 26 && randomX < 34)) {
@@ -482,8 +497,8 @@ void StudentWorld::isMapObjectThere(int x, int y)
 	}
 }
 
-//checks to see if a boulder is falling on a protestor or if it's being bribbed
-void StudentWorld::isMapObjectThereProtestor(int x, int y, Protestor* p)
+//checks to see if a boulder is falling on a reg protestor or if it's being bribbed
+void StudentWorld::isMapObjectThereRegProtestor(int x, int y, RegularProtestor* p)
 {
 	int deltaX, deltaY, radius;
 	//if its a boulder
@@ -513,6 +528,43 @@ void StudentWorld::isMapObjectThereProtestor(int x, int y, Protestor* p)
 				p->setToLeaving();
 				playSound(SOUND_PROTESTER_FOUND_GOLD);
 				increaseScore(25);
+				return;
+			}
+		}
+	}
+}
+//checks to see if a boulder is falling on a hard protestor or if it's being bribbed
+void StudentWorld::isMapObjectThereHardProtestor(int x, int y, HardcoreProtestor* p)
+{
+	int deltaX, deltaY, radius;
+	//if its a boulder
+	for(int i = 0; i < bouldNum; ++i) {
+		if(gameActors[i] != nullptr)
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				p->setHitpointsToZero();
+				gameActors[i]->setDead();
+				return;
+			}
+		}
+	}
+	//if its a gold nugget
+	for(int i = (bouldNum+goldNum+oilNum); i < gameActors.size(); ++i)
+	{
+		if(gameActors[i] != nullptr && gameActors[i]->isItGold())
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				gameActors[i]->setDead();
+				playSound(SOUND_PROTESTER_FOUND_GOLD);
+				increaseScore(50);
+				p->setIsStaring(true);
+				p->setTicksToStare(max(50, 100 - int(getLevel())*10));
 				return;
 			}
 		}
@@ -686,13 +738,29 @@ bool StudentWorld::isThereIce(int x, int y)
 	{
 		for(int j = 0; j < 4; ++j)
 		{
-			if(ice[x+i][y+i]->isVisible())
-			{
+			if(ice[x+i][y+i]== nullptr)
 				return true;
-			}
+			if(ice[x+i][y+i]->isVisible())
+				return true;
 		}
 	}
 	return false;
+}
+
+void StudentWorld::createProtestor(){
+	int randNum = rand()%2;
+	if(randNum == 0)
+	{
+		createRegProtestor();
+	}
+	else{
+		createHardProtestor();
+	}
+}
+
+void StudentWorld::createHardProtestor(){
+	HardcoreProtestor* temp = new HardcoreProtestor(this);
+	gameActors.push_back(temp);
 }
 
 // Regular Protestor related functions
@@ -701,6 +769,7 @@ void StudentWorld::createRegProtestor() {
 	RegularProtestor* temp = new RegularProtestor(this);
 	gameActors.push_back(temp);
 }
+
 
 bool StudentWorld::isIceManThere(int x, int y) const {
 	if (player->getX() == x && player->getY() == y)

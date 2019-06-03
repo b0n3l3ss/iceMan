@@ -68,6 +68,7 @@ public:
 	bool returnProtestor() const { return protestor; }
 	bool isItGold() const { return isGold; }
 	void hitBySquirt();
+	bool isProtestor() { return protestor; }
 	virtual ~Actor() { }
 };
 
@@ -110,6 +111,8 @@ protected:
 	bool shouting;
 	int shoutingTimer;
 	LeavingMap* exitMap;
+	int perpendicularTurnTime;
+	bool madeTurn;
 public:
 	Protestor(int hp, int ID, StudentWorld* w) : MovingObject(hp, ID, 60, 60, left, 1, 0, w) {
 		setVisible(true);
@@ -121,6 +124,8 @@ public:
 		shouting = false;
 		shoutingTimer = 15;
 		exitMap = new LeavingMap(getWorld());
+		perpendicularTurnTime = 0;
+		madeTurn = false;
 	}
 	bool getType() const { return isHardcore; }
 	bool getStatus() const { return isLeaving; }
@@ -130,7 +135,8 @@ public:
 	//bool checkSquirt();
 	//bool checkGold();
 	void moveToExit();
-	bool iceManInView();
+	bool iceManInView(int&);
+	bool isAtIntersection(int&);
 	//void setTicksToWait();
 	void moveProtestor();
 	void setToLeaving() { isLeaving = true; }
@@ -158,16 +164,27 @@ class RegularProtestor : public Protestor {
 private:
 
 public:
-	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) { }
+	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) {
+		isHardcore = false;
+	}
 	void doSomething();
 };
 
-class HardcoreProtestor : Protestor{
+class HardcoreProtestor : public Protestor{
 private:
-	
+	int currentStareTick;
+	int ticksToStare;
+	bool isStaring;
 public:
-	HardcoreProtestor(StudentWorld* w) : Protestor(20, IID_HARD_CORE_PROTESTER, w) { }
+	HardcoreProtestor(StudentWorld* w) : Protestor(20, IID_HARD_CORE_PROTESTER, w) {
+		isHardcore = true;
+		currentStareTick = 0;
+		ticksToStare = -1;
+		isStaring = false;
+	}
 	void doSomething();
+	void setTicksToStare(int ticks) { ticksToStare = ticks;}
+	void setIsStaring(bool stare) { isStaring = stare; }
 };
 
 class IceMan : public MovingObject {

@@ -24,8 +24,6 @@ public:
 	
 	bool checkInitialSquirt(int, int);
 	void checkSquirtRadius(int, int, int);
-	void createRegProtestor();
-	void createSonarOrWater();
 	void createSquirt(int, int, Actor::Direction);
 	void createWaterPool();
 	void decreaseIcemanHealth();
@@ -39,7 +37,8 @@ public:
 	bool isIceManThere(int, int) const;
 	bool isIceVisable(int, int, Actor::Direction);
 	void isMapObjectThere(int, int);
-	void isMapObjectThereProtestor(int,int, Protestor*);
+	void isMapObjectThereRegProtestor(int,int, RegularProtestor*);
+	void isMapObjectThereHardProtestor(int, int, HardcoreProtestor*);
 	bool isThereIce(int, int);
 	bool isTouchingIceman(Protestor*);
 	void pickUpSonar(int);
@@ -70,6 +69,14 @@ private:
 	void createGold();
 	void createOil();
 	void createSonar();
+	int numProtestor;
+	int maxNumProtestor;
+	int protestorWaitTime;
+	int protestorWaitTimeCounter;
+	void createProtestor();
+	void createRegProtestor();
+	void createSonarOrWater();
+	void createHardProtestor();
 	
 	void updateScore();	//updates the scoreboard on the top of the screen
 	std::string formatScoreBoard(int, int, int, int, int, int, int, int);
