@@ -82,6 +82,8 @@ protected:
 	int direction;
 	bool shouting;
 	int shoutingTimer;
+	int perpendicularTurnTime;
+	bool madeTurn;
 public:
 	Protestor(int hp, int ID, StudentWorld* w) : MovingObject(hp, ID, 60, 60, left, 1, 0, w) {
 		setVisible(true);
@@ -92,6 +94,8 @@ public:
 		direction = -1;
 		shouting = false;
 		shoutingTimer = 15;
+		perpendicularTurnTime = 0;
+		madeTurn = false;
 	}
 	bool getType() const { return isHardcore; }
 	bool getStatus() const { return isLeaving; }
@@ -102,6 +106,7 @@ public:
 	//bool checkGold();
 	void moveToExit();
 	bool iceManInView(int&);
+	bool isAtIntersection(int&);
 	//void setTicksToWait();
 	void moveProtestor();
 	void setToLeaving() { isLeaving = true; }

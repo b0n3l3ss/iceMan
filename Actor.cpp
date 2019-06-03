@@ -195,6 +195,39 @@ void Protestor::moveToExit() {
 	
 }
 
+bool Protestor::isAtIntersection(int &direction)
+{
+	//right or left
+	if(getY() != 60 && (getDirection() == up || getDirection() == down))
+	{
+		//right
+		if (!(getWorld()->isIceVisable(getX()+3, getY(), right))){
+			direction = 0;
+			return true;
+		}
+		//left
+		if(!(getWorld()->isIceVisable(getX()-1, getY(), left)))
+		{
+			direction = 1;
+			return true;
+		}
+	}
+	else if(getDirection() == left || getDirection() == right)
+	{
+		//up
+		if (!(getWorld()->isIceVisable(getX(), getY()+3, up))){
+			direction = 2;
+			return true;
+		}
+		//down
+		if(!(getWorld()->isIceVisable(getX(), getY()-1, down)))
+		{
+			direction = 3;
+			return true;
+		}
+	}
+	return false;
+}
 
 // Regular Protestor Functions
 
@@ -271,10 +304,37 @@ void RegularProtestor::doSomething() {
 				setDirection(up);
 				moveTo(getX(), getY() + 1);
 			}
-			else { // If ice man is down
+			else if(direction == 3){ // If ice man is down
 				setDirection(down);
 				moveTo(getX(), getY() - 1);
 			}
+		}
+		else if(!madeTurn && isAtIntersection(direction))
+		{
+			madeTurn = true;
+			perpendicularTurnTime = 0;
+			if(direction == 0)
+			{
+				setDirection(right);
+				moveTo(getX()+1, getY());
+			}
+			else if(direction == 1)
+			{
+				setDirection(left);
+				moveTo(getX()-1, getY());
+			}
+			else if(direction == 2)
+				
+			{
+				setDirection(up);
+				moveTo(getX(), getY()+1);
+			}
+			else if(direction == 3)
+			{
+				setDirection(down);
+				moveTo(getX(), getY()-1);
+			}
+			numSquaresToMoveInCurrentDirection = (rand()%60) + 8;
 		}
 		//picks a new direction
 		else if(numSquaresToMoveInCurrentDirection <= 0){
@@ -390,10 +450,37 @@ void HardcoreProtestor::doSomething(){
 				setDirection(up);
 				moveTo(getX(), getY() + 1);
 			}
-			else { // If ice man is down
+			else if(direction == 3){ // If ice man is down
 				setDirection(down);
 				moveTo(getX(), getY() - 1);
 			}
+		}
+		else if(!madeTurn && isAtIntersection(direction))
+		{
+			madeTurn = true;
+			perpendicularTurnTime = 0;
+			if(direction == 0)
+			{
+				setDirection(right);
+				moveTo(getX()+1, getY());
+			}
+			else if(direction == 1)
+			{
+				setDirection(left);
+				moveTo(getX()-1, getY());
+			}
+			else if(direction == 2)
+				
+			{
+				setDirection(up);
+				moveTo(getX(), getY()+1);
+			}
+			else if(direction == 3)
+			{
+				setDirection(down);
+				moveTo(getX(), getY()-1);
+			}
+			numSquaresToMoveInCurrentDirection = (rand()%60) + 8;
 		}
 		//picks a new direction
 		else if(numSquaresToMoveInCurrentDirection <= 0){
@@ -420,6 +507,14 @@ void HardcoreProtestor::doSomething(){
 			moveProtestor();
 		}
 		++ticksToWait;
+		if(madeTurn)
+		{
+			++perpendicularTurnTime;
+		}
+		if(perpendicularTurnTime >= 200)
+		{
+			madeTurn = false;
+		}
 	}
 }
 

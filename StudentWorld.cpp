@@ -394,7 +394,7 @@ bool StudentWorld::isIceVisable(int x, int y, Actor::Direction dir)
 				return true;
 		}
 	}
-	if(dir == Actor::right || dir == Actor::left)
+	else if(dir == Actor::right || dir == Actor::left)
 	{
 		for (int i = 0; i <= 3; i++)
 		{
@@ -738,10 +738,10 @@ bool StudentWorld::isThereIce(int x, int y)
 	{
 		for(int j = 0; j < 4; ++j)
 		{
-			if(ice[x+i][y+i]->isVisible())
-			{
+			if(ice[x+i][y+i]== nullptr)
 				return true;
-			}
+			if(ice[x+i][y+i]->isVisible())
+				return true;
 		}
 	}
 	return false;
