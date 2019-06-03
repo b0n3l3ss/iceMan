@@ -234,7 +234,7 @@ void RegularProtestor::doSomething() {
 	if(isLeaving)
 	{
 		moveToExit();
-		if(getX() == 60 && getY() == 60)
+		if((getX() == 60 && getY() == 60) || (getX() >= 60 && getY() <= 0))
 		{
 			setDead();
 		}
@@ -372,7 +372,8 @@ void HardcoreProtestor::doSomething(){
 	if(isLeaving)
 	{
 		moveToExit();
-		if(getX() == 60 && getY() == 60)
+		if((getX() == 60 && getY() == 60) || (getX() >= 60 && getY() <= 0))
+			
 		{
 			setDead();
 		}
@@ -384,6 +385,7 @@ void HardcoreProtestor::doSomething(){
 	if (hitPoints <= 0) {
 		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
 		isLeaving = true;
+		exitMap->calculateMap();
 		return;
 	}
 	if(stun)
