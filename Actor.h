@@ -132,7 +132,7 @@ public:
 	void doSomething();
 };
 
-class HardcoreProtestor : Protestor{
+class HardcoreProtestor : public Protestor{
 private:
 	
 public:

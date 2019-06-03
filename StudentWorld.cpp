@@ -14,6 +14,11 @@ GameWorld* createStudentWorld(string assetDir)
 // Students:  Add code to this file (if you wish), StudentWorld.h, Actor.h and Actor.cpp
 
 int StudentWorld::init() {
+	srand((unsigned)time(0));
+	protestorWaitTime = max(25, 200 - int(getLevel()));
+	maxNumProtestor = min(15, 2 + (int(getLevel()*1.5)));
+	protestorWaitTimeCounter = 1;
+	
 	// Create & print out ice with 2d array
 	createIce();
 	
@@ -25,7 +30,8 @@ int StudentWorld::init() {
 	createBoulder();
 	createGold();
 	createOil();
-	createRegProtestor();
+	createProtestor();
+	numProtestor = 1;
 	
 	// DO NOT MESS WITH THE ORDER OF THESE FUNCTION CALLS
 
@@ -33,6 +39,13 @@ int StudentWorld::init() {
 }
 
 int StudentWorld::move() {
+	if(protestorWaitTimeCounter % protestorWaitTime == 0 && numProtestor < maxNumProtestor)
+	{
+		createProtestor();
+		++numProtestor;
+	}
+	++protestorWaitTimeCounter;
+	
 	// If Ice man has lost all of his hit points, Iceman dies and the level
 	// restarts
 	if (player->getHitPoints() <= 0) {
@@ -260,7 +273,6 @@ void StudentWorld::removeBoulderIce(int x, int y)
 //creates both boulders
 void StudentWorld::createBoulder() {
 	
-	srand((unsigned)time(0));
 	int total = bouldNum;
 	for (int i = 0; i < total; ++i) {
 		
@@ -338,7 +350,6 @@ bool StudentWorld::isBoulderThereD(Actor* p)
 
 void StudentWorld::checkForObject(int &x, int &y) {
 
-	srand((unsigned)time(0));
 	for (unsigned int i = 0; i < gameActors.size(); i++)
 	{
 		if (gameActors[i] != nullptr) {
@@ -400,7 +411,6 @@ void StudentWorld::updateItemCount() {
 }
 
 void StudentWorld::createGold(){
-	srand((unsigned)time(0));
 	for (int i = bouldNum; i < bouldNum+goldNum; ++i) {
 		
 		int randomX = (rand() % 60);
@@ -421,7 +431,6 @@ void StudentWorld::createGold(){
 void StudentWorld::createOil() {
 	int bouldGold = bouldNum + goldNum;
 	int bouldGoldOil = bouldGold + oilNum;
-	srand((unsigned)time(0));
 	for (int i = bouldGold; i < bouldGoldOil; ++i) {
 		int randomX = (rand() % 60);
 		while ((gameActors.size() == 0) && (randomX > 26 && randomX < 34)) {
@@ -695,12 +704,29 @@ bool StudentWorld::isThereIce(int x, int y)
 	return false;
 }
 
+void StudentWorld::createProtestor(){
+	int randNum = rand()%2;
+	if(randNum == 0)
+	{
+		createRegProtestor();
+	}
+	else{
+		createHardProtestor();
+	}
+}
+
+void StudentWorld::createHardProtestor(){
+	HardcoreProtestor* temp = new HardcoreProtestor(this);
+	gameActors.push_back(temp);
+}
+
 // Regular Protestor related functions
 
 void StudentWorld::createRegProtestor() {
 	RegularProtestor* temp = new RegularProtestor(this);
 	gameActors.push_back(temp);
 }
+
 
 bool StudentWorld::isIceManThere(int x, int y) const {
 	if (player->getX() == x && player->getY() == y)
