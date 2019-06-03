@@ -79,6 +79,8 @@ protected:
 	int restCounter;
 	int numSquaresToMoveInCurrentDirection;
 	int direction;
+	bool shouting;
+	int shoutingTimer;
 public:
 	Protestor(int hp, int ID, StudentWorld* w) : MovingObject(hp, ID, 60, 60, left, 1, 0, w) {
 		setVisible(true);
@@ -87,7 +89,8 @@ public:
 		ticksToWait = 0;
 		numSquaresToMoveInCurrentDirection = 0;
 		direction = -1;
-		
+		shouting = false;
+		shoutingTimer = 15;
 	}
 	bool getType() const { return isHardcore; }
 	bool getStatus() const { return isLeaving; }
@@ -110,6 +113,14 @@ private:
 
 public:
 	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) { }
+	void doSomething();
+};
+
+class HardcoreProtestor : Protestor{
+private:
+	
+public:
+	HardcoreProtestor(StudentWorld* w) : Protestor(20, IID_HARD_CORE_PROTESTER, w) { }
 	void doSomething();
 };
 
@@ -138,7 +149,7 @@ public:
 	void decSquirt() { --numSquirts; }
 	void incSonar() { ++numSonar; }
 	void decSonar() { --numSonar; }
-	void decHealth() { --hitPoints; }
+	void decHealth() { hitPoints-= 2; }
 
 
 
@@ -154,6 +165,7 @@ private:
 	int numOil;
 	int numWaterPool;
 };
+
 
 class MapObject : public Actor {
 protected:

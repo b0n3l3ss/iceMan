@@ -279,12 +279,12 @@ void StudentWorld::createBoulder() {
 	}
 }
 
-bool StudentWorld::isBoulderThereL(int x, int y)
+bool StudentWorld::isBoulderThereL(Actor* p)
 {
 	for (int i = 0; i < bouldNum; ++i) {
 		if (gameActors[i] != nullptr) {
-			double deltaX = gameActors[i]->getX() - player->getX() + 1;
-			double deltaY = gameActors[i]->getY() - player->getY();
+			double deltaX = gameActors[i]->getX() - p->getX() + 1;
+			double deltaY = gameActors[i]->getY() - p->getY();
 			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if (radius <= 3)
 				return true;
@@ -293,12 +293,12 @@ bool StudentWorld::isBoulderThereL(int x, int y)
 	return false;
 }
 
-bool StudentWorld::isBoulderThereU(int x, int y)
+bool StudentWorld::isBoulderThereU(Actor* p)
 {
 	for (int i = 0; i < bouldNum; ++i) {
 		if (gameActors[i] != nullptr) {
-			double deltaX = gameActors[i]->getX() - player->getX();
-			double deltaY = gameActors[i]->getY() - player->getY() - 1;
+			double deltaX = gameActors[i]->getX() - p->getX();
+			double deltaY = gameActors[i]->getY() - p->getY() - 1;
 			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if (radius <= 3)
 				return true;
@@ -307,12 +307,12 @@ bool StudentWorld::isBoulderThereU(int x, int y)
 	return false;
 }
 
-bool StudentWorld::isBoulderThereR(int x, int y)
+bool StudentWorld::isBoulderThereR(Actor* p)
 {
 	for (int i = 0; i < bouldNum; ++i) {
 		if (gameActors[i] != nullptr) {
-			double deltaX = gameActors[i]->getX() - player->getX() - 1;
-			double deltaY = gameActors[i]->getY() - player->getY();
+			double deltaX = gameActors[i]->getX() - p->getX() - 1;
+			double deltaY = gameActors[i]->getY() - p->getY();
 			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if (radius <= 3)
 				return true;
@@ -321,13 +321,13 @@ bool StudentWorld::isBoulderThereR(int x, int y)
 	return false;
 }
 
-bool StudentWorld::isBoulderThereD(int x, int y)
+bool StudentWorld::isBoulderThereD(Actor* p)
 {
 
 	for (int i = 0; i < bouldNum; ++i) {
-		if (gameActors[i] != nullptr) {
-			double deltaX = gameActors[i]->getX() - player->getX();
-			double deltaY = gameActors[i]->getY() - player->getY() + 1;
+		if (gameActors[i] != nullptr && gameActors[i] != p) {
+			double deltaX = gameActors[i]->getX() - p->getX();
+			double deltaY = gameActors[i]->getY() - p->getY() + 1;
 			double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if (radius <= 3)
 				return true;
@@ -728,9 +728,20 @@ int StudentWorld::setTicksToWait(){
 	return max(0, 3 - int(getLevel()) / 4);
 }
 
+bool StudentWorld::isTouchingIceman(Protestor* p){
+	double deltaX = player->getX() - p->getX();
+	double deltaY = player->getY() - p->getY();
+	double radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+	if(radius <= 4)
+	{
+		return true;
+	}
+	return false;
+}
 
-
-
+void StudentWorld::decreaseIcemanHealth(){
+	player->decHealth();
+}
 
 
 
