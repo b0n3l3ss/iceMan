@@ -1,6 +1,10 @@
 ﻿  Actor.cpp
   StudentWorld.cpp
 c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(81): warning C4018: '<': signed/unsigned mismatch
-c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(559): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(495): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(504): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(510): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(560): warning C4018: '<': signed/unsigned mismatch
+c:\users\jonas\source\repos\cs30_project3_iceman\iceman\iceman\studentworld.cpp(612): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
   IceMan.vcxproj -> C:\Users\Jonas\source\repos\CS30_Project3_iceMan\IceMan\Debug\IceMan.exe

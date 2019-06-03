@@ -206,6 +206,16 @@ void RegularProtestor::doSomething() {
 		return;
 	}
 	else { // Not rest state lol leeleeleeleeleeleeleeleeleelee
+		if (shouting)
+		{
+			--shoutingTimer;
+			if (shoutingTimer <= 0)
+			{
+				shouting = false;
+				shoutingTimer = 15;
+			}
+		}
+
 		if (isLeaving) {
 			if (getX() == 60 && getY() == 60) {
 				setDead();
@@ -214,15 +224,6 @@ void RegularProtestor::doSomething() {
 			else {
 				moveToExit();
 				//return;
-			}
-		}
-		else if(shouting)
-		{
-			--shoutingTimer;
-			if(shoutingTimer <= 0)
-			{
-				shouting = false;
-				shoutingTimer = 15;
 			}
 		}
 		else if (getWorld()->isTouchingIceman(this)){
