@@ -13,6 +13,12 @@
 
 // Actor Functions
 
+void Actor::hitBySquirt(){
+	hitPoints -= 2;
+	stun = true;
+	stunTime = std::max(50, 100 - int(getWorld()->getLevel())*10);
+	getWorld()->playSound(SOUND_PROTESTER_ANNOYED);
+}
 
 // IceMan Functions
 
@@ -26,7 +32,7 @@ void IceMan::doSomething() {
 		switch (ch)
 		{
 		case KEY_PRESS_LEFT:
-			if (getX() - 1 >= 0 && (getWorld()->isBoulderThereL(getX(), getY()) == false) && (getDirection() == left)) {
+			if (getX() - 1 >= 0 && (getWorld()->isBoulderThereL(this) == false) && (getDirection() == left)) {
 				getWorld()->removeBlocks(getX(), getY());
 				moveTo(getX() - 1, getY());
 				getWorld()->isMapObjectThere(getX(), getY());
@@ -34,7 +40,7 @@ void IceMan::doSomething() {
 			setDirection(left);
 			break;
 		case KEY_PRESS_RIGHT:
-			if (getX() + 1 <= 60 && (getWorld()->isBoulderThereR(getX(), getY()) == false) && (getDirection() == right)) {
+			if (getX() + 1 <= 60 && (getWorld()->isBoulderThereR(this) == false) && (getDirection() == right)) {
 				getWorld()->removeBlocks(getX() + 2, getY());
 				moveTo(getX() + 1, getY());
 				getWorld()->isMapObjectThere(getX(), getY());
@@ -42,7 +48,7 @@ void IceMan::doSomething() {
 			setDirection(right);
 			break;
 		case KEY_PRESS_DOWN:
-			if (getY() - 1 >= 0 && (getWorld()->isBoulderThereD(getX(), getY()) == false) && (getDirection() == down)) {
+			if (getY() - 1 >= 0 && (getWorld()->isBoulderThereD(this) == false) && (getDirection() == down)) {
 				getWorld()->removeBlocks(getX() + 1, getY() - 1);
 				moveTo(getX(), getY() - 1);
 				getWorld()->isMapObjectThere(getX(), getY());
@@ -50,7 +56,7 @@ void IceMan::doSomething() {
 			setDirection(down);
 			break;
 		case KEY_PRESS_UP:
-			if (getY() + 1 <= 60 && (getWorld()->isBoulderThereU(getX(), getY()) == false) && (getDirection() == up)) {
+			if (getY() + 1 <= 60 && (getWorld()->isBoulderThereU(this) == false) && (getDirection() == up)) {
 				getWorld()->removeBlocks(getX() + 1, getY() + 1);
 				moveTo(getX(), getY() + 1);
 				getWorld()->isMapObjectThere(getX(), getY());
@@ -124,14 +130,77 @@ void IceMan::doSomething() {
 // Regular Protestor Functions
 
 void RegularProtestor::doSomething() {
-
+	
+//	int ch;
+//	if (getWorld()->getKey(ch) == true)
+//	{
+//		switch (ch)
+//		{
+//			case KEY_PRESS_LEFT:
+//				if (getX() - 1 >= 0 && (getWorld()->isBoulderThereL(this) == false) && (getDirection() == left)) {
+//					getWorld()->removeBlocks(getX(), getY());
+//					moveTo(getX() - 1, getY());
+//					getWorld()->isMapObjectThere(getX(), getY());
+//				}
+//				setDirection(left);
+//				return;
+//			case KEY_PRESS_RIGHT:
+//				if (getX() + 1 <= 60 && (getWorld()->isBoulderThereR(this) == false) && (getDirection() == right)) {
+//					getWorld()->removeBlocks(getX() + 2, getY());
+//					moveTo(getX() + 1, getY());
+//					getWorld()->isMapObjectThere(getX(), getY());
+//				}
+//				setDirection(right);
+//				return;
+//			case KEY_PRESS_DOWN:
+//				if (getY() - 1 >= 0 && (getWorld()->isBoulderThereD(this) == false) && (getDirection() == down)) {
+//					getWorld()->removeBlocks(getX() + 1, getY() - 1);
+//					moveTo(getX(), getY() - 1);
+//					getWorld()->isMapObjectThere(getX(), getY());
+//				}
+//				setDirection(down);
+//				return;
+//			case KEY_PRESS_UP:
+//				if (getY() + 1 <= 60 && (getWorld()->isBoulderThereU(this) == false) && (getDirection() == up)) {
+//					getWorld()->removeBlocks(getX() + 1, getY() + 1);
+//					moveTo(getX(), getY() + 1);
+//					getWorld()->isMapObjectThere(getX(), getY());
+//				}
+//				setDirection(up);
+//				return;
+//		}
+//	}
+	
+	
+	
+	
+	
+	//just temporary
+	//deletes the iceman instead of him leaving
+	if(isLeaving)
+	{
+		setDead();
+		return;
+	}
+	//checks to see if boulder is falling on protestor
+	getWorld()->isMapObjectThereProtestor(getX(), getY(), this);
 	// If has no health, set dead
-	if (hitPoints == 0) {
+	if (hitPoints <= 0) {
+		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
 		isLeaving = true;
 		return;
 	}
-
-	
+	if(stun)
+	{
+		if(stunTime > 0)
+		{
+			--stunTime;
+		}
+		else{
+			stun = false;
+		}
+		return;
+	}
 	if ((ticksToWait % int(getWorld()->setTicksToWait())) != 0) {  // Rest state
 		++ticksToWait;
 		return;
@@ -145,6 +214,23 @@ void RegularProtestor::doSomething() {
 			else {
 				moveToExit();
 				//return;
+			}
+		}
+		else if(shouting)
+		{
+			--shoutingTimer;
+			if(shoutingTimer <= 0)
+			{
+				shouting = false;
+				shoutingTimer = 15;
+			}
+		}
+		else if (getWorld()->isTouchingIceman(this)){
+			if(!shouting)
+			{
+				shouting = true;
+				getWorld()->playSound(SOUND_PROTESTER_YELL);
+				getWorld()->decreaseIcemanHealth();
 			}
 		}
 		else if (iceManInView()) {
@@ -268,7 +354,7 @@ void Protestor::moveToExit() {
 
 void Boulder::doSomething() {
 	//immediately returns if boulder is "dead"
-	if (!(this->isVisible()))
+	if (!(isVisible()))
 		return;
 	//immediately return if boulder is stable
 	else if (isStable())
@@ -301,7 +387,7 @@ bool Boulder::isStable() {
 	//if boulder is at bottom
 	if (getY() <= 0)
 		return true;
-	if (getWorld()->isBoulderThereD(getX(), getY()))
+	if (getWorld()->isBoulderThereD(this))
 		return true;
 	if (!(getWorld()->isIceVisable(getX(), getY() - 1, down)))
 		return false;

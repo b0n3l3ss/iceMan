@@ -17,12 +17,20 @@ protected:
 	StudentWorld* world = nullptr;
 	bool isItDead;
 	int vecPosition;
-	bool protestor = false;
+	bool protestor;
+	int hitPoints;
+	bool stun;
+	int stunTime;
+	int isGold;
 public:
 	Actor(int ID, int x, int y, Direction d, double size, int depth, StudentWorld* w)
 		: GraphObject(ID, x, y, d, size, depth) {
 		world = w;
 		isItDead = false;
+			stun = false;
+			stunTime = 0;
+			protestor = false;
+			isGold = false;
 	}
 	virtual void doSomething() = 0;
 	virtual StudentWorld* getWorld() { return world; }
@@ -30,6 +38,8 @@ public:
 	virtual void setDead() { isItDead = true; }
 	int getVecPosition() const { return vecPosition; }
 	bool returnProtestor() const { return protestor; }
+	bool isItGold() const { return isGold; }
+	void hitBySquirt();
 	virtual ~Actor() { }
 };
 
@@ -46,7 +56,6 @@ public:
 class MovingObject : public Actor {
 protected:
 	// Protected so both iceman and protestors can access their hitpoints
-	int hitPoints;
 public:
 	// Constructor normal constructor for general Moving obj with HP parameter
 	MovingObject(int hp, int ID, int x, int y, Direction d, float size, int depth, StudentWorld* w)
@@ -70,6 +79,8 @@ protected:
 	int restCounter;
 	int numSquaresToMoveInCurrentDirection;
 	int direction;
+	bool shouting;
+	int shoutingTimer;
 public:
 	Protestor(int hp, int ID, StudentWorld* w) : MovingObject(hp, ID, 60, 60, left, 1, 0, w) {
 		setVisible(true);
@@ -78,6 +89,8 @@ public:
 		ticksToWait = 0;
 		numSquaresToMoveInCurrentDirection = 0;
 		direction = -1;
+		shouting = false;
+		shoutingTimer = 15;
 	}
 	bool getType() const { return isHardcore; }
 	bool getStatus() const { return isLeaving; }
@@ -90,6 +103,8 @@ public:
 	bool iceManInView();
 	//void setTicksToWait();
 	void moveProtestor();
+	void setToLeaving() { isLeaving = true; }
+	void setHitpointsToZero() { hitPoints -= hitPoints; }
 	//void move();
 };
 
@@ -113,15 +128,22 @@ class RegularProtestor : public Protestor {
 private:
 
 public:
-	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) {
-	}
+	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) { }
+	void doSomething();
+};
+
+class HardcoreProtestor : Protestor{
+private:
+	
+public:
+	HardcoreProtestor(StudentWorld* w) : Protestor(20, IID_HARD_CORE_PROTESTER, w) { }
 	void doSomething();
 };
 
 class IceMan : public MovingObject {
 public:
 	IceMan(StudentWorld* w) : MovingObject(10, IID_PLAYER, 30, 60, right, 1, 0, w) {
-		this->setVisible(true);
+		setVisible(true);
 		numSquirts = 5;
 		numSonar = 1;
 		numGold = 0;
@@ -143,11 +165,11 @@ public:
 	void decSquirt() { --numSquirts; }
 	void incSonar() { ++numSonar; }
 	void decSonar() { --numSonar; }
-	void decHealth() { --hitPoints; }
+	void decHealth() { hitPoints-= 2; }
 
 
 
-	void makeHimDead() { isItDead = true; }
+	void makeHimDead() { isItDead = true; hitPoints = 0; }
 
 	~IceMan() { }
 
@@ -159,6 +181,7 @@ private:
 	int numOil;
 	int numWaterPool;
 };
+
 
 class MapObject : public Actor {
 protected:
@@ -203,6 +226,7 @@ public:
 		setVisible(false);
 		isBribe = false;
 		bribeTime = 0;
+		isGold = true;
 	}
 	bool isBribeState() const { return isBribe; }
 	void updateisBribeState(bool update) { isBribe = update; }
