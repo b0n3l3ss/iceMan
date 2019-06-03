@@ -17,10 +17,11 @@ protected:
 	StudentWorld* world = nullptr;
 	bool isItDead;
 	int vecPosition;
-	bool protestor = false;
+	bool protestor;
 	int hitPoints;
 	bool stun;
 	int stunTime;
+	int isGold;
 public:
 	Actor(int ID, int x, int y, Direction d, double size, int depth, StudentWorld* w)
 		: GraphObject(ID, x, y, d, size, depth) {
@@ -28,6 +29,8 @@ public:
 		isItDead = false;
 			stun = false;
 			stunTime = 0;
+			protestor = false;
+			isGold = false;
 	}
 	virtual void doSomething() = 0;
 	virtual StudentWorld* getWorld() { return world; }
@@ -35,8 +38,8 @@ public:
 	virtual void setDead() { isItDead = true; }
 	int getVecPosition() const { return vecPosition; }
 	bool returnProtestor() const { return protestor; }
+	bool isItGold() const { return isGold; }
 	void hitBySquirt();
-	void setHitpointsToZero() { hitPoints -= hitPoints; } //used for protestor so that he will be killed by boulder
 	virtual ~Actor() { }
 };
 
@@ -97,6 +100,8 @@ public:
 	bool iceManInView();
 	//void setTicksToWait();
 	void moveProtestor();
+	void setToLeaving() { isLeaving = true; }
+	void setHitpointsToZero() { hitPoints -= hitPoints; }
 	//void move();
 };
 
@@ -193,6 +198,7 @@ public:
 		setVisible(false);
 		isBribe = false;
 		bribeTime = 0;
+		isGold = true;
 	}
 	bool isBribeState() const { return isBribe; }
 	void updateisBribeState(bool update) { isBribe = update; }

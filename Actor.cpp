@@ -151,8 +151,6 @@ void RegularProtestor::doSomething() {
 		}
 		return;
 	}
-
-	/*
 	if ((ticksToWait % int(getWorld()->setTicksToWait())) != 0) {  // Rest state
 		++ticksToWait;
 		return;
@@ -212,7 +210,6 @@ void RegularProtestor::doSomething() {
 		}
 		++ticksToWait;
 	}
-	 */
 }
 
 void Protestor::moveProtestor() {

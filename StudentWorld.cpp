@@ -482,10 +482,11 @@ void StudentWorld::isMapObjectThere(int x, int y)
 	}
 }
 
-//checks to see if a boulder is falling on a protestor
-void StudentWorld::isMapObjectThereProtestor(int x, int y, Actor* p)
+//checks to see if a boulder is falling on a protestor or if it's being bribbed
+void StudentWorld::isMapObjectThereProtestor(int x, int y, Protestor* p)
 {
 	int deltaX, deltaY, radius;
+	//if its a boulder
 	for(int i = 0; i < bouldNum; ++i) {
 		if(gameActors[i] != nullptr)
 		{
@@ -494,6 +495,24 @@ void StudentWorld::isMapObjectThereProtestor(int x, int y, Actor* p)
 			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
 			if(radius <= 3){
 				p->setHitpointsToZero();
+				gameActors[i]->setDead();
+				return;
+			}
+		}
+	}
+	//if its a gold nugget
+	for(int i = (bouldNum+goldNum+oilNum); i < gameActors.size(); ++i)
+	{
+		if(gameActors[i] != nullptr && gameActors[i]->isItGold())
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				gameActors[i]->setDead();
+				p->setToLeaving();
+				playSound(SOUND_PROTESTER_FOUND_GOLD);
+				increaseScore(25);
 				return;
 			}
 		}
