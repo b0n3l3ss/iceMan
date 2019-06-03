@@ -10,6 +10,34 @@ class StudentWorld;
 // Changed this class so that all of the classes have acess to the 
 // Student world
 
+struct LeavingMap {
+	// Funcitons
+	LeavingMap(StudentWorld* w) {
+		
+		for (int i = 0; i < 61; ++i) {
+			for (int j = 0; j < 61; ++j)
+				map[i][j] = 1000;
+		}
+		std::cout << "Filled" << std::endl;
+		world = w;
+		calculateMap();
+		/*for (int i = 0; i < 60; ++i) {
+			for (int j = 59; j < 60; ++j) {
+				if (map[i][j] != 1000)
+					std::cout << map[i][j] << std::endl;
+			}
+		}*/
+	}
+	void calculateMap() noexcept;
+	void calculateMapAux(int, int, int) noexcept;
+	void doNothing();
+	StudentWorld* getWorld() const { return world; }
+
+	// Data Members
+	StudentWorld* world;
+	int map[61][61];
+};
+
 class Actor : public GraphObject {
 protected:
 	// That way all of the objects have acess to world for their
@@ -81,6 +109,7 @@ protected:
 	int direction;
 	bool shouting;
 	int shoutingTimer;
+	LeavingMap* exitMap;
 public:
 	Protestor(int hp, int ID, StudentWorld* w) : MovingObject(hp, ID, 60, 60, left, 1, 0, w) {
 		setVisible(true);
@@ -91,6 +120,7 @@ public:
 		direction = -1;
 		shouting = false;
 		shoutingTimer = 15;
+		exitMap = new LeavingMap(getWorld());
 	}
 	bool getType() const { return isHardcore; }
 	bool getStatus() const { return isLeaving; }
@@ -108,21 +138,21 @@ public:
 	//void move();
 };
 
-struct LeavingMap {
-	// Funcitons
-	LeavingMap(StudentWorld* w) {
-		world = w;
-		calculateMap();
-	}
-	void calculateMap() noexcept;
-	void calculateMapAux(int, int, int) noexcept;
-	void doNothing();
-	StudentWorld* getWorld() const { return world; }
-
-	// Data Members
-	StudentWorld* world;
-	int map[60][60] = { 10000 };
-};
+//struct LeavingMap {
+//	// Funcitons
+//	LeavingMap(StudentWorld* w) {
+//		world = w;
+//		calculateMap();
+//	}
+//	void calculateMap() noexcept;
+//	void calculateMapAux(int, int, int) noexcept;
+//	void doNothing();
+//	StudentWorld* getWorld() const { return world; }
+//
+//	// Data Members
+//	StudentWorld* world;
+//	int map[60][60] = { 10000 };
+//};
 
 class RegularProtestor : public Protestor {
 private:

@@ -5,7 +5,7 @@
 #include <future>
 #include <thread>
 
-//std::mutex m;
+std::mutex m;
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
 
@@ -179,7 +179,7 @@ void RegularProtestor::doSomething() {
 	//deletes the iceman instead of him leaving
 	if(isLeaving)
 	{
-		setDead();
+		moveToExit();
 		return;
 	}
 	//checks to see if boulder is falling on protestor
@@ -342,7 +342,14 @@ bool Protestor::iceManInView() {
 }
 
 void Protestor::moveToExit() {
-
+	if (exitMap->map[getX()][getY()] > exitMap->map[getX() + 1][getY()])
+		moveTo(getX() + 1, getY()); // Move right
+	else if (exitMap->map[getX()][getY()] > exitMap->map[getX() - 1][getY()])
+		moveTo(getX() - 1, getY()); // Move left
+	else if (exitMap->map[getX()][getY()] > exitMap->map[getX()][getY() + 1])
+		moveTo(getX(), getY() + 1); // Move up
+	else 
+		moveTo(getX(), getY() - 1); // Move down
 }
 
 
@@ -494,26 +501,30 @@ void LeavingMap::calculateMap() noexcept{
 	int startingX = 60;
 	int startingY = 60;
 	int startingValue = 0;
+	calculateMapAux(startingX, startingY, startingValue);
 	
-	std::thread thTest(&LeavingMap::doNothing, *this);
-	thTest.join();
-	std::thread th(&LeavingMap::calculateMapAux, *this, startingX, startingY, startingValue);
-	th.join();
+	//std::future<void> ft = std::async(&LeavingMap::calculateMapAux, *this, startingX, startingY, startingValue);
+	/*std::thread th(&LeavingMap::calculateMapAux, *this, startingX, startingY, startingValue);
+	th.join();*/
 }
 void LeavingMap::calculateMapAux(int x, int y, int value) noexcept{
-	if (x < 0 || x > 60)
+	
+	if (x < 0 || x > 61)
 		return;
-	if (y < 0 || y > 60)
+	if (y < 0 || y > 61)
 		return;
 	map[x][y] = value;
-	if (!(getWorld()->isThereIce(x + 1, y)) && map[x + 1][y] > value + 1)
+	if (x + 1 < 60 && (!(getWorld()->isThereIce(x + 1, y)) && map[x + 1][y] > value + 1)) {
 		calculateMapAux(x + 1, y, value + 1);
-	if (!getWorld()->isThereIce(x - 1, y) && map[x - 1][y] > value + 1)
+	}
+	if (x - 1 > 0 && (!getWorld()->isThereIce(x - 1, y) && map[x - 1][y] > value + 1)) {
 		calculateMapAux(x - 1, y, value + 1);
-	if (!getWorld()->isThereIce(x, y + 1) && map[x][y + 1] > value + 1)
+	}
+	if (y + 1 < 60 && (!getWorld()->isThereIce(x, y + 1) && map[x][y + 1] > value + 1))
 		calculateMapAux(x, y + 1, value + 1);
-	if (!getWorld()->isThereIce(x, y - 1) && map[x][y - 1] != value + 1)
+	if (y - 1 > 0 && (!getWorld()->isThereIce(x, y - 1) && map[x][y - 1] > value + 1))
 		calculateMapAux(x, y - 1, value + 1);
+	return;
 }
 
 void LeavingMap::doNothing(){
