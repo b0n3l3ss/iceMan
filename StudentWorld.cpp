@@ -750,13 +750,14 @@ bool StudentWorld::isThereIce(int x, int y)
 
 void StudentWorld::createProtestor(){
 	srand((unsigned)time(0));
-	int randNum = rand()%2;
+	int HardProbability = min(90, int(getLevel())*10 + 30);
+	int randNum = rand()%(100-HardProbability);
 	if(randNum == 0)
 	{
-		createRegProtestor();
+		createHardProtestor();
 	}
 	else{
-		createHardProtestor();
+		createRegProtestor();
 	}
 }
 

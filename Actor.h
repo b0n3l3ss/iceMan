@@ -266,7 +266,7 @@ private:
 
 public:
 	OilBarrel(int x, int y, StudentWorld* w) : MapObject(IID_BARREL, x, y, right, 2, w) {
-		setVisible(true);
+		setVisible(false);
 	};
 	virtual ~OilBarrel() { };
 	void doSomething() { }
