@@ -21,16 +21,9 @@ struct LeavingMap {
 		
 		world = w;
 		calculateMap();
-		/*for (int i = 0; i < 60; ++i) {
-			for (int j = 59; j < 60; ++j) {
-				if (map[i][j] != 1000)
-					std::cout << map[i][j] << std::endl;
-			}
-		}*/
 	}
 	void calculateMap() noexcept;
 	void calculateMapAux(int, int, int) noexcept;
-	void doNothing();
 	StudentWorld* getWorld() const { return world; }
 
 	// Data Members
@@ -144,21 +137,6 @@ public:
 	//void move();
 };
 
-//struct LeavingMap {
-//	// Funcitons
-//	LeavingMap(StudentWorld* w) {
-//		world = w;
-//		calculateMap();
-//	}
-//	void calculateMap() noexcept;
-//	void calculateMapAux(int, int, int) noexcept;
-//	void doNothing();
-//	StudentWorld* getWorld() const { return world; }
-//
-//	// Data Members
-//	StudentWorld* world;
-//	int map[60][60] = { 10000 };
-//};
 
 class RegularProtestor : public Protestor {
 private:
