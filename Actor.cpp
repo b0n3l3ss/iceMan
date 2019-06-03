@@ -148,40 +148,46 @@ void Protestor::moveProtestor() {
 	--numSquaresToMoveInCurrentDirection;
 }
 
-bool Protestor::iceManInView() {
-	if (getDirection() == right) {
-		for (int i = 0; i + getX() < 60; ++i) {
-			if (getWorld()->isIceManThere(getX() + i, getY()))
-				return true;
-			if (getWorld()->iceProtestorH(getX() + i, getY()))
-				return false;
+bool Protestor::iceManInView(int& direction) {
+	//right
+	for (int i = 0; i + getX() < 60; ++i) {
+		if (getWorld()->isIceManThere(getX() + i, getY())){
+			direction = 0;
+			return true;
 		}
+		if (getWorld()->iceProtestorH(getX() + i, getY()))
+			return false;
 	}
-	else if (getDirection() == left) {
+	//left
+	
 		for (int i = 0; getX() - i > 0; ++i) {
-			if (getWorld()->isIceManThere(getX() - i, getY()))
+			if (getWorld()->isIceManThere(getX() - i, getY())){
+				direction = 1;
 				return true;
+			}
 			if (getWorld()->iceProtestorH(getX() - i, getY()))
 				return false;
 		}
-	}
-	else if (getDirection() == up) {
+	//up
+	
 		
 		for (int i = 0; getY() + i < 60; ++i) {
-			if (getWorld()->isIceManThere(getX(), getY() + i))
+			if (getWorld()->isIceManThere(getX(), getY() + i)){
+				direction = 2;
 				return true;
+			}
 			if (getWorld()->iceProtestorV(getX(), getY() + i))
 				return false;
 		}
-	}
-	else {
+	//down
 		for (int i = 0; i - getY() < 0; ++i) {
-			if (getWorld()->isIceManThere(getX(), getY() - i))
+			if (getWorld()->isIceManThere(getX(), getY() - i)){
+				direction = 3;
 				return true;
+			}
 			if (getWorld()->iceProtestorV(getX(), getY() - i))
 				return false;
 		}
-	}
 	return false;
 }
 
@@ -193,47 +199,6 @@ void Protestor::moveToExit() {
 // Regular Protestor Functions
 
 void RegularProtestor::doSomething() {
-	
-//	int ch;
-//	if (getWorld()->getKey(ch) == true)
-//	{
-//		switch (ch)
-//		{
-//			case KEY_PRESS_LEFT:
-//				if (getX() - 1 >= 0 && (getWorld()->isBoulderThereL(this) == false) && (getDirection() == left)) {
-//					getWorld()->removeBlocks(getX(), getY());
-//					moveTo(getX() - 1, getY());
-//				}
-//				setDirection(left);
-//				return;
-//			case KEY_PRESS_RIGHT:
-//				if (getX() + 1 <= 60 && (getWorld()->isBoulderThereR(this) == false) && (getDirection() == right)) {
-//					getWorld()->removeBlocks(getX() + 2, getY());
-//					moveTo(getX() + 1, getY());
-//				}
-//				setDirection(right);
-//				return;
-//			case KEY_PRESS_DOWN:
-//				if (getY() - 1 >= 0 && (getWorld()->isBoulderThereD(this) == false) && (getDirection() == down)) {
-//					getWorld()->removeBlocks(getX() + 1, getY() - 1);
-//					moveTo(getX(), getY() - 1);
-//				}
-//				setDirection(down);
-//				return;
-//			case KEY_PRESS_UP:
-//				if (getY() + 1 <= 60 && (getWorld()->isBoulderThereU(this) == false) && (getDirection() == up)) {
-//					getWorld()->removeBlocks(getX() + 1, getY() + 1);
-//					moveTo(getX(), getY() + 1);
-//				}
-//				setDirection(up);
-//				return;
-//		}
-//	}
-	
-	
-	
-	
-	
 	//just temporary
 	//deletes the iceman instead of him leaving
 	if(isLeaving)
@@ -293,22 +258,22 @@ void RegularProtestor::doSomething() {
 				getWorld()->decreaseIcemanHealth();
 			}
 		}
-		else if (iceManInView()) {
-			if (getDirection() == right) { // if ice man is right
+		else if (iceManInView(direction)) {
+			if (direction == 0) { // if ice man is right
+				setDirection(right);
 				moveTo(getX() + 1, getY());
-				//return;
 			}
-			else if (getDirection() == left) { // if ice man is left
+			else if (direction == 1) { // if ice man is left
+				setDirection(left);
 				moveTo(getX() - 1, getY());
-				//return;
 			}
-			else if (getDirection() == up) { // if ice man is up
+			else if (direction == 2) { // if ice man is up
+				setDirection(up);
 				moveTo(getX(), getY() + 1);
-				//return;
 			}
 			else { // If ice man is down
+				setDirection(down);
 				moveTo(getX(), getY() - 1);
-				//return;
 			}
 		}
 		//picks a new direction
@@ -412,22 +377,22 @@ void HardcoreProtestor::doSomething(){
 				getWorld()->decreaseIcemanHealth();
 			}
 		}
-		else if (iceManInView()) {
-			if (getDirection() == right) { // if ice man is right
+		else if (iceManInView(direction)) {
+			if (direction == 0) { // if ice man is right
+				setDirection(right);
 				moveTo(getX() + 1, getY());
-				//return;
 			}
-			else if (getDirection() == left) { // if ice man is left
+			else if (direction == 1) { // if ice man is left
+				setDirection(left);
 				moveTo(getX() - 1, getY());
-				//return;
 			}
-			else if (getDirection() == up) { // if ice man is up
+			else if (direction == 2) { // if ice man is up
+				setDirection(up);
 				moveTo(getX(), getY() + 1);
-				//return;
 			}
 			else { // If ice man is down
+				setDirection(down);
 				moveTo(getX(), getY() - 1);
-				//return;
 			}
 		}
 		//picks a new direction

@@ -227,9 +227,9 @@ StudentWorld::~StudentWorld(){
 //puts all values nicely into a string for the scoreboard
 string StudentWorld::formatScoreBoard(int level, int lives, int health,
 	int squirts, int gold, int barrels, int sonar, int score){
-	string str = "Level: " + to_string(level) + " Lives: " + to_string(lives) 
-		+  " Health: " + to_string(health) + "% Water: " + to_string(squirts) 
-		+ " Gold: " + to_string(gold) + " Oil Left: " + to_string(barrels) 
+	string str = "Level: " + to_string(level) + " Lives: " + to_string(lives)
+		+  " Health: " + to_string(health) + "% Water: " + to_string(squirts)
+		+ " Gold: " + to_string(gold) + " Oil Left: " + to_string(barrels)
 		+ " Sonar: " + to_string(sonar) + " Score: ";
 	
 	//checks to see what the score is an determines how many zeroes to put in front

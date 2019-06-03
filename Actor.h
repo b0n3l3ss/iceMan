@@ -101,7 +101,7 @@ public:
 	//bool checkSquirt();
 	//bool checkGold();
 	void moveToExit();
-	bool iceManInView();
+	bool iceManInView(int&);
 	//void setTicksToWait();
 	void moveProtestor();
 	void setToLeaving() { isLeaving = true; }
