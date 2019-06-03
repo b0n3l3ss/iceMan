@@ -30,6 +30,7 @@ int StudentWorld::init() {
 	createBoulder();
 	createGold();
 	createOil();
+	
 	createProtestor();
 	numProtestor = 1;
 	
@@ -63,6 +64,11 @@ int StudentWorld::move() {
 		//if gameactor is dead, delete and then set to nullptr
 		if(gameActors[i] != nullptr && gameActors[i]->isDead())
 		{
+			//decreases the amount of protestors on the board
+			if(gameActors[i]->isProtestor())
+			{
+				--numProtestor;
+			}
 			delete gameActors[i];
 			gameActors[i] = nullptr;
 		}
@@ -491,8 +497,8 @@ void StudentWorld::isMapObjectThere(int x, int y)
 	}
 }
 
-//checks to see if a boulder is falling on a protestor or if it's being bribbed
-void StudentWorld::isMapObjectThereProtestor(int x, int y, Protestor* p)
+//checks to see if a boulder is falling on a reg protestor or if it's being bribbed
+void StudentWorld::isMapObjectThereRegProtestor(int x, int y, RegularProtestor* p)
 {
 	int deltaX, deltaY, radius;
 	//if its a boulder
@@ -522,6 +528,43 @@ void StudentWorld::isMapObjectThereProtestor(int x, int y, Protestor* p)
 				p->setToLeaving();
 				playSound(SOUND_PROTESTER_FOUND_GOLD);
 				increaseScore(25);
+				return;
+			}
+		}
+	}
+}
+//checks to see if a boulder is falling on a hard protestor or if it's being bribbed
+void StudentWorld::isMapObjectThereHardProtestor(int x, int y, HardcoreProtestor* p)
+{
+	int deltaX, deltaY, radius;
+	//if its a boulder
+	for(int i = 0; i < bouldNum; ++i) {
+		if(gameActors[i] != nullptr)
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				p->setHitpointsToZero();
+				gameActors[i]->setDead();
+				return;
+			}
+		}
+	}
+	//if its a gold nugget
+	for(int i = (bouldNum+goldNum+oilNum); i < gameActors.size(); ++i)
+	{
+		if(gameActors[i] != nullptr && gameActors[i]->isItGold())
+		{
+			deltaX = abs(gameActors[i]->getX() - x);
+			deltaY = abs(gameActors[i]->getY() - y);
+			radius = sqrt(deltaX * deltaX + deltaY * deltaY);
+			if(radius <= 3){
+				gameActors[i]->setDead();
+				playSound(SOUND_PROTESTER_FOUND_GOLD);
+				increaseScore(50);
+				p->setIsStaring(true);
+				p->setTicksToStare(max(50, 100 - int(getLevel())*10));
 				return;
 			}
 		}

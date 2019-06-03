@@ -37,7 +37,8 @@ public:
 	bool isIceManThere(int, int) const;
 	bool isIceVisable(int, int, Actor::Direction);
 	void isMapObjectThere(int, int);
-	void isMapObjectThereProtestor(int,int, Protestor*);
+	void isMapObjectThereRegProtestor(int,int, RegularProtestor*);
+	void isMapObjectThereHardProtestor(int, int, HardcoreProtestor*);
 	bool isThereIce(int, int);
 	bool isTouchingIceman(Protestor*);
 	void pickUpSonar(int);

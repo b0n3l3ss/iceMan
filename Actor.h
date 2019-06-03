@@ -40,6 +40,7 @@ public:
 	bool returnProtestor() const { return protestor; }
 	bool isItGold() const { return isGold; }
 	void hitBySquirt();
+	bool isProtestor() { return protestor; }
 	virtual ~Actor() { }
 };
 
@@ -128,16 +129,27 @@ class RegularProtestor : public Protestor {
 private:
 
 public:
-	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) { }
+	RegularProtestor(StudentWorld * w) : Protestor(5, IID_PROTESTER, w) {
+		isHardcore = false;
+	}
 	void doSomething();
 };
 
 class HardcoreProtestor : public Protestor{
 private:
-	
+	int currentStareTick;
+	int ticksToStare;
+	bool isStaring;
 public:
-	HardcoreProtestor(StudentWorld* w) : Protestor(20, IID_HARD_CORE_PROTESTER, w) { }
+	HardcoreProtestor(StudentWorld* w) : Protestor(20, IID_HARD_CORE_PROTESTER, w) {
+		isHardcore = true;
+		currentStareTick = 0;
+		ticksToStare = -1;
+		isStaring = false;
+	}
 	void doSomething();
+	void setTicksToStare(int ticks) { ticksToStare = ticks;}
+	void setIsStaring(bool stare) { isStaring = stare; }
 };
 
 class IceMan : public MovingObject {

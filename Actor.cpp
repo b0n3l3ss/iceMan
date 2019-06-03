@@ -242,7 +242,7 @@ void RegularProtestor::doSomething() {
 		return;
 	}
 	//checks to see if boulder is falling on protestor
-	getWorld()->isMapObjectThereProtestor(getX(), getY(), this);
+	getWorld()->isMapObjectThereRegProtestor(getX(), getY(), this);
 	// If has no health, set dead
 	if (hitPoints <= 0) {
 		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
@@ -342,7 +342,120 @@ void RegularProtestor::doSomething() {
 //Hardcore Protestor Functions
 
 void HardcoreProtestor::doSomething(){
-	
+	if(isLeaving)
+	{
+		setDead();
+		return;
+	}
+	//checks to see if boulder is falling on protestor or if there is gold
+	getWorld()->isMapObjectThereHardProtestor(getX(), getY(), this);
+	// If has no health, set dead
+	if (hitPoints <= 0) {
+		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
+		isLeaving = true;
+		return;
+	}
+	if(stun)
+	{
+		if(stunTime > 0)
+		{
+			--stunTime;
+		}
+		else{
+			stun = false;
+		}
+		return;
+	}
+	if ((ticksToWait % int(getWorld()->setTicksToWait())) != 0) {  // Rest state
+		++ticksToWait;
+		return;
+	}
+	else { // Not rest state lol leeleeleeleeleeleeleeleeleelee
+		if (shouting)
+		{
+			--shoutingTimer;
+			if (shoutingTimer <= 0)
+			{
+				shouting = false;
+				shoutingTimer = 15;
+			}
+		}
+		
+		if (isLeaving) {
+			if (getX() == 60 && getY() == 60) {
+				setDead();
+				return;
+			}
+			else {
+				moveToExit();
+				//return;
+			}
+		}
+		else if(isStaring)
+		{
+			//if for some reason is staring is true but ticks to stare is less than 0 make is staring false
+			if(ticksToStare < 0)
+				isStaring = false;
+			if(currentStareTick >= ticksToStare)
+			{
+				isStaring = false;
+				currentStareTick = 0;
+				return;
+			}
+			++currentStareTick;
+		}
+		else if (getWorld()->isTouchingIceman(this)){
+			if(!shouting)
+			{
+				shouting = true;
+				getWorld()->playSound(SOUND_PROTESTER_YELL);
+				getWorld()->decreaseIcemanHealth();
+			}
+		}
+		else if (iceManInView()) {
+			if (getDirection() == right) { // if ice man is right
+				moveTo(getX() + 1, getY());
+				//return;
+			}
+			else if (getDirection() == left) { // if ice man is left
+				moveTo(getX() - 1, getY());
+				//return;
+			}
+			else if (getDirection() == up) { // if ice man is up
+				moveTo(getX(), getY() + 1);
+				//return;
+			}
+			else { // If ice man is down
+				moveTo(getX(), getY() - 1);
+				//return;
+			}
+		}
+		//picks a new direction
+		else if(numSquaresToMoveInCurrentDirection <= 0){
+			direction = rand()%4;
+			switch (direction) {
+				case 0: //right
+					setDirection(right);
+					break;
+					
+				case 1: //left
+					setDirection(left);
+					break;
+				case 2: //up
+					setDirection(up);
+					break;
+				case 3: //down
+					setDirection(down);
+					break;
+			}
+			numSquaresToMoveInCurrentDirection = (rand()%60) + 8;
+			moveProtestor();
+		}
+		else if(numSquaresToMoveInCurrentDirection > 0){
+			moveProtestor();
+		}
+		++ticksToWait;
+	}
 }
 
 
