@@ -384,6 +384,7 @@ void HardcoreProtestor::doSomething(){
 	if (hitPoints <= 0) {
 		getWorld()->playSound(SOUND_PROTESTER_GIVE_UP);
 		isLeaving = true;
+		exitMap->calculateMap();
 		return;
 	}
 	if(stun)
