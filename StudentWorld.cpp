@@ -814,9 +814,3 @@ bool StudentWorld::isTouchingIceman(Protestor* p){
 void StudentWorld::decreaseIcemanHealth(){
 	player->decHealth();
 }
-
-
-
-
-
-// Jonas is a super duper bib

@@ -373,7 +373,6 @@ void HardcoreProtestor::doSomething(){
 	{
 		moveToExit();
 		if((getX() == 60 && getY() == 60) || (getX() >= 60 && getY() <= 0))
-			
 		{
 			setDead();
 		}

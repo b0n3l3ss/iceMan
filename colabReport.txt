@@ -2,6 +2,7 @@ Collaborative Write up
 
 1. Give an overview of the design of your program. How did you set up your inheritance
 relationships? Provide a diagram of your hierarchy that gives an overview of your design.
+∙Actor
 	I. MovingObjects
 	   1. IceMan
 	   2. Protestor
@@ -22,21 +23,28 @@ relationships? Provide a diagram of your hierarchy that gives an overview of you
 Include the programing environment (and which version you used) and the hardware and operating
 system on which you developed and tested your program.
 Jonas: I run my programs on Visual Studios Community 2017. IntelCore i7 with nvidia geforce gtx gpu. 
+Greg: I run my programs on Xcode currently at version 10.2.1. Processor: 2.2GHz Intel  Core i7. 
+Memory: 16 GB 2400 MHz DDR4. Graphics: Radeon Pro 555X 4 GB, Intel UHD Graphics 630 1536 MB.
 
-3. What modern C++ features were used in your code? Give any examples of smart pointers,
+3. What modern C++ features were used in your code? Give any examples of smart pointers, 
 lambda expressions, and move semantics used.
+We don't believe that we used any of the modern C++ features. We did plan on using smart 
+pointers but couldn't figure out how to use them with the ice so we gave up on them and 
+just used regular raw pointers. Didn't see a need to use lambda expressions or move semantics. 
 
 
-4. What coding standards did you adhere to? Provide details on how you chose variable name,
+4. What coding standards did you adhere to? Provide details on how you chose variable name, 
 comments, and a general approach to your groups agreed coding style.
 We generally made sure to make our variable and function names as descriptive of what they do/are.
-Especially with ambigous code, we made sure to comment to make intent clear.  Whenever we dereferencing 
-a pointer, we also always made sure that it wasn't null.
+Especially with ambiguous code, we made sure to comment to make intent clear.  Whenever we were 
+dereferencing a pointer, we also always made sure that it wasn't null.
 
 5. How did you divide up the project in the group? What were the responsibilities of each group
 member?
 We didn't really have a system to split the work. Towards the beginning, we pair programmed like in CS1,
-but once we figured out how to use git's branching, we worked simultaniously on different features.
+but once we figured out how to use git's branching, we worked simultaneously on different features. For
+the majority of the project we would be collaborating in some way or another when working on the project
+and very rarely would work on the project independently.
 
 6. Select a part or parts of code in the program that required your group to collaborate:
 
@@ -126,7 +134,7 @@ We ran the code and he walked through the boulders.
 
 c. What modification did you make to the code to fix it?
 At first, he wouldn't detect the boulders, but after some function implementations, he would only walk through
-only one of the boulders.  Once we used a radius check, he wouldn't walk through any of the boulders.
+one of the boulders.  Once we used a radius check, he wouldn't walk through any of the boulders.
 
 8. What works in your program? What features are not implemented in your code? How did you test 
 on your code? What known issues are still present?
@@ -134,6 +142,6 @@ Everything works except for the following:
 The shortest path for the hardcore protestor to iceman doesn't work at all.  The shortest path out of the map
 doesn't work perfectly. Protestors and water pools can clip ice just a little bit, and protestors don't follow 
 ice man all the time.
-We tested by running the program a lot, checking bounderies and such.  We also printed stuff out to find hidden and
+We tested by running the program a lot, checking boundaries and such. We also printed stuff out to find hidden and
 not obvious bugs.
 
